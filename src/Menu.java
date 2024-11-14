@@ -386,7 +386,7 @@ public class Menu extends MouseAdapter {
                 g.fillRect(Game.WIDTH / 4 - (Game.WIDTH / 8), Game.HEIGHT - (Game.HEIGHT / 6) - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10);
                 g.setColor(Color.BLACK);
             }
-            g.drawString("Options", Game.WIDTH / 4 - (Game.WIDTH / 20), Game.HEIGHT - (Game.HEIGHT / 6) + (Game.HEIGHT / 60));
+            g.drawString("Options", Game.WIDTH / 4 - (Game.WIDTH / 17), Game.HEIGHT - (Game.HEIGHT / 6) + (Game.HEIGHT / 60));
 
             g.setColor(Color.WHITE);
             if (trans3Main) {
@@ -399,7 +399,7 @@ public class Menu extends MouseAdapter {
         } else if (game.gameState == Game.STATE.Help) {
             Font font = new Font("arial", 1, Game.WIDTH / 25);
             Font font2 = new Font("arial", 1, Game.WIDTH / 35);
-            Font font3 = new Font("arial", 1, Game.WIDTH / 40);
+            Font font3 = new Font("arial", 1, Game.WIDTH / 45);
             g.setFont(font);
 
             g.setColor(new Color(r.nextInt(255), r.nextInt(255), r.nextInt(255)));
@@ -421,7 +421,8 @@ public class Menu extends MouseAdapter {
             g.drawString("Press 'Button + joy stick' to use bullets", Game.WIDTH / 25, Game.HEIGHT / 4 + (Game.HEIGHT / 3));
 
             g.drawString("Objective: ", Game.WIDTH / 7, Game.HEIGHT / 2 + (Game.HEIGHT / 6));
-            g.drawString("Survive as long as possible", Game.WIDTH / 25, Game.HEIGHT / 2 + (Game.HEIGHT / 4));
+            g.drawString("Survive as long as possible", Game.WIDTH / 25, Game.HEIGHT / 2 + (Game.HEIGHT / 5));
+            g.drawString("If there is any problem, simply restart the game.", Game.WIDTH / 25, Game.HEIGHT / 2 + (Game.HEIGHT / 4));
 
             g.setFont(font2);
             if (trans1Help) {

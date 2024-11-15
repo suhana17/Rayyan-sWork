@@ -291,7 +291,7 @@ public class HUD {
             }
             // this is for the
             // second player
-            g.drawString("P2: ", Game.WIDTH - (Game.WIDTH / 3), 25);
+            g.drawString("P2: ", Game.WIDTH - (Game.WIDTH / 3) - (Game.WIDTH / 25), 25);
             g.setColor(Color.RED);
             g.fillRect(Game.WIDTH - (Game.WIDTH / 4) - ((200 + bounds2) / 2), 10, 200 + bounds2, 32);
             g.setColor(Color.GREEN);

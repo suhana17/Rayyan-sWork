@@ -213,6 +213,7 @@ public class Menu extends MouseAdapter {
                 handler.clearEnemies();
                 handler.addObject(new BasicEnemy(r.nextInt(Game.WIDTH + 55), r.nextInt(Game.HEIGHT + 55), ID.BasicEnemy, handler));
 
+                game.PlayerMode2 = false;
                 game.diff = 0;
             }
 
@@ -230,6 +231,7 @@ public class Menu extends MouseAdapter {
                 handler.clearEnemies();
                 handler.addObject(new HardEnemy(r.nextInt(Game.WIDTH + 55), r.nextInt(Game.HEIGHT + 55), ID.BasicEnemy, handler));
 
+                game.PlayerMode2 = false;
                 game.diff = 1;
             }
 
@@ -261,6 +263,7 @@ public class Menu extends MouseAdapter {
                 }
                 trans5Difficulty = false;
                 JOptionPane.showMessageDialog(null, "Online level coming soon!", "Stay Tuned!", JOptionPane.INFORMATION_MESSAGE);
+                game.PlayerMode2 = false;
             }
 
             if (mouseOver(mx, my, Game.WIDTH - (Game.WIDTH / 4) - (Game.WIDTH / 8), Game.HEIGHT - (Game.HEIGHT / 6) - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10)) {
@@ -273,6 +276,7 @@ public class Menu extends MouseAdapter {
                 }
                 trans6Difficulty = false;
                 JOptionPane.showMessageDialog(null, "Squadron level coming soon!", "Stay Tuned!", JOptionPane.INFORMATION_MESSAGE);
+                game.PlayerMode2 = false;
             }
 
             if (mouseOver(mx, my, Game.WIDTH / 4 - (Game.WIDTH / 8), Game.HEIGHT - (Game.HEIGHT / 6) - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10)) {

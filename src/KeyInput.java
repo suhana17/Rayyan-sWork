@@ -141,7 +141,7 @@ public class KeyInput extends KeyAdapter {
             }
         }
 
-        if (Game.PlayerMode2) {
+        if (!Game.PlayerMode2) {
             if (key == KeyEvent.VK_1) {
                 if (Shop.deactivate1) {
                     if (!f2On) {
@@ -152,58 +152,67 @@ public class KeyInput extends KeyAdapter {
                             @Override
                             public void run() {
                                 Player1.damageDeal = true;
+                                d1On = false;
                                 HUD.waitBar1Ality();
                                 timer.cancel();
                             }
                         }, Player1.deactivateTime);
                     }
-                } else if (Shop.force1) {
+                }
+                if (Shop.force1) {
                     if (!d2On) {
                         f1On = true;
                         Player1.forceField = true;
+                        Player1.damageDeal = false;
                         Timer timer = new Timer();
                         timer.schedule(new TimerTask() {
                             @Override
                             public void run() {
                                 Player1.forceField = false;
+                                Player1.damageDeal = true;
                                 HUD.waitBar1Ality();
+                                f1On = false;
                                 timer.cancel();
                             }
                         }, Player1.forceTime);
                     }
                 }
             }
-        }
 
-        if (key == KeyEvent.VK_2) {
-            if (Shop.deactivate2) {
-                if (!f1On) {
-                    d2On = true;
-                    Player1.damageDeal = false;
-                    Timer timer = new Timer();
-                    timer.schedule(new TimerTask() {
-                        @Override
-                        public void run() {
-                            Player1.damageDeal = true;
-                            HUD.waitBar2Ality();
-                            timer.cancel();
-                        }
-                    }, Player1.deactivateTime);
+            if (key == KeyEvent.VK_2) {
+                if (Shop.deactivate2) {
+                    if (!f1On) {
+                        d2On = true;
+                        Player1.damageDeal = false;
+                        Timer timer = new Timer();
+                        timer.schedule(new TimerTask() {
+                            @Override
+                            public void run() {
+                                Player1.damageDeal = true;
+                                HUD.waitBar2Ality();
+                                d2On = false;
+                                timer.cancel();
+                            }
+                        }, Player1.deactivateTime);
+                    }
                 }
-            }
-            if (Shop.force2) {
-                if (!d1On) {
-                    f2On = true;
-                    Player1.forceField = true;
-                    Timer timer = new Timer();
-                    timer.schedule(new TimerTask() {
-                        @Override
-                        public void run() {
-                            Player1.forceField = false;
-                            HUD.waitBar2Ality();
-                            timer.cancel();
-                        }
-                    }, Player1.forceTime);
+                if (Shop.force2) {
+                    if (!d1On) {
+                        f2On = true;
+                        Player1.forceField = true;
+                        Player1.damageDeal = false;
+                        Timer timer = new Timer();
+                        timer.schedule(new TimerTask() {
+                            @Override
+                            public void run() {
+                                Player1.forceField = false;
+                                Player1.damageDeal = true;
+                                HUD.waitBar2Ality();
+                                f2On = false;
+                                timer.cancel();
+                            }
+                        }, Player1.forceTime);
+                    }
                 }
             }
         }

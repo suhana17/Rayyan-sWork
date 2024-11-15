@@ -118,7 +118,7 @@ public class Menu extends MouseAdapter {
                 }
                 trans3Main = false;
 //                game.gameState = Game.STATE.Profile;
-                JOptionPane.showMessageDialog(null, "Profile not yet added!", "Stay Tuned!", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Profile coming soon!", "Stay Tuned!", JOptionPane.INFORMATION_MESSAGE);
                 return;
             }
 
@@ -252,6 +252,7 @@ public class Menu extends MouseAdapter {
             }
 
             if (mouseOver(mx, my, Game.WIDTH - (Game.WIDTH / 4) - (Game.WIDTH / 8), Game.HEIGHT / 2 - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10)) {
+                if (Menu.volume) game.play("buttonPress.mp3");
                 trans5Difficulty = true;
                 try {
                     Thread.sleep(500);
@@ -259,10 +260,11 @@ public class Menu extends MouseAdapter {
                     throw new RuntimeException(ex);
                 }
                 trans5Difficulty = false;
-                JOptionPane.showMessageDialog(null, "Online level not yet added!", "Stay Tuned!", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Online level coming soon!", "Stay Tuned!", JOptionPane.INFORMATION_MESSAGE);
             }
 
             if (mouseOver(mx, my, Game.WIDTH - (Game.WIDTH / 4) - (Game.WIDTH / 8), Game.HEIGHT - (Game.HEIGHT / 6) - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10)) {
+                if (Menu.volume) game.play("buttonPress.mp3");
                 trans6Difficulty = true;
                 try {
                     Thread.sleep(500);
@@ -270,7 +272,7 @@ public class Menu extends MouseAdapter {
                     throw new RuntimeException(ex);
                 }
                 trans6Difficulty = false;
-                JOptionPane.showMessageDialog(null, "Squadron level not yet added!", "Stay Tuned!", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Squadron level coming soon!", "Stay Tuned!", JOptionPane.INFORMATION_MESSAGE);
             }
 
             if (mouseOver(mx, my, Game.WIDTH / 4 - (Game.WIDTH / 8), Game.HEIGHT - (Game.HEIGHT / 6) - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10)) {
@@ -358,8 +360,16 @@ public class Menu extends MouseAdapter {
             g.drawString("QBism", Game.WIDTH / 2 - (Game.WIDTH / 8) + (Game.WIDTH / 65), Game.HEIGHT / 3);
 
             g.setFont(font2);
-            g.drawString("By: Rayyan Zahid Anwar", Game.WIDTH / 2 - (Game.WIDTH / 6) - (Game.WIDTH / 65) + (Game.WIDTH / 65), Game.HEIGHT / 2 - (Game.HEIGHT / 25));
+            g.drawString("By: Rayyan Zahid Anwar", Game.WIDTH / 2 - (Game.WIDTH / 6), Game.HEIGHT / 2 - (Game.HEIGHT / 25));
 
+            g.setFont(new Font("arial", 1, Game.WIDTH / 45));
+            g.drawString("Coming Soon: ", Game.WIDTH / 2 - (Game.WIDTH / 6), Game.HEIGHT / 2 + (Game.HEIGHT / 6));
+            g.drawString("Profile", Game.WIDTH / 2 - (Game.WIDTH / 6), Game.HEIGHT / 2 + (Game.HEIGHT / 4));
+            g.drawString("Squadron", Game.WIDTH / 2 - (Game.WIDTH / 6), Game.HEIGHT / 2 + (Game.HEIGHT / 3));
+            g.drawString("More power-ups", Game.WIDTH / 2 - (Game.WIDTH / 6), Game.HEIGHT / 2 + (Game.HEIGHT / 3) + (Game.HEIGHT / 12));
+            g.drawString("Online rank", Game.WIDTH / 2 + (Game.WIDTH / 12), Game.HEIGHT / 2 + (Game.HEIGHT / 4));
+
+            g.setFont(font2);
             if (trans1Intro) {
                 g.fillRect(Game.WIDTH / 2 - (Game.WIDTH / 8) + (Game.WIDTH / 65), Game.HEIGHT / 2, Game.WIDTH / 5 + (Game.WIDTH / 75), Game.HEIGHT / 10);
                 g.setColor(Color.BLACK);

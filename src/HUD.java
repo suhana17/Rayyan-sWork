@@ -91,8 +91,12 @@ public class HUD {
         if (Objects.equals(power1, "D")) Shop.deactivate1 = false;
         if (Objects.equals(power1, "F")) Shop.force1 = false;
         Runnable action = () -> {
-            if (timeWidth != 40) timeWidth += 5;
-            else timeWidth += 3;
+            if (!(timeWidth == 46)) {
+                if (timeWidth != 40) timeWidth += 5;
+                else timeWidth += 3;
+            } else {
+                System.out.println("bello");
+            }
         };
 
         for (int i = 0; i < seconds; i++) {
@@ -103,6 +107,7 @@ public class HUD {
             if (Objects.equals(power1, "D")) Shop.deactivate1 = true;
             if (Objects.equals(power2, "F")) Shop.force1 = true;
             waitBar1 = false;
+            timeWidth = 0;
         }, seconds, TimeUnit.SECONDS);
     }
 
@@ -121,18 +126,35 @@ public class HUD {
         scheduler.schedule(() -> {
             if (Objects.equals(power2, "D")) Shop.deactivate2 = true;
             if (Objects.equals(power2, "F")) Shop.force2 = true;
-            waitBar1 = false;
+            waitBar2 = false;
+            timeWidth2 = 0;
         }, seconds, TimeUnit.SECONDS);
     }
 
     public static void waitBar1Ality() {
         waitBar1 = true;
         pausePower1(10);
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                timeWidth = 0;
+                timer.cancel();
+            }
+        }, 10000);
     }
 
     public static void waitBar2Ality() {
         waitBar2 = true;
         pausePower2(10);
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                timeWidth2 = 0;
+                timer.cancel();
+            }
+        }, 10000);
     }
 
     public void render(Graphics g) {
@@ -210,7 +232,7 @@ public class HUD {
 
             if (levelUp) {
                 g.setFont(new Font("arial", 1, Game.WIDTH / 25));
-                g.drawString("Level " + getLevel(), Game.WIDTH / 2 - (Game.WIDTH / 8), Game.HEIGHT / 2 - (Game.HEIGHT / 30));
+                g.drawString("Level " + getLevel(), Game.WIDTH / 2 - (Game.WIDTH / 16), Game.HEIGHT / 2 - (Game.HEIGHT / 30));
             }
 
 //        if (revivePrompt) {

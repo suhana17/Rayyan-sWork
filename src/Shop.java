@@ -678,7 +678,7 @@ public class Shop extends MouseAdapter {
                                 throw new RuntimeException(ex);
                             }
                             check5 = false;
-                            hud.setPoints1(hud.getPoints1() - B5);
+                            hud.setPoints1(hud.getPoints1() - B52);
                             B5 += 1;
                             level5++;
                             Player1.dajing -= 0.5;
@@ -737,7 +737,7 @@ public class Shop extends MouseAdapter {
                                 throw new RuntimeException(ex);
                             }
                             trans5 = false;
-                            if (hud.getPoints2() >= B5) {
+                            if (hud.getPoints2() >= B52) {
                                 check5 = true;
                                 try {
                                     Thread.sleep(2000);

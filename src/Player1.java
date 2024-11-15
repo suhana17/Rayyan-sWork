@@ -17,7 +17,7 @@ public class Player1 extends GameObject {
 
     public static boolean isTouchingInfo2 = false;
 
-    public static boolean damageDeal = true;
+    public static boolean damageDeal;
 
     public static int deactivateTime = 5000;
 
@@ -31,6 +31,7 @@ public class Player1 extends GameObject {
         super(x, y, id);
         this.x = dax;
         this.y = day;
+        damageDeal = true;
         this.handler = handler;
     }
 
@@ -45,8 +46,6 @@ public class Player1 extends GameObject {
 
         dax += velX;
         day += velY;
-
-        damageDeal = !forceField;
 
         x = (int) Game.clamp(x, 0, Game.WIDTH - 48);
         y = (int) Game.clamp(y, 0, Game.HEIGHT - 71);

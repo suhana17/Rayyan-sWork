@@ -63,7 +63,7 @@ public class Coin extends GameObject {
         g.setColor(Color.YELLOW);
         g.fillOval((int) x, (int) y, 64, 64);
         g.setColor(new Color(255, 136, 0));
-        g.setFont(new Font("arial", 1, Game.WIDTH / 85));
-        g.drawString("COIN", (int) x + ((int) x / 11) , (int) y + ((int) y / 3));
+        g.setFont(new Font("arial", 1, 22));
+        g.drawString("COIN", (int) x + 6, (int) y + ((int) y + 40));
     }
 }

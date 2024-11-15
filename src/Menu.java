@@ -10,6 +10,8 @@ public class Menu extends MouseAdapter {
     Handler handler;
     HUD hud;
 
+    public static boolean skins = false;
+
     public static boolean trans1Main = false;
 
     private static boolean trans5Difficulty = false;
@@ -31,7 +33,8 @@ public class Menu extends MouseAdapter {
     public static boolean trans3Options = false;
 
     public static boolean trans1Credits = false;
-
+    
+    public static boolean trans2Profile = false;
 
     public static boolean trans1Help = false;
 
@@ -154,6 +157,17 @@ public class Menu extends MouseAdapter {
                 }
                 trans1Profile = false;
                 game.gameState = Game.STATE.Menu;
+            }
+
+            if (mouseOver(mx, my, Game.WIDTH / 6 - (Game.WIDTH / 8), Game.HEIGHT / 5 - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10)) {
+                if (volume) game.play("sounds/buttonPress.mp3");
+                trans2Profile = true;
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException ex) {
+                    throw new RuntimeException(ex);
+                }
+                skins = true;
             }
         }
 
@@ -452,6 +466,17 @@ public class Menu extends MouseAdapter {
 
             g.setColor(new Color(r.nextInt(255), r.nextInt(255), r.nextInt(255)));
             g.drawString("Profile", Game.WIDTH / 2 - (Game.WIDTH / 13), Game.HEIGHT / 15);
+            g.setColor(Color.WHITE);
+
+            // 3 Buttons side-by-side on top, below, left side changing, right side description
+            // Buttons
+
+            if (trans2Profile) {
+                g.fillRect(Game.WIDTH / 6 - (Game.WIDTH / 8), Game.HEIGHT / 5 - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10);
+                g.setColor(Color.BLACK);
+            }
+            g.drawString("Skins", Game.WIDTH / 6 - (Game.WIDTH / 30), Game.HEIGHT / 5 + (Game.HEIGHT / 60));
+
             g.setColor(Color.WHITE);
 
             g.setFont(font2);

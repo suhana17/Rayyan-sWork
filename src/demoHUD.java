@@ -12,7 +12,7 @@ public class demoHUD {
 
     public void tick() {
         health--;
-        if (health == 0) renderThis = false;
+        if (health <= 0) renderThis = false;
     }
 
     public void render(Graphics g) {

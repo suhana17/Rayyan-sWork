@@ -2,6 +2,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Random;
+import javax.naming.Name;
 import javax.swing.*;
 
 public class Menu extends MouseAdapter {
@@ -11,6 +12,8 @@ public class Menu extends MouseAdapter {
     HUD hud;
 
     public static boolean skins = false;
+
+    public static String playerName = "QBer";
 
     public static boolean trans1Main = false;
 
@@ -36,6 +39,10 @@ public class Menu extends MouseAdapter {
     
     public static boolean trans2Profile = false;
 
+    public static boolean trans3Profile = false;
+
+    public static boolean trans4Profile = false;
+
     public static boolean trans1Help = false;
 
     public static boolean trans1End = false;
@@ -43,6 +50,10 @@ public class Menu extends MouseAdapter {
     public static boolean trans1Difficulty = false;
 
     public static boolean volume = true;
+
+    public static String skin = "plain";
+
+    private boolean squadron = false;
 
     public static boolean trans2Difficulty = false;
 
@@ -120,8 +131,8 @@ public class Menu extends MouseAdapter {
                     throw new RuntimeException(ex);
                 }
                 trans3Main = false;
-//                game.gameState = Game.STATE.Profile;
-                JOptionPane.showMessageDialog(null, "Profile coming soon!", "Stay Tuned!", JOptionPane.INFORMATION_MESSAGE);
+                game.gameState = Game.STATE.Profile;
+//                JOptionPane.showMessageDialog(null, "Profile coming soon!", "Stay Tuned!", JOptionPane.INFORMATION_MESSAGE);
                 return;
             }
 
@@ -159,6 +170,32 @@ public class Menu extends MouseAdapter {
                 game.gameState = Game.STATE.Menu;
             }
 
+            if (mouseOver(mx, my, Game.WIDTH / 3, Game.HEIGHT / 5 - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10)) {
+                if (volume) game.play("sounds/buttonPress.mp3");
+                trans3Profile = true;
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException ex) {
+                    throw new RuntimeException(ex);
+                }
+                trans3Profile = false;
+                new NameEnter();
+            }
+
+            if (mouseOver(mx, my, Game.WIDTH / 2 + (Game.WIDTH / 5) - (Game.WIDTH / 125), Game.HEIGHT / 5 - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10)) {
+                if (volume) game.play("sounds/buttonPress.mp3");
+                trans4Profile = true;
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException ex) {
+                    throw new RuntimeException(ex);
+                }
+                trans4Profile = false;
+                JOptionPane.showMessageDialog(null, "Squadron coming soon!", "Stay Tuned!", JOptionPane.INFORMATION_MESSAGE);
+                //skins = false;
+                //squadron = true;
+            }
+
             if (mouseOver(mx, my, Game.WIDTH / 6 - (Game.WIDTH / 8), Game.HEIGHT / 5 - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10)) {
                 if (volume) game.play("sounds/buttonPress.mp3");
                 trans2Profile = true;
@@ -167,7 +204,38 @@ public class Menu extends MouseAdapter {
                 } catch (InterruptedException ex) {
                     throw new RuntimeException(ex);
                 }
+                trans2Profile = false;
                 skins = true;
+            }
+
+            if (mouseOver(mx, my, Game.WIDTH - (Game.WIDTH / 4), Game.HEIGHT / 3, 64, 64)) {
+                if (volume) game.play("sounds/buttonPress.mp3");
+                skin = "plain";
+            }
+
+            if (mouseOver(mx, my, Game.WIDTH - (Game.WIDTH / 5), Game.HEIGHT / 3, 64, 64)) {
+                if (volume) game.play("sounds/buttonPress.mp3");
+                skin = "creeper";
+            }
+
+            if (mouseOver(mx, my, Game.WIDTH - (Game.WIDTH / 7), Game.HEIGHT / 3, 64, 64)) {
+                if (volume) game.play("sounds/buttonPress.mp3");
+                skin = "zombie";
+            }
+
+            if (mouseOver(mx, my, Game.WIDTH - (Game.WIDTH / 4), Game.HEIGHT / 3 + (Game.HEIGHT / 13), 64, 64)) {
+                if (volume) game.play("sounds/buttonPress.mp3");
+                skin = "skeleton";
+            }
+
+            if (mouseOver(mx, my, Game.WIDTH - (Game.WIDTH / 5), Game.HEIGHT / 3 + (Game.HEIGHT / 13), 64, 64)) {
+                if (volume) game.play("sounds/buttonPress.mp3");
+                skin = "enderman";
+            }
+
+            if (mouseOver(mx, my, Game.WIDTH - (Game.WIDTH / 7), Game.HEIGHT / 3 + (Game.HEIGHT / 13), 64, 64)) {
+                if (volume) game.play("sounds/buttonPress.mp3");
+                skin = "gift package";
             }
         }
 
@@ -459,6 +527,7 @@ public class Menu extends MouseAdapter {
             }
             g.drawString("Back", Game.WIDTH / 6 - (Game.WIDTH / 30), Game.HEIGHT - (Game.HEIGHT / 6) + (Game.HEIGHT / 60));
         } else if (game.gameState == Game.STATE.Profile) {
+            skins = true;
             Font font = new Font("arial", 1, Game.WIDTH / 25);
             Font font2 = new Font("arial", 1, Game.WIDTH / 35);
             Font font3 = new Font("arial", 1, Game.WIDTH / 40);
@@ -469,13 +538,144 @@ public class Menu extends MouseAdapter {
             g.setColor(Color.WHITE);
 
             // 3 Buttons side-by-side on top, below, left side changing, right side description
+            // rectangle with changing and description
+            g.drawRect(Game.WIDTH / 6 - (Game.WIDTH / 8), Game.HEIGHT / 5 - (Game.HEIGHT / 20) + (Game.HEIGHT / 10) + 5, Game.WIDTH - (Game.WIDTH / 10), Game.HEIGHT / 2 + 25);
+
             // Buttons
 
+            g.setFont(font2);
             if (trans2Profile) {
                 g.fillRect(Game.WIDTH / 6 - (Game.WIDTH / 8), Game.HEIGHT / 5 - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10);
                 g.setColor(Color.BLACK);
             }
-            g.drawString("Skins", Game.WIDTH / 6 - (Game.WIDTH / 30), Game.HEIGHT / 5 + (Game.HEIGHT / 60));
+            g.drawString("Skins", Game.WIDTH / 6 - (Game.WIDTH / 28), Game.HEIGHT / 5 + (Game.HEIGHT / 60));
+
+            g.setColor(Color.WHITE);
+
+            if (trans3Profile) {
+                g.fillRect(Game.WIDTH / 3, Game.HEIGHT / 5 - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10);
+                g.setColor(Color.BLACK);
+            }
+            g.drawString("Change Name", Game.WIDTH / 3 + (Game.WIDTH / 30), Game.HEIGHT / 5 + (Game.HEIGHT / 60));
+
+            g.setColor(Color.WHITE);
+
+            if (trans4Profile) {
+                g.fillRect(Game.WIDTH / 2 + (Game.WIDTH / 5) - (Game.WIDTH / 125), Game.HEIGHT / 5 - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10);
+                g.setColor(Color.BLACK);
+            }
+            g.drawString("Squadron", Game.WIDTH / 2 + (Game.WIDTH / 5) - (Game.WIDTH / 125) + (Game.WIDTH / 17), Game.HEIGHT / 5 + (Game.HEIGHT / 60));
+
+            g.setColor(Color.WHITE);
+
+            g.drawString(playerName, Game.WIDTH / 15, Game.HEIGHT / 3);
+            switch (skin) {
+                case "plain":
+                    g.setColor(Color.WHITE);
+                    g.fillRect(Game.WIDTH / 15, Game.HEIGHT / 3 + (Game.HEIGHT / 50), Game.WIDTH / 6, Game.WIDTH / 6);
+                    break;
+                case "creeper":
+                    g.setColor(Color.GREEN);
+                    g.fillRect(Game.WIDTH / 15, Game.HEIGHT / 3 + (Game.HEIGHT / 50), Game.WIDTH / 6, Game.WIDTH / 6);
+                    g.setColor(Color.BLACK);
+                    g.fillRect(Game.WIDTH / 15 + (Game.WIDTH / 36), Game.HEIGHT / 3 + (Game.HEIGHT / 50) + (Game.HEIGHT / 30), Game.WIDTH / 23, Game.WIDTH / 23);
+                    g.fillRect(Game.WIDTH / 15 + (Game.WIDTH / 10), Game.HEIGHT / 3 + (Game.HEIGHT / 50) + (Game.HEIGHT / 30), Game.WIDTH / 23, Game.WIDTH / 23);
+                    g.fillRect(Game.WIDTH / 15 + (Game.WIDTH / 50) + (Game.WIDTH / 20), Game.HEIGHT / 3 + (Game.HEIGHT / 45) + (Game.HEIGHT / 30) + Game.WIDTH / 25, Game.WIDTH / 32, Game.HEIGHT / 9);
+                    g.fillRect(Game.WIDTH / 15 + (Game.WIDTH / 20), Game.HEIGHT / 2 - (Game.HEIGHT / 100), Game.WIDTH / 50, Game.HEIGHT / 9);
+                    g.fillRect(Game.WIDTH / 15 + (Game.WIDTH / 10), Game.HEIGHT / 2 - (Game.HEIGHT / 100), Game.WIDTH / 50, Game.HEIGHT / 9);
+                    break;
+                case "zombie":
+                    g.setColor(new Color(5, 97, 2));
+                    g.fillRect(Game.WIDTH / 15, Game.HEIGHT / 3 + (Game.HEIGHT / 50), Game.WIDTH / 6, Game.WIDTH / 6);
+                    g.setColor(new Color(2, 153, 75));
+                    g.fillRect(Game.WIDTH / 15 + (Game.WIDTH / 36), Game.HEIGHT / 3 + (Game.HEIGHT / 50) + (Game.HEIGHT / 20), Game.WIDTH / 10, Game.HEIGHT / 7);
+                    g.fillRect(Game.WIDTH / 15, Game.HEIGHT / 3 + (Game.HEIGHT / 25), Game.WIDTH / 75, Game.HEIGHT / 25);
+                    g.fillRect(Game.WIDTH / 15, Game.HEIGHT / 2, Game.WIDTH / 75, Game.HEIGHT / 25);
+                    g.fillRect(Game.WIDTH / 15 + (Game.WIDTH / 18), Game.HEIGHT / 3 + (Game.HEIGHT / 50) + (Game.HEIGHT / 5), Game.WIDTH / 35, Game.HEIGHT / 55);
+                    g.fillRect(Game.WIDTH / 15 + (Game.WIDTH / 13), Game.HEIGHT / 3 + (Game.HEIGHT / 50) + (Game.HEIGHT / 5), Game.WIDTH / 75, Game.HEIGHT / 25);
+                    g.fillRect(Game.WIDTH / 15 + (Game.WIDTH / 7), Game.HEIGHT / 3 + (Game.HEIGHT / 50) + (Game.HEIGHT / 5), Game.WIDTH / 75, Game.HEIGHT / 25);
+                    g.fillRect(Game.WIDTH / 15 + (Game.WIDTH / 7), Game.HEIGHT / 3 + (Game.HEIGHT / 50) + (Game.HEIGHT / 10), Game.WIDTH / 75, Game.HEIGHT / 25);
+                    g.fillRect(Game.WIDTH / 15 + (Game.WIDTH / 16), Game.HEIGHT / 3 + (Game.HEIGHT / 50) + (Game.HEIGHT / 50), Game.WIDTH / 35, Game.HEIGHT / 55);
+                    g.setColor(Color.BLACK);
+                    g.fillRect(Game.WIDTH / 15 + (Game.WIDTH / 35), Game.HEIGHT / 3 + (Game.HEIGHT / 50) + (Game.HEIGHT / 8), Game.WIDTH / 30, Game.HEIGHT / 45);
+                    g.fillRect(Game.WIDTH / 15 + (Game.WIDTH / 10), Game.HEIGHT / 3 + (Game.HEIGHT / 50) + (Game.HEIGHT / 8), Game.WIDTH / 30, Game.HEIGHT / 45);
+                    break;
+                case "skeleton":
+                    g.setColor(new Color(135, 135, 135));
+                    g.fillRect(Game.WIDTH / 15, Game.HEIGHT / 3 + (Game.HEIGHT / 50), Game.WIDTH / 6, Game.WIDTH / 6);
+                    g.setColor(Color.BLACK);
+                    g.fillRect(Game.WIDTH / 15 + (Game.WIDTH / 35), Game.HEIGHT / 3 + (Game.HEIGHT / 8), Game.WIDTH / 30, Game.HEIGHT / 45);
+                    g.fillRect(Game.WIDTH / 15 + (Game.WIDTH / 10), Game.HEIGHT / 3 + (Game.HEIGHT / 8), Game.WIDTH / 30, Game.HEIGHT / 45);
+                    g.fillRect(Game.WIDTH / 15 + (Game.WIDTH / 35), Game.HEIGHT / 3 + (Game.HEIGHT / 5), Game.WIDTH / 19 + (Game.WIDTH / 19), Game.HEIGHT / 45);
+                    break;
+                case "enderman":
+                    g.setColor(new Color(36, 36, 36));
+                    g.fillRect(Game.WIDTH / 15, Game.HEIGHT / 3 + (Game.HEIGHT / 50), Game.WIDTH / 6, Game.WIDTH / 6);
+                    g.setColor(new Color(232, 3, 252));
+                    g.fillRect(Game.WIDTH / 15, Game.HEIGHT / 3 + (Game.HEIGHT / 50) + (Game.HEIGHT / 10), Game.WIDTH / 18, Game.HEIGHT / 45);
+                    g.fillRect(Game.WIDTH / 15 + (Game.WIDTH / 9), Game.HEIGHT / 3 + (Game.HEIGHT / 50) + (Game.HEIGHT / 10), Game.WIDTH / 18, Game.HEIGHT / 45);
+                    break;
+                case "gift package":
+                    g.setColor(Color.GREEN);
+                    g.fillRect(Game.WIDTH / 15, Game.HEIGHT / 3 + (Game.WIDTH / 15), Game.WIDTH / 6, Game.WIDTH / 6);
+                    g.setColor(Color.RED);
+                    g.fillRect(Game.WIDTH / 15 + (Game.WIDTH / 15), Game.HEIGHT / 3 + (Game.HEIGHT / 10), Game.WIDTH / 33, Game.WIDTH / 6);
+                    g.fillOval(Game.WIDTH / 15 + (Game.WIDTH / 15), Game.HEIGHT / 3 + (Game.HEIGHT / 15), Game.WIDTH / 33, Game.WIDTH / 33);
+                    g.fillOval(Game.WIDTH / 15 + (Game.WIDTH / 50), Game.HEIGHT / 3 + (Game.HEIGHT / 22), Game.WIDTH / 15, Game.HEIGHT / 15);
+                    g.fillOval(Game.WIDTH / 15 + (Game.WIDTH / 13), Game.HEIGHT / 3 + (Game.HEIGHT / 22), Game.WIDTH / 15, Game.HEIGHT / 15);
+                    break;
+            }
+
+            g.setColor(Color.WHITE);
+
+            //plain
+            g.fillRect(Game.WIDTH - (Game.WIDTH / 4), Game.HEIGHT / 3, 64, 64);
+            //creeper
+            g.setColor(Color.GREEN);
+            g.fillRect(Game.WIDTH - (Game.WIDTH / 5), Game.HEIGHT / 3, 64, 64);
+            g.setColor(Color.BLACK);
+            g.fillRect(Game.WIDTH - (Game.WIDTH / 5) + 8, Game.HEIGHT / 3 + 8, 18, 18);
+            g.fillRect(Game.WIDTH - (Game.WIDTH / 5) + 38, Game.HEIGHT / 3 + 8, 18, 18);
+            g.fillRect(Game.WIDTH - (Game.WIDTH / 5) + 26, Game.HEIGHT / 3 + 24, 12, 28);
+            g.fillRect(Game.WIDTH - (Game.WIDTH / 5) + 16, Game.HEIGHT / 3 + 32, 10, 28);
+            g.fillRect(Game.WIDTH - (Game.WIDTH / 5) + 38, Game.HEIGHT / 3 + 32, 10, 28);
+            //zombie
+            g.setColor(new Color(5, 97, 2));
+            g.fillRect(Game.WIDTH - (Game.WIDTH / 7), Game.HEIGHT / 3, 64, 64);
+            g.setColor(new Color(2, 153, 75));
+            g.fillRect(Game.WIDTH - (Game.WIDTH / 7) + 8, Game.HEIGHT / 3 + 16, 40, 32);
+            g.fillRect(Game.WIDTH - (Game.WIDTH / 7) + 32, Game.HEIGHT / 3 + 56, 16, 8);
+            g.fillRect(Game.WIDTH - (Game.WIDTH / 7) + 8, Game.HEIGHT / 3, 16, 8);
+            g.fillRect(Game.WIDTH - (Game.WIDTH / 7) + 56, Game.HEIGHT / 3 + 16, 8, 8);
+            g.fillRect(Game.WIDTH - (Game.WIDTH / 7), Game.HEIGHT / 3 + 32, 8, 8);
+            g.fillRect(Game.WIDTH - (Game.WIDTH / 7) + 8, Game.HEIGHT / 3 + 56, 8, 8);
+            g.fillRect(Game.WIDTH - (Game.WIDTH / 7) + 48, Game.HEIGHT / 3, 8, 8);
+            g.setColor(Color.BLACK);
+            g.fillRect(Game.WIDTH - (Game.WIDTH / 7) + 8, Game.HEIGHT / 3 + 28, 16, 8);
+            g.fillRect(Game.WIDTH - (Game.WIDTH / 7) + 40, Game.HEIGHT / 3 + 28, 16, 8);
+            g.setColor(new Color(5, 97, 2));
+            g.fillRect(Game.WIDTH - (Game.WIDTH / 7) + 24, Game.HEIGHT / 3 + 36, 16, 8);
+            //skeleton
+            g.setColor(new Color(135, 135, 135));
+            g.fillRect(Game.WIDTH - (Game.WIDTH / 4), Game.HEIGHT / 3 + (Game.HEIGHT / 13), 64, 64);
+            g.setColor(Color.BLACK);
+            g.fillRect(Game.WIDTH - (Game.WIDTH / 4) + 8, Game.HEIGHT / 3 + (Game.HEIGHT / 13) + 32, 16, 8);
+            g.fillRect(Game.WIDTH - (Game.WIDTH / 4) + 40, Game.HEIGHT / 3 + (Game.HEIGHT / 13) + 32, 16, 8);
+            g.fillRect(Game.WIDTH - (Game.WIDTH / 4) + 8, Game.HEIGHT / 3 + (Game.HEIGHT / 13) + 48, 48, 8);
+            //enderman
+            g.setColor(new Color(36, 36, 36));
+            g.fillRect(Game.WIDTH - (Game.WIDTH / 5), Game.HEIGHT / 3 + (Game.HEIGHT / 13), 64, 64);
+            g.setColor(new Color(232, 3, 252));
+            g.fillRect(Game.WIDTH - (Game.WIDTH / 5), Game.HEIGHT / 3 + (Game.HEIGHT / 13) + 32, 24, 8);
+            g.fillRect(Game.WIDTH - (Game.WIDTH / 5) + 40, Game.HEIGHT / 3 + (Game.HEIGHT / 13) + 32, 24, 8);
+            //gift package
+            g.setColor(Color.GREEN);
+            g.fillRect(Game.WIDTH - (Game.WIDTH / 7), Game.HEIGHT / 3 + (Game.HEIGHT / 13), 64, 64);
+            g.setColor(Color.RED);
+            g.fillRect(Game.WIDTH - (Game.WIDTH / 7) + 28, Game.HEIGHT / 3 + (Game.HEIGHT / 13), 12, 64);
+            g.fillOval(Game.WIDTH - (Game.WIDTH / 7) + 8, Game.HEIGHT / 3 + (Game.HEIGHT / 13) - 16, 24, 16);
+            g.fillOval(Game.WIDTH - (Game.WIDTH / 7) + 36, Game.HEIGHT / 3 + (Game.HEIGHT / 13) - 16, 24, 16);
+            g.fillOval(Game.WIDTH - (Game.WIDTH / 7) + 28, Game.HEIGHT / 3 + (Game.HEIGHT / 13) - 8, 12, 12);
 
             g.setColor(Color.WHITE);
 

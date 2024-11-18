@@ -62,7 +62,7 @@ public class Game extends Canvas implements Runnable {
         this.addKeyListener(new KeyInput(handler, this));
         this.addMouseListener(menu);
         this.addMouseListener(shop);
-        new Window(WIDTH, HEIGHT, "QBism Testing 1", this);
+        new Window(WIDTH, HEIGHT, "QBism Testing 2", this);
 
         spawner = new Spawn(handler, hud, this);
 

@@ -154,6 +154,8 @@ public class Game extends Canvas implements Runnable {
                     hud.HEALTH = 100;
                     hud.P2HEALTH = 100;
 //                    hud.revivePrompt = true;
+                    client.sendMessage(HUD.getScore());
+                    client.sendMessage(Menu.playerName());
                     gameState = STATE.End;
                     handler.clearEnemies();
                     for (int i = 0; i < 30; i++) {
@@ -241,6 +243,9 @@ public class Game extends Canvas implements Runnable {
 
     public static void main(String[] args) throws IOException {
         new Game();
+        Client client = new Client();
+        client.connectToServer();
+        client.startListening();
         while (true) {
             play("sounds/music.mp3");
         }

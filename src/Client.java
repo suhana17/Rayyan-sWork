@@ -68,12 +68,14 @@ public class Client {
                 e.printStackTrace();
             }
         }).start();
-
-        output.println("bello");
         // BufferedReader userInput = new BufferedReader(new InputStreamReader(System.in));
         // String messageFromPlayer;
         // while ((messageFromPlayer = userInput.readLine()) != null) {
         //     output.println(messageFromPlayer);
         // }
+    }
+
+    public static void sendMessage(String message) {
+        output.println(message);
     }
 }

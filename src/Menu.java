@@ -454,6 +454,7 @@ public class Menu extends MouseAdapter {
             g.drawString("Squadron", Game.WIDTH / 2 - (Game.WIDTH / 6), Game.HEIGHT / 2 + (Game.HEIGHT / 3));
             g.drawString("More power-ups", Game.WIDTH / 2 - (Game.WIDTH / 6), Game.HEIGHT / 2 + (Game.HEIGHT / 3) + (Game.HEIGHT / 12));
             g.drawString("Online rank", Game.WIDTH / 2 + (Game.WIDTH / 12), Game.HEIGHT / 2 + (Game.HEIGHT / 4));
+            g.drawString("Stats", Game.WIDTH / 2 + (Game.WIDTH / 12), Game.HEIGHT / 2 + (Game.HEIGHT / 3));
 
             g.setFont(font2);
             if (trans1Intro) {
@@ -676,6 +677,10 @@ public class Menu extends MouseAdapter {
             g.fillOval(Game.WIDTH - (Game.WIDTH / 7) + 8, Game.HEIGHT / 3 + (Game.HEIGHT / 13) - 16, 24, 16);
             g.fillOval(Game.WIDTH - (Game.WIDTH / 7) + 36, Game.HEIGHT / 3 + (Game.HEIGHT / 13) - 16, 24, 16);
             g.fillOval(Game.WIDTH - (Game.WIDTH / 7) + 28, Game.HEIGHT / 3 + (Game.HEIGHT / 13) - 8, 12, 12);
+
+            g.setColor(Color.WHITE);
+
+            g.drawString("Stats coming soon!", Game.WIDTH / 3, Game.HEIGHT / 3);
 
             g.setColor(Color.WHITE);
 

@@ -12,12 +12,6 @@ public class Client {
 
     private BufferedReader input;
 
-    public static void main(String arg[]) throws IOException {
-        Client client = new Client();
-        client.connectToServer();
-        client.startListening();
-    }
-
     public void connectToServer() throws IOException {
         socket = new Socket(ADDRESS, PORT);
         output = new PrintWriter(socket.getOutputStream(), true);

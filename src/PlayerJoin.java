@@ -31,8 +31,6 @@ public class Game extends Canvas implements Runnable {
     private static Player player;
     private static boolean da = true;
 
-    private static boolean dashing = true;
-
     public static String databaseStatement;
 
     static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();

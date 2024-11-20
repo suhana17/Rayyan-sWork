@@ -1,3 +1,25 @@
+import java.awt.*;
+import java.awt.image.BufferStrategy;
+import java.io.FileNotFoundException;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Properties;
+import java.util.Random;
+
+import javazoom.jl.decoder.JavaLayerException;
+import javazoom.jl.player.Player;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import java.io.*;
+import java.net.*;
+import java.util.*;
 
 public class Server {
 

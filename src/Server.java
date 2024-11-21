@@ -28,6 +28,20 @@ public class Server {
 
     private static final int PORT = 13795;
 
+    //ultimately grab from database
+    public static int bestScore = 0;
+    public static int secondBestScore = 0;
+    public static int thirdBestScore = 0;
+    public static int fourthBestScore = 0;
+    public static int fifthBestScore = 0;
+
+    //this too
+    public static String bestName = "";
+    public static String bestName2 = "";
+    public static String bestName3 = "";
+    public static String bestName4 = "";
+    public static String bestName5 = "";
+
     public static String databaseStatement;
 
     private static Connection findConnection(String databaseUser, String databasePassword, String databaseUrl) throws SQLException {

@@ -39,6 +39,8 @@ public class Game extends Canvas implements Runnable {
 
     public static boolean PlayerMode2 = false;
 
+    static Client client;
+
     private Random r;
     private HUD hud;
     private Spawn spawner;
@@ -48,6 +50,20 @@ public class Game extends Canvas implements Runnable {
     private Shop shop;
     private boolean running = false;
     public static boolean paused = false;
+
+    //ultimately grab from database
+    public static int bestScore = 0;
+    public static int secondBestScore = 0;
+    public static int thirdBestScore = 0;
+    public static int fourthBestScore = 0;
+    public static int fifthBestScore = 0;
+
+    //this too
+    public static String bestName = "";
+    public static String bestName2 = "";
+    public static String bestName3 = "";
+    public static String bestName4 = "";
+    public static String bestName5 = "";
 
     public int diff = 0;
 
@@ -154,8 +170,47 @@ public class Game extends Canvas implements Runnable {
                     hud.HEALTH = 100;
                     hud.P2HEALTH = 100;
 //                    hud.revivePrompt = true;
-                    client.sendMessage(HUD.getScore());
-                    client.sendMessage(Menu.playerName());
+                    String message = "score : " + HUD.getScore() + " player : " + Menu.playerName;
+                    int starter = -1;
+                    for (int i = 0; i < message.length(); i++) {
+                        if (Character.isDigit(message.charAt(i))) {
+                            starter = i;
+                            break;
+                        }
+                    }
+
+                    if (starter != -1) {
+                        int ender = starter;
+                        while (ender < message.length() && Character.isDigit(message.charAt(ender))) {
+                            ender++;
+                        }
+
+                        String numberInString = message.substring(starter, ender);
+
+                        int score = Integer.parseInt(numberInString);
+                        String name = message.substring(18 + (ender - starter));
+
+                        if (score > bestScore) {
+                            bestScore = score;
+                            bestName = name;
+                        }
+                        else if (score > secondBestScore && score < bestScore) {
+                            secondBestScore = score;
+                            bestName2 = name;
+                        }
+                        else if (score > thirdBestScore && score < secondBestScore) {
+                            thirdBestScore = score;
+                            bestName3 = name;
+                        }
+                        else if (score > fourthBestScore && score < thirdBestScore) {
+                            fourthBestScore = score;
+                            bestName4 = name;
+                        }
+                        else if (score > fifthBestScore && score < fourthBestScore) {
+                            fifthBestScore = score;
+                            bestName5 = name;
+                        }
+                    }
                     gameState = STATE.End;
                     handler.clearEnemies();
                     for (int i = 0; i < 30; i++) {
@@ -243,7 +298,8 @@ public class Game extends Canvas implements Runnable {
 
     public static void main(String[] args) throws IOException {
         new Game();
-        Client client = new Client();
+        client = new Client();
+        // put stats as parameters as well
         client.connectToServer();
         client.startListening();
         while (true) {

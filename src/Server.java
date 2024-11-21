@@ -23,7 +23,7 @@ import java.util.*;
 
 public class Server {
 
-    private static Map<Integer, ClientHandler> clients = new HashMap<>();
+    static Map<Integer, ClientHandler> clients = new HashMap<>();
     private static int idCount = 1;
 
     private static final int PORT = 13795;
@@ -34,7 +34,7 @@ public class Server {
         return DriverManager.getConnection(databaseUrl, databaseUser, databasePassword);
     }
 
-    public static void main(String arg[]) {
+    public static void main(String arg[]) throws IOException {
         while (true) {
 //        Properties properties = new Properties();
 //        properties.load(new FileInputStream("database.properties"));
@@ -68,7 +68,7 @@ public class Server {
 
     static class ClientHandler extends Thread {
         private Socket socket;
-        private PrintWriter output;
+        PrintWriter output;
         private BufferedReader input;
         private int id;
 

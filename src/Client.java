@@ -1,13 +1,14 @@
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
+import java.util.Objects;
 
 public class Client {
-    private static final String ADDRESS;
+    private static String address;
 
     private static final ArrayList<String> servers = new ArrayList<>();
-    servers.add("127.0.0.1");
 
-    private static final ArrayList<Long> serverPings = new ArrayList<>();
+    private static final ArrayList<Double> serverPings = new ArrayList<>();
 
     private static final int PORT = 13795;
 
@@ -17,31 +18,45 @@ public class Client {
 
     private BufferedReader input;
 
-    public static long pingServer(String ipToServer) {
+    public static double pingServer(String ip) {
+        servers.add("127.0.0.1");
         try {
-            InetAddress serverAdress = InetAddress.getByName(ipToServer);
-            long startTime = System.currentTimeMillis();
-            boolean reachable = serverAddress.isReachable(5000);
-            long endTime = System.currentTimeMillis();
-
-            if (reachable) {
-                return endTime - startTime;
-            } else {
-                return Long.MAX_VALUE;
+            String command = "ping -c 1 " + ip;
+            if (System.getProperty("os.name").startsWith("Windows")) {
+                command = "ping -n 1 " + ip;
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-            return Long.MAX_VALUE;
+
+            Process process = Runtime.getRuntime().exec(command);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            String line;
+            double pingTime = Double.MAX_VALUE;
+
+            while ((line = reader.readLine()) != null) {
+                if (line.contains("time=")) {
+                    String[] parts = line.split("time=");
+                    String timeStr = parts[1].split(" ")[0];
+                    pingTime = Double.parseDouble(timeStr);
+                    break;
+                }
+            }
+
+            process.waitFor();
+            return pingTime;
+        } catch (Exception e) {
+            System.out.println("Server pinging failed : " + ip + ": " + e.getMessage());
+            return Double.MAX_VALUE;
         }
     }
 
-    public static String serverToGoTo(String server1, String server2) {
+    public static String serverToGoTo() {
         for (int i = 0; i < servers.size(); i++) {
-            long latency = pingServer(i);
-            serverPings.add(latency);
+            String tempServer = servers.get(i);
+            serverPings.add(pingServer(tempServer));
         }
+
+
         int bestPingIndex = 0;
-        for (int j = 0; j < serverPings.size(); j++) {
+        for (int i = 0; i < serverPings.size(); i++) {
             if (serverPings.get(i) < serverPings.get(bestPingIndex)) {
                 bestPingIndex = i;
             }
@@ -51,13 +66,14 @@ public class Client {
     }
 
     public void connectToServer() throws IOException {
-        socket = new Socket(ADDRESS, PORT);
+        address = serverToGoTo();
+        socket = new Socket(address, PORT);
         output = new PrintWriter(socket.getOutputStream(), true);
         input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         System.out.println("Server connected!");
     }
 
-    public void startListening() throws IOException {
+    public void startListening() {
         new Thread(() -> {
             try {
                 String message;
@@ -66,6 +82,7 @@ public class Client {
                 }
             } catch (IOException e) {
                 e.printStackTrace();
+                System.exit(1);
             }
         }).start();
         // BufferedReader userInput = new BufferedReader(new InputStreamReader(System.in));
@@ -75,7 +92,16 @@ public class Client {
         // }
     }
 
-    public static void sendMessage(String message) {
-        output.println(message);
+    public void sendMessage(String message, String idToGoTo) {
+        if (Objects.equals(idToGoTo, "all")) {
+            output.println(message);
+        } else if (!Objects.equals(idToGoTo, "all")) {
+            Server.ClientHandler clientToGoTo = Server.clients.get(idToGoTo);
+            if (clientToGoTo != null) {
+                clientToGoTo.output.println(message);
+            } else {
+                System.out.println("Client with id " +idToGoTo + " not found.");
+            }
+        }
     }
 }

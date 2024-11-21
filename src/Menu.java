@@ -43,6 +43,8 @@ public class Menu extends MouseAdapter {
 
     public static boolean trans4Profile = false;
 
+    public static boolean trans5Profile = false;
+
     public static boolean trans1Help = false;
 
     public static boolean trans1End = false;
@@ -194,6 +196,17 @@ public class Menu extends MouseAdapter {
                 JOptionPane.showMessageDialog(null, "Squadron coming soon!", "Stay Tuned!", JOptionPane.INFORMATION_MESSAGE);
                 //skins = false;
                 //squadron = true;
+            }
+
+            if (mouseOver(mx, my, Game.WIDTH / 3, Game.HEIGHT - (Game.HEIGHT / 4) - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10)) {
+                trans5Profile = true;
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException ex) {
+                    throw new RuntimeException(ex);
+                }
+                trans5Profile = false;
+                game.gameState = Game.STATE.Rank;
             }
 
             if (mouseOver(mx, my, Game.WIDTH / 6 - (Game.WIDTH / 8), Game.HEIGHT / 5 - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10)) {
@@ -682,6 +695,12 @@ public class Menu extends MouseAdapter {
 
             g.drawString("Stats coming soon!", Game.WIDTH / 3, Game.HEIGHT / 3);
 
+            if (trans5Profile) {
+                g.fillRect(Game.WIDTH / 3, Game.HEIGHT - (Game.HEIGHT / 4) - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10);
+                g.setColor(Color.BLACK);
+            }
+            g.drawString("Rank", Game.WIDTH / 3 + (Game.HEIGHT / 17), Game.HEIGHT - (Game.HEIGHT / 4) + (Game.HEIGHT / 60);
+
             g.setColor(Color.WHITE);
 
             g.setFont(font2);
@@ -690,6 +709,42 @@ public class Menu extends MouseAdapter {
                 g.setColor(Color.BLACK);
             }
             g.drawString("Back", Game.WIDTH / 6 - (Game.WIDTH / 30), Game.HEIGHT - (Game.HEIGHT / 6) + (Game.HEIGHT / 60));
+        } else if (game.gameState == Game.STATE.Rank) {
+            Font font = new Font("arial", 1, Game.WIDTH / 25);
+            Font font2 = new Font("arial", 1, Game.WIDTH / 35);
+            Font font3 = new Font("arial", 1, Game.WIDTH / 40);
+
+            g.setColor(new Color(r.nextInt(255), r.nextInt(255), r.nextInt(255)));
+            g.setFont(font);
+
+            g.drawString("Rank", Game.WIDTH / 2 - (Game.WIDTH / 17), Game.HEIGHT / 15);
+
+            g.setFont(font3);
+            g.setColor(Color.WHITE);
+            g.drawString("Position", Game.WIDTH / 6, Game.HEIGHT / 5);
+
+            g.drawString("Name", Game.WIDTH / 3, Game.HEIGHT / 5);
+
+            g.drawString("Score", Game.WIDTH - (Game.WIDTH / 4), Game.HEIGHT / 5);
+
+            g.setFont(font2);
+            g.drawString("1", Game.WIDTH / 6, Game.HEIGHT / 4);
+            g.drawString("2", Game.WIDTH / 6, Game.HEIGHT / 3);
+            g.drawString("3", Game.WIDTH / 6, Game.HEIGHT / 2);
+            g.drawString("4", Game.WIDTH / 6, Game.HEIGHT - (Game.HEIGHT / 3));
+            g.drawString("5", Game.WIDTH / 6, Game.HEIGHT - (Game.HEIGHT / 4));
+
+            g.drawString(Server.bestName, Game.WIDTH / 3, Game.HEIGHT / 4);
+            g.drawString(Server.bestName2, Game.WIDTH / 3, Game.HEIGHT / 3);
+            g.drawString(Server.bestName3, Game.WIDTH / 3, Game.HEIGHT / 2);
+            g.drawString(Server.bestName4, Game.WIDTH / 3, Game.HEIGHT - (Game.HEIGHT / 3));
+            g.drawString(Server.bestName5, Game.WIDTH / 3, Game.HEIGHT - (Game.HEIGHT / 4));
+
+            g.drawString(Server.bestScore, Game.WIDTH - (Game.WIDTH / 4), Game.HEIGHT / 4);
+            g.drawString(Server.secondBestScore, Game.WIDTH - (Game.WIDTH / 4), Game.HEIGHT / 3);
+            g.drawString(Server.thirdBestScore, Game.WIDTH - (Game.WIDTH / 4), Game.HEIGHT / 2);
+            g.drawString(Server.fourthBestScore, Game.WIDTH - (Game.WIDTH / 4), Game.HEIGHT - (Game.HEIGHT / 3));
+            g.drawString(Server.fifthBestScore, Game.WIDTH - (Game.WIDTH / 4), Game.HEIGHT - (Game.HEIGHT / 4));
         } else if (game.gameState == Game.STATE.End) {
             Font font = new Font("arial", 1, Game.WIDTH / 25);
             Font font2 = new Font("arial", 1, Game.WIDTH / 35);

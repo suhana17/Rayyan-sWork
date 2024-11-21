@@ -51,20 +51,6 @@ public class Game extends Canvas implements Runnable {
     private boolean running = false;
     public static boolean paused = false;
 
-    //ultimately grab from database
-    public static int bestScore = 0;
-    public static int secondBestScore = 0;
-    public static int thirdBestScore = 0;
-    public static int fourthBestScore = 0;
-    public static int fifthBestScore = 0;
-
-    //this too
-    public static String bestName = "";
-    public static String bestName2 = "";
-    public static String bestName3 = "";
-    public static String bestName4 = "";
-    public static String bestName5 = "";
-
     public int diff = 0;
 
     public enum STATE {
@@ -190,25 +176,25 @@ public class Game extends Canvas implements Runnable {
                         int score = Integer.parseInt(numberInString);
                         String name = message.substring(18 + (ender - starter));
 
-                        if (score > bestScore) {
-                            bestScore = score;
-                            bestName = name;
+                        if (score > Server.bestScore) {
+                            Server.bestScore = score;
+                            Server.bestName = name;
                         }
-                        else if (score > secondBestScore && score < bestScore) {
-                            secondBestScore = score;
-                            bestName2 = name;
+                        else if (score > Server.secondBestScore && score < Server.bestScore) {
+                            Server.secondBestScore = score;
+                            Server.bestName2 = name;
                         }
-                        else if (score > thirdBestScore && score < secondBestScore) {
-                            thirdBestScore = score;
-                            bestName3 = name;
+                        else if (score > Server.thirdBestScore && score < Server.secondBestScore) {
+                            Server.thirdBestScore = score;
+                            Server.bestName3 = name;
                         }
-                        else if (score > fourthBestScore && score < thirdBestScore) {
-                            fourthBestScore = score;
-                            bestName4 = name;
+                        else if (score > Server.fourthBestScore && score < Server.thirdBestScore) {
+                            Server.fourthBestScore = score;
+                            Server.bestName4 = name;
                         }
-                        else if (score > fifthBestScore && score < fourthBestScore) {
-                            fifthBestScore = score;
-                            bestName5 = name;
+                        else if (score > Server.fifthBestScore && score < Server.fourthBestScore) {
+                            Server.fifthBestScore = score;
+                            Server.bestName5 = name;
                         }
                     }
                     gameState = STATE.End;

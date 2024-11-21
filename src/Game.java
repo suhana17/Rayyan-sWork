@@ -63,7 +63,8 @@ public class Game extends Canvas implements Runnable {
         Shop,
         Select,
         Game,
-        Profile
+        Profile,
+        Rank
     };
 
     public static STATE gameState = STATE.Intro;
@@ -204,7 +205,7 @@ public class Game extends Canvas implements Runnable {
                     }
                 }
             }
-        } else if (gameState == STATE.Menu || gameState == STATE.Select || gameState == STATE.Help || gameState == STATE.Profile || gameState == STATE.Options || gameState == STATE.Credits) {
+        } else if (gameState == STATE.Menu || gameState == STATE.Select || gameState == STATE.Help || gameState == STATE.Profile || gameState == STATE.Options || gameState == STATE.Credits || gameState == STATE.Rank) {
             handler.tick();
             menu.tick();
             hud.p1points = 0;
@@ -253,7 +254,7 @@ public class Game extends Canvas implements Runnable {
             hud.show321();
         } else if (gameState == STATE.Shop) {
             shop.render(g);
-        } else if (gameState == STATE.Menu || gameState == STATE.Help || gameState == STATE.End || gameState == STATE.Select || gameState == STATE.Profile || gameState == STATE.Options || gameState == STATE.Credits) {
+        } else if (gameState == STATE.Menu || gameState == STATE.Help || gameState == STATE.End || gameState == STATE.Select || gameState == STATE.Profile || gameState == STATE.Options || gameState == STATE.Credits || gameState == STATE.Rank) {
             handler.render(g);
             menu.render(g);
         } else if (gameState == STATE.Intro) {

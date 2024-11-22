@@ -64,7 +64,9 @@ public class Game extends Canvas implements Runnable {
         Select,
         Game,
         Profile,
-        Rank
+        Rank,
+        Online,
+        Choosing
     };
 
     public static STATE gameState = STATE.Intro;
@@ -205,7 +207,7 @@ public class Game extends Canvas implements Runnable {
                     }
                 }
             }
-        } else if (gameState == STATE.Menu || gameState == STATE.Select || gameState == STATE.Help || gameState == STATE.Profile || gameState == STATE.Options || gameState == STATE.Credits || gameState == STATE.Rank) {
+        } else if (gameState == STATE.Menu || gameState == STATE.Select || gameState == STATE.Help || gameState == STATE.Profile || gameState == STATE.Options || gameState == STATE.Credits || gameState == STATE.Rank || gameState == STATE.Online || gameState == STATE.Choosing) {
             handler.tick();
             menu.tick();
             hud.p1points = 0;
@@ -254,7 +256,7 @@ public class Game extends Canvas implements Runnable {
             hud.show321();
         } else if (gameState == STATE.Shop) {
             shop.render(g);
-        } else if (gameState == STATE.Menu || gameState == STATE.Help || gameState == STATE.End || gameState == STATE.Select || gameState == STATE.Profile || gameState == STATE.Options || gameState == STATE.Credits || gameState == STATE.Rank) {
+        } else if (gameState == STATE.Menu || gameState == STATE.Help || gameState == STATE.End || gameState == STATE.Select || gameState == STATE.Profile || gameState == STATE.Options || gameState == STATE.Credits || gameState == STATE.Rank || gameState == STATE.Online || gameState == STATE.Choosing) {
             handler.render(g);
             menu.render(g);
         } else if (gameState == STATE.Intro) {
@@ -283,12 +285,16 @@ public class Game extends Canvas implements Runnable {
         }
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         new Game();
-        client = new Client();
-        // put stats as parameters as well
-        client.connectToServer();
-        client.startListening();
+        try {
+            client = new Client();
+            client.connectToServer();
+            client.startListening();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
         while (true) {
             play("sounds/music.mp3");
         }

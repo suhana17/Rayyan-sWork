@@ -19,7 +19,6 @@ public class Client {
     private BufferedReader input;
 
     public static double pingServer(String ip) {
-        servers.add("127.0.0.1");
         try {
             String command = "ping -c 1 " + ip;
             if (System.getProperty("os.name").startsWith("Windows")) {
@@ -49,6 +48,7 @@ public class Client {
     }
 
     public static String serverToGoTo() {
+        servers.add("127.0.0.1");
         for (int i = 0; i < servers.size(); i++) {
             String tempServer = servers.get(i);
             serverPings.add(pingServer(tempServer));

@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Objects;
 import java.util.Random;
 import javax.naming.Name;
 import javax.swing.*;
@@ -51,6 +52,14 @@ public class Menu extends MouseAdapter {
 
     public static boolean trans1Difficulty = false;
 
+    public static boolean trans1Online = false;
+
+    public static boolean trans2Online = false;
+
+    public static boolean trans3Online = false;
+
+    public static boolean trans4Online = false;
+
     public static boolean volume = true;
 
     public static String skin = "plain";
@@ -62,6 +71,9 @@ public class Menu extends MouseAdapter {
     public static boolean trans3Difficulty = false;
 
     public static boolean trans1Profile = false;
+
+    public static boolean trans1Rank = false;
+
     private final Random r = new Random();
 
     public Menu(Game game, Handler handler, HUD hud) {
@@ -134,13 +146,66 @@ public class Menu extends MouseAdapter {
                 }
                 trans3Main = false;
                 game.gameState = Game.STATE.Profile;
-//                JOptionPane.showMessageDialog(null, "Profile coming soon!", "Stay Tuned!", JOptionPane.INFORMATION_MESSAGE);
                 return;
             }
 
             if (mouseOver(mx, my, Game.WIDTH - (Game.WIDTH / 4) - (Game.WIDTH / 8), Game.HEIGHT - (Game.HEIGHT / 6) - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10)) {
                 HUD.scheduler.shutdown();
                 System.exit(0);
+            }
+        }
+
+        if (game.gameState == Game.STATE.Online) {
+            if (mouseOver(mx, my, Game.WIDTH / 4 - (Game.WIDTH / 8), Game.HEIGHT - (Game.HEIGHT / 3) - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10)) {
+                if (volume) game.play("sounds/buttonPress.mp3");
+                trans1Online = true;
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException ex) {
+                    throw new RuntimeException(ex);
+                }
+                trans1Online = false;
+
+                game.gameState = Game.STATE.Choosing;
+            }
+
+            if (mouseOver(mx, my, Game.WIDTH / 4 - (Game.WIDTH / 8), Game.HEIGHT - (Game.HEIGHT / 6) - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10)) {
+                if (volume) game.play("sounds/buttonPress.mp3");
+                trans2Online = true;
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException ex) {
+                    throw new RuntimeException(ex);
+                }
+                trans2Online = false;
+
+                JOptionPane.showMessageDialog(null, "2v2 Online coming soon!", "Stay Tuned!", JOptionPane.INFORMATION_MESSAGE);
+            }
+
+            if (mouseOver(mx, my, Game.WIDTH - (Game.WIDTH / 4) - (Game.WIDTH / 8), Game.HEIGHT - (Game.HEIGHT / 3) - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10)) {
+                if (volume) game.play("sounds/buttonPress.mp3");
+                trans3Online = true;
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException ex) {
+                    throw new RuntimeException(ex);
+                }
+                trans3Online = false;
+
+                JOptionPane.showMessageDialog(null, "3v3 Online coming soon!", "Stay Tuned!", JOptionPane.INFORMATION_MESSAGE);
+            }
+
+            if (mouseOver(mx, my, Game.WIDTH - (Game.WIDTH / 4) - (Game.WIDTH / 8), Game.HEIGHT - (Game.HEIGHT / 6) - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10)) {
+                if (volume) game.play("sounds/buttonPress.mp3");
+                trans4Online = true;
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException ex) {
+                    throw new RuntimeException(ex);
+                }
+                trans4Online = false;
+
+                game.gameState = Game.STATE.Select;
             }
         }
 
@@ -198,7 +263,8 @@ public class Menu extends MouseAdapter {
                 //squadron = true;
             }
 
-            if (mouseOver(mx, my, Game.WIDTH / 3, Game.HEIGHT - (Game.HEIGHT / 4) - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10)) {
+            if (mouseOver(mx, my, Game.WIDTH / 3, Game.HEIGHT - (Game.HEIGHT / 3) - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10)) {
+                if (volume) game.play("sounds/buttonPress.mp3");
                 trans5Profile = true;
                 try {
                     Thread.sleep(500);
@@ -249,6 +315,21 @@ public class Menu extends MouseAdapter {
             if (mouseOver(mx, my, Game.WIDTH - (Game.WIDTH / 7), Game.HEIGHT / 3 + (Game.HEIGHT / 13), 64, 64)) {
                 if (volume) game.play("sounds/buttonPress.mp3");
                 skin = "gift package";
+            }
+        }
+
+        if (game.gameState == Game.STATE.Rank) {
+            if (mouseOver(mx, my, Game.WIDTH / 6 - (Game.WIDTH / 8), Game.HEIGHT - (Game.HEIGHT / 8) - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10)) {
+                if (volume) game.play("sounds/buttonPress.mp3");
+                trans1Rank = true;
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException ex) {
+                    throw new RuntimeException(ex);
+                }
+                trans1Rank = false;
+
+                game.gameState = Game.STATE.Profile;
             }
         }
 
@@ -349,7 +430,7 @@ public class Menu extends MouseAdapter {
             }
 
             if (mouseOver(mx, my, Game.WIDTH - (Game.WIDTH / 4) - (Game.WIDTH / 8), Game.HEIGHT / 2 - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10)) {
-                if (Menu.volume) game.play("buttonPress.mp3");
+                if (Menu.volume) game.play("sounds/buttonPress.mp3");
                 trans5Difficulty = true;
                 try {
                     Thread.sleep(500);
@@ -357,12 +438,12 @@ public class Menu extends MouseAdapter {
                     throw new RuntimeException(ex);
                 }
                 trans5Difficulty = false;
-                JOptionPane.showMessageDialog(null, "Online level coming soon!", "Stay Tuned!", JOptionPane.INFORMATION_MESSAGE);
-                game.PlayerMode2 = false;
+
+                game.gameState = Game.STATE.Online;
             }
 
             if (mouseOver(mx, my, Game.WIDTH - (Game.WIDTH / 4) - (Game.WIDTH / 8), Game.HEIGHT - (Game.HEIGHT / 6) - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10)) {
-                if (Menu.volume) game.play("buttonPress.mp3");
+                if (Menu.volume) game.play("sounds/buttonPress.mp3");
                 trans6Difficulty = true;
                 try {
                     Thread.sleep(500);
@@ -463,10 +544,10 @@ public class Menu extends MouseAdapter {
 
             g.setFont(new Font("arial", 1, Game.WIDTH / 45));
             g.drawString("Coming Soon: ", Game.WIDTH / 2 - (Game.WIDTH / 6), Game.HEIGHT / 2 + (Game.HEIGHT / 6));
-            g.drawString("Profile", Game.WIDTH / 2 - (Game.WIDTH / 6), Game.HEIGHT / 2 + (Game.HEIGHT / 4));
+            g.drawString("Maps/chat", Game.WIDTH / 2 - (Game.WIDTH / 6), Game.HEIGHT / 2 + (Game.HEIGHT / 4));
             g.drawString("Squadron", Game.WIDTH / 2 - (Game.WIDTH / 6), Game.HEIGHT / 2 + (Game.HEIGHT / 3));
             g.drawString("More power-ups", Game.WIDTH / 2 - (Game.WIDTH / 6), Game.HEIGHT / 2 + (Game.HEIGHT / 3) + (Game.HEIGHT / 12));
-            g.drawString("Online rank", Game.WIDTH / 2 + (Game.WIDTH / 12), Game.HEIGHT / 2 + (Game.HEIGHT / 4));
+            g.drawString("Online level", Game.WIDTH / 2 + (Game.WIDTH / 12), Game.HEIGHT / 2 + (Game.HEIGHT / 4));
             g.drawString("Stats", Game.WIDTH / 2 + (Game.WIDTH / 12), Game.HEIGHT / 2 + (Game.HEIGHT / 3));
 
             g.setFont(font2);
@@ -506,6 +587,40 @@ public class Menu extends MouseAdapter {
             g.drawString("Profile", Game.WIDTH - (Game.WIDTH / 4) - (Game.WIDTH / 20), Game.HEIGHT - (Game.HEIGHT / 3) + (Game.HEIGHT / 60));
             g.setColor(Color.WHITE);
             g.drawString("Quit", Game.WIDTH - (Game.WIDTH / 4) - (Game.WIDTH / 30), Game.HEIGHT - (Game.HEIGHT / 6) + (Game.HEIGHT / 60));
+        } else if (game.gameState == Game.STATE.Online) {
+            Font font = new Font("arial", 1, Game.WIDTH / 25);
+            Font font2 = new Font("arial", 1, Game.WIDTH / 35);
+            Font font3 = new Font("arial", 1, Game.WIDTH / 45);
+
+            g.setFont(font);
+            g.setColor(new Color(r.nextInt(255), r.nextInt(255), r.nextInt(255)));
+            g.drawString("Online", Game.WIDTH / 2 - (Game.WIDTH / 13), Game.HEIGHT / 15);
+
+            g.setColor(Color.WHITE);
+            g.setFont(font2);
+            if (trans1Online) {
+                g.fillRect(Game.WIDTH / 4 - (Game.WIDTH / 8), Game.HEIGHT - (Game.HEIGHT / 3) - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10);
+                g.setColor(Color.BLACK);
+            }
+            g.drawString("1v1", Game.WIDTH / 4 - (Game.WIDTH / 32), Game.HEIGHT - (Game.HEIGHT / 3) + (Game.HEIGHT / 60));
+            g.setColor(Color.WHITE);
+            if (trans2Online) {
+                g.fillRect(Game.WIDTH / 4 - (Game.WIDTH / 8), Game.HEIGHT - (Game.HEIGHT / 6) - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10);
+                g.setColor(Color.BLACK);
+            }
+            g.drawString("2v2", Game.WIDTH / 4 - (Game.WIDTH / 32), Game.HEIGHT - (Game.HEIGHT / 6) + (Game.HEIGHT / 60));
+
+            g.setColor(Color.WHITE);
+            if (trans3Online) {
+                g.fillRect(Game.WIDTH - (Game.WIDTH / 4) - (Game.WIDTH / 8), Game.HEIGHT - (Game.HEIGHT / 3) - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10);
+                g.setColor(Color.BLACK);
+            }
+            g.drawString("3v3", Game.WIDTH - (Game.WIDTH / 4) - (Game.WIDTH / 32), Game.HEIGHT - (Game.HEIGHT / 3) + (Game.HEIGHT / 60));
+            g.setColor(Color.WHITE);
+            if (trans4Online) {
+                g.fillRect(Game.WIDTH - (Game.WIDTH / 4) - (Game.WIDTH / 8), Game.HEIGHT - (Game.HEIGHT / 6) - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10);
+            }
+            g.drawString("Back", Game.WIDTH - (Game.WIDTH / 4) - (Game.WIDTH / 30), Game.HEIGHT - (Game.HEIGHT / 6) + (Game.HEIGHT / 60));
         } else if (game.gameState == Game.STATE.Help) {
             Font font = new Font("arial", 1, Game.WIDTH / 25);
             Font font2 = new Font("arial", 1, Game.WIDTH / 35);
@@ -696,10 +811,10 @@ public class Menu extends MouseAdapter {
             g.drawString("Stats coming soon!", Game.WIDTH / 3, Game.HEIGHT / 3);
 
             if (trans5Profile) {
-                g.fillRect(Game.WIDTH / 3, Game.HEIGHT - (Game.HEIGHT / 4) - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10);
+                g.fillRect(Game.WIDTH / 3, Game.HEIGHT - (Game.HEIGHT / 3) - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10);
                 g.setColor(Color.BLACK);
             }
-            g.drawString("Rank", Game.WIDTH / 3 + (Game.HEIGHT / 17), Game.HEIGHT - (Game.HEIGHT / 4) + (Game.HEIGHT / 60);
+            g.drawString("Rank", Game.WIDTH / 3 + (Game.HEIGHT / 6), Game.HEIGHT - (Game.HEIGHT / 3) + (Game.HEIGHT / 60));
 
             g.setColor(Color.WHITE);
 
@@ -709,6 +824,80 @@ public class Menu extends MouseAdapter {
                 g.setColor(Color.BLACK);
             }
             g.drawString("Back", Game.WIDTH / 6 - (Game.WIDTH / 30), Game.HEIGHT - (Game.HEIGHT / 6) + (Game.HEIGHT / 60));
+        } else if (game.gameState == Game.STATE.Choosing) {
+            Font font2 = new Font("arial", 1, Game.WIDTH / 35);
+            g.setColor(Color.WHITE);
+            //plain
+            if (Objects.equals(skin, "plain")) {
+                g.fillRect(Game.WIDTH - (Game.WIDTH / 4), Game.HEIGHT / 3, 64, 64);
+            }
+            //creeper
+            if (Objects.equals(skin, "creeper")) {
+                g.setColor(Color.GREEN);
+                g.fillRect(Game.WIDTH - (Game.WIDTH / 5), Game.HEIGHT / 3, 64, 64);
+                g.setColor(Color.BLACK);
+                g.fillRect(Game.WIDTH - (Game.WIDTH / 5) + 8, Game.HEIGHT / 3 + 8, 18, 18);
+                g.fillRect(Game.WIDTH - (Game.WIDTH / 5) + 38, Game.HEIGHT / 3 + 8, 18, 18);
+                g.fillRect(Game.WIDTH - (Game.WIDTH / 5) + 26, Game.HEIGHT / 3 + 24, 12, 28);
+                g.fillRect(Game.WIDTH - (Game.WIDTH / 5) + 16, Game.HEIGHT / 3 + 32, 10, 28);
+                g.fillRect(Game.WIDTH - (Game.WIDTH / 5) + 38, Game.HEIGHT / 3 + 32, 10, 28);
+            }
+            //zombie
+            if (Objects.equals(skin, "zombie")) {
+                g.setColor(new Color(5, 97, 2));
+                g.fillRect(Game.WIDTH - (Game.WIDTH / 7), Game.HEIGHT / 3, 64, 64);
+                g.setColor(new Color(2, 153, 75));
+                g.fillRect(Game.WIDTH - (Game.WIDTH / 7) + 8, Game.HEIGHT / 3 + 16, 40, 32);
+                g.fillRect(Game.WIDTH - (Game.WIDTH / 7) + 32, Game.HEIGHT / 3 + 56, 16, 8);
+                g.fillRect(Game.WIDTH - (Game.WIDTH / 7) + 8, Game.HEIGHT / 3, 16, 8);
+                g.fillRect(Game.WIDTH - (Game.WIDTH / 7) + 56, Game.HEIGHT / 3 + 16, 8, 8);
+                g.fillRect(Game.WIDTH - (Game.WIDTH / 7), Game.HEIGHT / 3 + 32, 8, 8);
+                g.fillRect(Game.WIDTH - (Game.WIDTH / 7) + 8, Game.HEIGHT / 3 + 56, 8, 8);
+                g.fillRect(Game.WIDTH - (Game.WIDTH / 7) + 48, Game.HEIGHT / 3, 8, 8);
+                g.setColor(Color.BLACK);
+                g.fillRect(Game.WIDTH - (Game.WIDTH / 7) + 8, Game.HEIGHT / 3 + 28, 16, 8);
+                g.fillRect(Game.WIDTH - (Game.WIDTH / 7) + 40, Game.HEIGHT / 3 + 28, 16, 8);
+                g.setColor(new Color(5, 97, 2));
+                g.fillRect(Game.WIDTH - (Game.WIDTH / 7) + 24, Game.HEIGHT / 3 + 36, 16, 8);
+            }
+            //skeleton
+            if (Objects.equals(skin, "skeleton")) {
+                g.setColor(new Color(135, 135, 135));
+                g.fillRect(Game.WIDTH - (Game.WIDTH / 4), Game.HEIGHT / 3 + (Game.HEIGHT / 13), 64, 64);
+                g.setColor(Color.BLACK);
+                g.fillRect(Game.WIDTH - (Game.WIDTH / 4) + 8, Game.HEIGHT / 3 + (Game.HEIGHT / 13) + 32, 16, 8);
+                g.fillRect(Game.WIDTH - (Game.WIDTH / 4) + 40, Game.HEIGHT / 3 + (Game.HEIGHT / 13) + 32, 16, 8);
+                g.fillRect(Game.WIDTH - (Game.WIDTH / 4) + 8, Game.HEIGHT / 3 + (Game.HEIGHT / 13) + 48, 48, 8);
+            }
+            //enderman
+            if (Objects.equals(skin, "enderman")) {
+                g.setColor(new Color(36, 36, 36));
+                g.fillRect(Game.WIDTH - (Game.WIDTH / 5), Game.HEIGHT / 3 + (Game.HEIGHT / 13), 64, 64);
+                g.setColor(new Color(232, 3, 252));
+                g.fillRect(Game.WIDTH - (Game.WIDTH / 5), Game.HEIGHT / 3 + (Game.HEIGHT / 13) + 32, 24, 8);
+                g.fillRect(Game.WIDTH - (Game.WIDTH / 5) + 40, Game.HEIGHT / 3 + (Game.HEIGHT / 13) + 32, 24, 8);
+            }
+            //gift package
+            if (Objects.equals(skin, "gift package")) {
+                g.setColor(Color.GREEN);
+                g.fillRect(Game.WIDTH - (Game.WIDTH / 7), Game.HEIGHT / 3 + (Game.HEIGHT / 13), 64, 64);
+                g.setColor(Color.RED);
+                g.fillRect(Game.WIDTH - (Game.WIDTH / 7) + 28, Game.HEIGHT / 3 + (Game.HEIGHT / 13), 12, 64);
+                g.fillOval(Game.WIDTH - (Game.WIDTH / 7) + 8, Game.HEIGHT / 3 + (Game.HEIGHT / 13) - 16, 24, 16);
+                g.fillOval(Game.WIDTH - (Game.WIDTH / 7) + 36, Game.HEIGHT / 3 + (Game.HEIGHT / 13) - 16, 24, 16);
+                g.fillOval(Game.WIDTH - (Game.WIDTH / 7) + 28, Game.HEIGHT / 3 + (Game.HEIGHT / 13) - 8, 12, 12);
+            }
+
+            g.setColor(Color.WHITE);
+            g.setFont(font2);
+
+            g.drawString(playerName, Game.WIDTH / 4, Game.HEIGHT / 3);
+
+            g.drawString("vs", Game.WIDTH / 2 - (Game.WIDTH / 50), Game.HEIGHT / 2);
+
+            // make random gamer here
+            // after we get more gamers
+            // make 2v2, 3v3
         } else if (game.gameState == Game.STATE.Rank) {
             Font font = new Font("arial", 1, Game.WIDTH / 25);
             Font font2 = new Font("arial", 1, Game.WIDTH / 35);
@@ -729,22 +918,28 @@ public class Menu extends MouseAdapter {
 
             g.setFont(font2);
             g.drawString("1", Game.WIDTH / 6, Game.HEIGHT / 4);
-            g.drawString("2", Game.WIDTH / 6, Game.HEIGHT / 3);
-            g.drawString("3", Game.WIDTH / 6, Game.HEIGHT / 2);
-            g.drawString("4", Game.WIDTH / 6, Game.HEIGHT - (Game.HEIGHT / 3));
-            g.drawString("5", Game.WIDTH / 6, Game.HEIGHT - (Game.HEIGHT / 4));
+            g.drawString("2", Game.WIDTH / 6, Game.HEIGHT / 4 + (Game.HEIGHT / 10));
+            g.drawString("3", Game.WIDTH / 6, Game.HEIGHT / 4 + (Game.HEIGHT / 10) + (Game.HEIGHT / 10));
+            g.drawString("4", Game.WIDTH / 6, Game.HEIGHT / 4 + (Game.HEIGHT / 10) + (Game.HEIGHT / 10) + (Game.HEIGHT / 10));
+            g.drawString("5", Game.WIDTH / 6, Game.HEIGHT / 4 + (Game.HEIGHT / 10) + (Game.HEIGHT / 10) + (Game.HEIGHT / 10) + (Game.HEIGHT / 10));
 
             g.drawString(Server.bestName, Game.WIDTH / 3, Game.HEIGHT / 4);
-            g.drawString(Server.bestName2, Game.WIDTH / 3, Game.HEIGHT / 3);
-            g.drawString(Server.bestName3, Game.WIDTH / 3, Game.HEIGHT / 2);
-            g.drawString(Server.bestName4, Game.WIDTH / 3, Game.HEIGHT - (Game.HEIGHT / 3));
-            g.drawString(Server.bestName5, Game.WIDTH / 3, Game.HEIGHT - (Game.HEIGHT / 4));
+            g.drawString(Server.bestName2, Game.WIDTH / 3, Game.HEIGHT / 4 + (Game.HEIGHT / 10));
+            g.drawString(Server.bestName3, Game.WIDTH / 3, Game.HEIGHT / 4 + (Game.HEIGHT / 10) + (Game.HEIGHT / 10));
+            g.drawString(Server.bestName4, Game.WIDTH / 3, Game.HEIGHT / 4 + (Game.HEIGHT / 10) + (Game.HEIGHT / 10) + (Game.HEIGHT / 10));
+            g.drawString(Server.bestName5, Game.WIDTH / 3, Game.HEIGHT / 4 + (Game.HEIGHT / 10) + (Game.HEIGHT / 10) + (Game.HEIGHT / 10) + (Game.HEIGHT / 10));
 
-            g.drawString(Server.bestScore, Game.WIDTH - (Game.WIDTH / 4), Game.HEIGHT / 4);
-            g.drawString(Server.secondBestScore, Game.WIDTH - (Game.WIDTH / 4), Game.HEIGHT / 3);
-            g.drawString(Server.thirdBestScore, Game.WIDTH - (Game.WIDTH / 4), Game.HEIGHT / 2);
-            g.drawString(Server.fourthBestScore, Game.WIDTH - (Game.WIDTH / 4), Game.HEIGHT - (Game.HEIGHT / 3));
-            g.drawString(Server.fifthBestScore, Game.WIDTH - (Game.WIDTH / 4), Game.HEIGHT - (Game.HEIGHT / 4));
+            g.drawString(Integer.toString(Server.bestScore), Game.WIDTH - (Game.WIDTH / 4), Game.HEIGHT / 4);
+            g.drawString(Integer.toString(Server.secondBestScore), Game.WIDTH - (Game.WIDTH / 4), Game.HEIGHT / 4 + (Game.HEIGHT / 10));
+            g.drawString(Integer.toString(Server.thirdBestScore), Game.WIDTH - (Game.WIDTH / 4), Game.HEIGHT / 4 + (Game.HEIGHT / 10) + (Game.HEIGHT / 10));
+            g.drawString(Integer.toString(Server.fourthBestScore), Game.WIDTH - (Game.WIDTH / 4), Game.HEIGHT / 4 + (Game.HEIGHT / 10) + (Game.HEIGHT / 10) + (Game.HEIGHT / 10));
+            g.drawString(Integer.toString(Server.fifthBestScore), Game.WIDTH - (Game.WIDTH / 4), Game.HEIGHT / 4 + (Game.HEIGHT / 10) + (Game.HEIGHT / 10) + (Game.HEIGHT / 10) + (Game.HEIGHT / 10));
+
+            if (trans1Rank) {
+                g.fillRect(Game.WIDTH / 6 - (Game.WIDTH / 8), Game.HEIGHT - (Game.HEIGHT / 8) - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10);
+                g.setColor(Color.BLACK);
+            }
+            g.drawString("Back", Game.WIDTH / 6 - (Game.WIDTH / 25), Game.HEIGHT - (Game.HEIGHT / 8) + (Game.HEIGHT / 60));
         } else if (game.gameState == Game.STATE.End) {
             Font font = new Font("arial", 1, Game.WIDTH / 25);
             Font font2 = new Font("arial", 1, Game.WIDTH / 35);
@@ -803,7 +998,7 @@ public class Menu extends MouseAdapter {
                 g.fillRect(Game.WIDTH - (Game.WIDTH / 4) - (Game.WIDTH / 8), Game.HEIGHT / 2 - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10);
                 g.setColor(Color.BLACK);
             }
-            g.drawString("Online", Game.WIDTH - (Game.WIDTH / 4) - (Game.WIDTH / 30), Game.HEIGHT / 2 + (Game.HEIGHT / 60));
+            g.drawString("Online", Game.WIDTH - (Game.WIDTH / 4) - (Game.WIDTH / 25), Game.HEIGHT / 2 + (Game.HEIGHT / 60));
             g.setColor(Color.WHITE);
 
             if (trans6Difficulty) {

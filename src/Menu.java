@@ -64,6 +64,8 @@ public class Menu extends MouseAdapter {
 
     public static boolean trans1Choosing = false;
 
+    public static boolean trans1Map = false;
+
     public static boolean volume = true;
 
     public static boolean cancelled = false;
@@ -351,6 +353,10 @@ public class Menu extends MouseAdapter {
                 if (volume) game.play("sounds/buttonPress.mp3");
                 skin = "gift package";
             }
+        }
+
+        if (game.gameState == Game.STATE.Map) {
+            if (mouseOver(mx, my, Game.WIDTH / 6 - (Game.WIDTH / 8), Game.HEIGHT - (Game.HEIGHT / 6) - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10
         }
 
         if (game.gameState == Game.STATE.Rank) {
@@ -709,6 +715,26 @@ public class Menu extends MouseAdapter {
                 g.setColor(Color.BLACK);
             }
             g.drawString("Cancel", Game.WIDTH / 6 - (Game.WIDTH / 22), Game.HEIGHT - (Game.HEIGHT / 6) + (Game.HEIGHT / 60));
+        } else if (game.gameState == Game.STATE.Map) {
+            Font font = new Font("arial", 1, Game.WIDTH / 25);
+            Font font2 = new Font("arial", 1, Game.WIDTH / 35);
+            g.setFont(font);
+
+            g.setColor(new Color(r.nextInt(255), r.nextInt(255), r.nextInt(255)));
+            g.drawString("Map", Game.WIDTH / 2 - (Game.WIDTH / 17), Game.HEIGHT / 15);
+            g.setColor(Color.WHITE);
+
+            g.setFont(font2);
+            g.drawString("Map " + Game.map + 1, Game.WIDTH / 2 - (Game.WIDTH / 12), Game.HEIGHT / 2);
+
+            g.drawString("←", Game.WIDTH / 2 - (Game.WIDTH / 8), Game.HEIGHT / 2);
+            g.drawStrign("→", Game.WIDTH / 2 + (Game.WIDTH / 8), Game.HEIGHT / 2);
+
+            if (trans1Map) {
+                g.fillRect(Game.WIDTH / 6 - (Game.WIDTH / 8), Game.HEIGHT - (Game.HEIGHT / 6) - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10);
+                g.setColor(Color.BLACK);
+            }
+            g.drawString("Back", Game.WIDTH / 6 - (Game.WIDTH / 30), Game.HEIGHT - (Game.HEIGHT / 6) + (Game.HEIGHT / 60));
         } else if (game.gameState == Game.STATE.Help) {
             Font font = new Font("arial", 1, Game.WIDTH / 25);
             Font font2 = new Font("arial", 1, Game.WIDTH / 35);

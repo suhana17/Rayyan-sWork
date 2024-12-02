@@ -14,5 +14,11 @@ public enum ID {
     Enemy2Boss(),
     Enemy2BossShip(),
 
-    Coin();
+    Coin(),
+
+    Load(),
+
+    Thorn(),
+
+    Wall();
 }

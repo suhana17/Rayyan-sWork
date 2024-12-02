@@ -18,6 +18,8 @@ public class HUD {
 
     public static boolean levelUp = false;
 
+    public static String onlinePlayerWon = "";
+
     public static int P2HEALTH = 100;
 
 //    public static boolean revivePrompt = false;
@@ -35,6 +37,8 @@ public class HUD {
     public static int score = 0;
 
     public static int dabing = 1;
+
+    public static int dabing2 = 1;
 
     public static String playerWon;
 
@@ -58,9 +62,9 @@ public class HUD {
 
     public static int p1points = 0;
 
-    public static int cpuHEALTH = 100;
-
     public static int p2points = 0;
+
+    public static int p2score = 0;
 
     private int level = 1;
 
@@ -69,20 +73,24 @@ public class HUD {
 
 
     int scoreKeep = 0;
+
+    int p2scoreKeep = 0;
+
     public void tick() {
         if (tickdatock) {
             if (HEALTH == 0 && P2HEALTH != 0) playerWon = "2";
             else if (P2HEALTH == 0 && HEALTH != 0) playerWon = "1";
             score += dabing;
+            p2score += dabing2;
             scoreKeep += dabing;
+            p2scoreKeep += dabing2;
             if (scoreKeep >= 2000) {
                 scoreKeep = 0;
-                if (Game.PlayerMode2) {
-                    p1points++;
-                    p2points++;
-                } else {
-                    p1points++;
-                }
+                p1points++;
+            }
+            if (p2scoreKeep >= 2000) {
+                p2scoreKeep = 0;
+                p2points++;
             }
         }
     }
@@ -105,7 +113,7 @@ public class HUD {
 
         scheduler.schedule(() -> {
             if (Objects.equals(power1, "D")) Shop.deactivate1 = true;
-            if (Objects.equals(power2, "F")) Shop.force1 = true;
+            if (Objects.equals(power1, "F")) Shop.force1 = true;
             waitBar1 = false;
             timeWidth = 0;
         }, seconds, TimeUnit.SECONDS);
@@ -183,6 +191,7 @@ public class HUD {
             g.drawString("Points : " + p1points, 15, Game.HEIGHT - 90);
             g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1));
 
+            g2d.setStroke(new BasicStroke(5));
             g.drawRect(Game.WIDTH - 65, 0, 48, 48);
             g.drawRect(Game.WIDTH - 113, 0, 48, 48);
             if (Objects.equals(power1, "")) {
@@ -276,7 +285,7 @@ public class HUD {
             // this is for the
             // first player
             g.setColor(Color.WHITE);
-            g.drawString("P1: ", Game.WIDTH / 4 - (Game.WIDTH / 10), 25);
+            g.drawString(Menu.playerName, Game.WIDTH / 4 - (Game.WIDTH / 10), 25);
             g.setColor(Color.RED);
             g.fillRect(Game.WIDTH / 4 - ((200 + bounds) / 2), 10, 200 + bounds, 32);
             g.setColor(Color.GREEN);
@@ -307,7 +316,7 @@ public class HUD {
             }
             // this is for the
             // first player
-            g.drawString("P1: ", 15, Game.HEIGHT - 130);
+            g.drawString(Menu.playerName, 15, Game.HEIGHT - 130);
             g.drawString("Count : " + score, 15, Game.HEIGHT - 70);
             g.drawString("Cube : " + level, 15, Game.HEIGHT - 50);
             g.drawString("Points : " + p1points, 15, Game.HEIGHT - 90);
@@ -321,7 +330,7 @@ public class HUD {
             // this is for the
             // second player
             g.drawString("P2: ", 175, Game.HEIGHT - 130);
-            g.drawString("Count : " + score, 175, Game.HEIGHT - 70);
+            g.drawString("Count : " + p2score, 175, Game.HEIGHT - 70);
             g.drawString("Cube : " + level, 175, Game.HEIGHT - 50);
             g.drawString("Points : " + p2points, 175, Game.HEIGHT - 90);
             g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1));

@@ -9,13 +9,17 @@ public class KeyInput extends KeyAdapter {
 
     private final Handler handler;
 
-    private boolean d1On = false;
+    public static boolean d1On = false;
 
-    private boolean d2On = false;
+    public static boolean d2On = false;
 
-    private boolean f1On = false;
+    public static boolean f1On = false;
 
-    private boolean f2On = false;
+    public static boolean f2On = false;
+
+    public static boolean t1On = false;
+
+    public static boolean t2On = false;
 
     private boolean dobullets = true;
 
@@ -143,8 +147,11 @@ public class KeyInput extends KeyAdapter {
 
         if (!Game.PlayerMode2) {
             if (key == KeyEvent.VK_1) {
+                if (Shop.teleport1) {
+                    if (!d2On && !f2On) t1On = true;
+                }
                 if (Shop.deactivate1) {
-                    if (!f2On) {
+                    if (!f2On && !t2On) {
                         d1On = true;
                         Player1.damageDeal = false;
                         Timer timer = new Timer();
@@ -160,7 +167,7 @@ public class KeyInput extends KeyAdapter {
                     }
                 }
                 if (Shop.force1) {
-                    if (!d2On) {
+                    if (!d2On && !t2On) {
                         f1On = true;
                         Player1.forceField = true;
                         Player1.damageDeal = false;
@@ -180,8 +187,11 @@ public class KeyInput extends KeyAdapter {
             }
 
             if (key == KeyEvent.VK_2) {
+                if (Shop.teleport2) {
+                    if (!d1On && !f1On) t2On = true;
+                }
                 if (Shop.deactivate2) {
-                    if (!f1On) {
+                    if (!f1On && !t1On) {
                         d2On = true;
                         Player1.damageDeal = false;
                         Timer timer = new Timer();
@@ -197,7 +207,7 @@ public class KeyInput extends KeyAdapter {
                     }
                 }
                 if (Shop.force2) {
-                    if (!d1On) {
+                    if (!d1On && !t1On) {
                         f2On = true;
                         Player1.forceField = true;
                         Player1.damageDeal = false;

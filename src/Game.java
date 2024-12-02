@@ -9,6 +9,9 @@ import java.util.Random;
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.Player;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import java.io.FileInputStream;
 import java.io.IOException;
 
@@ -27,10 +30,25 @@ public class Game extends Canvas implements Runnable {
     private static final long serialVersionUID = -240840600533728354L;
 
     private static Player player;
+
+    static Teleport teleport;
+
     private static boolean da = true;
 
-    private static boolean dashing = true;
-    
+    private static boolean da2 = true;
+
+    private static boolean da3 = true;
+
+    private static boolean da5 = true;
+
+    public static MusicPlayer playerOfDamage = new MusicPlayer("sounds/hurt.wav");
+
+    public static MusicPlayer playerOfOver = new MusicPlayer("sounds/gameOver.wav");
+
+    private static boolean da4 = true;
+
+    public static int map = 4;
+
     static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
     public static final int WIDTH = (int) screenSize.getWidth(), HEIGHT = (int) screenSize.getHeight();
@@ -38,6 +56,8 @@ public class Game extends Canvas implements Runnable {
     public static Handler handler;
 
     public static boolean PlayerMode2 = false;
+
+    public static boolean onlineMode = false;
 
     static Client client;
 
@@ -86,6 +106,7 @@ public class Game extends Canvas implements Runnable {
         spawner = new Spawn(handler, hud, this);
 
         r = new Random();
+
         if (gameState == STATE.Game) {
             handler.addObject(new Player1(WIDTH / 2, HEIGHT / 2, ID.Player1, handler));
             handler.addObject(new BasicEnemy(r.nextInt(WIDTH / 2) + 50, r.nextInt(HEIGHT / 2) + 50, ID.BasicEnemy, handler));
@@ -144,10 +165,58 @@ public class Game extends Canvas implements Runnable {
 
     private void tick() {
         if (gameState == STATE.Game) {
+            if (map == 1) {
+                if (da2) {
+                    da2 = false;
+                    handler.addObject(new Wall(Game.WIDTH / 3, Game.HEIGHT / 2 - (Game.HEIGHT / 4), Game.WIDTH / 3, Game.HEIGHT / 15, ID.Wall, handler));
+                }
+            }
+            if (map == 2) {
+                if (da3) {
+                    da3 = false;
+                    handler.addObject(new Thorn(Game.WIDTH / 15, HEIGHT - 100, ID.Thorn, "straight forward", handler));
+                    handler.addObject(new Thorn(Game.WIDTH / 15 + 55, HEIGHT - 100, ID.Thorn, "straight forward", handler));
+                    handler.addObject(new Thorn(Game.WIDTH / 15 + 55 + 55, HEIGHT - 100, ID.Thorn, "straight forward", handler));
+                    handler.addObject(new Thorn(Game.WIDTH / 15 + 60 + 60 + 60, HEIGHT - 100, ID.Thorn, "straight forward", handler));
+                }
+            }
+            if (map == 3) {
+                if (da4) {
+                    da4 = false;
+                    handler.addObject(new Thorn(0, 60, ID.Thorn, "right", handler));
+                    handler.addObject(new Thorn(70, 0, ID.Thorn, "backward", handler));
+
+                    handler.addObject(new Wall(Game.WIDTH / 2 - (Game.WIDTH / 15), Game.HEIGHT - (Game.HEIGHT / 5), Game.WIDTH / 25, Game.HEIGHT / 5, ID.Wall, handler));
+                    handler.addObject(new Thorn(Game.WIDTH / 2 - (Game.WIDTH / 16), Game.HEIGHT - (Game.HEIGHT / 5) - 70, ID.Thorn, "straight forward", handler));
+
+                    handler.addObject(new Wall(Game.WIDTH - (Game.WIDTH / 6), Game.HEIGHT / 3, Game.WIDTH / 6, Game.HEIGHT / 13, ID.Wall, handler));
+                }
+            }
+            if (map == 4) {
+                if (da5) {
+                    da5 = false;
+                    handler.addObject(new Wall(0, Game.HEIGHT - (Game.HEIGHT / 3), Game.WIDTH / 4, Game.HEIGHT / 15, ID.Wall, handler));
+                    handler.addObject(new Thorn(Game.WIDTH / 4 - 180, Game.HEIGHT - (Game.HEIGHT / 3) - 70, ID.Thorn, "straight forward", handler));
+                    handler.addObject(new Thorn(Game.WIDTH / 4 - 120, Game.HEIGHT - (Game.HEIGHT / 3) - 70, ID.Thorn, "straight forward", handler));
+                    handler.addObject(new Thorn(Game.WIDTH / 4 - 60, Game.HEIGHT - (Game.HEIGHT / 3) - 70, ID.Thorn, "straight forward", handler));
+
+                    handler.addObject(new Wall(Game.WIDTH / 2 + (Game.WIDTH / 25), Game.HEIGHT - Game.HEIGHT / 3, Game.WIDTH / 30, Game.HEIGHT / 3, ID.Wall, handler));
+                    handler.addObject(new Thorn(Game.WIDTH / 2 + (Game.WIDTH / 25), Game.HEIGHT - (Game.HEIGHT / 3) - 70, ID.Thorn, "straight forward", handler));
+
+                    handler.addObject(new Wall(Game.WIDTH - (Game.WIDTH / 3), 0, Game.WIDTH / 30, Game.HEIGHT / 3, ID.Wall, handler));
+                    handler.addObject(new Thorn(Game.WIDTH - (Game.WIDTH / 3) + Game.WIDTH / 30, Game.HEIGHT / 3 - 250, ID.Thorn, "right", handler));
+                    handler.addObject(new Thorn(Game.WIDTH - (Game.WIDTH / 3) + (Game.WIDTH / 30), Game.HEIGHT / 3 - 75, ID.Thorn, "right", handler));
+                }
+            }
+            if (KeyInput.t1On || KeyInput.t2On) {
+                teleport = new Teleport();
+                this.addMouseListener(teleport);
+                teleport.tick();
+            }
             if (PlayerMode2) {
                 if (da) {
                     da = false;
-                    handler.addObject(new Player2(WIDTH / 2, HEIGHT / 2, ID.Player2, handler));
+                    handler.addObject(new Player2(WIDTH / 2, HEIGHT / 2, ID.Player2, null, null, handler));
                 }
             }
             if(!paused) {
@@ -156,9 +225,17 @@ public class Game extends Canvas implements Runnable {
                 spawner.tick();
                 if (hud.HEALTH <= 0 || hud.P2HEALTH <= 0) {
                     da = true;
+                    playerOfOver.playMusic();
                     hud.HEALTH = 100;
                     hud.P2HEALTH = 100;
 //                    hud.revivePrompt = true;
+                    Timer timer = new Timer();
+                    timer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            playerOfOver.stopMusic();
+                        }
+                    }, 1000);
                     String message = "score : " + HUD.getScore() + " player : " + Menu.playerName;
                     int starter = -1;
                     for (int i = 0; i < message.length(); i++) {
@@ -207,7 +284,7 @@ public class Game extends Canvas implements Runnable {
                     }
                 }
             }
-        } else if (gameState == STATE.Menu || gameState == STATE.Select || gameState == STATE.Help || gameState == STATE.Profile || gameState == STATE.Options || gameState == STATE.Credits || gameState == STATE.Rank || gameState == STATE.Online || gameState == STATE.Choosing) {
+        } else if (gameState == STATE.Menu || gameState == STATE.Select || gameState == STATE.Help || gameState == STATE.Profile || gameState == STATE.Options || gameState == STATE.Credits || gameState == STATE.Rank || gameState == STATE.Online) {
             handler.tick();
             menu.tick();
             hud.p1points = 0;
@@ -229,8 +306,17 @@ public class Game extends Canvas implements Runnable {
             hud.score = 0;
             Spawn.scoreKeep = 0;
             hud.scoreKeep = 0;
+        } else if (gameState == STATE.Choosing) {
+            handler.tick();
+            menu.tick();
+            hud.p1points = 0;
+            hud.p2points = 0;
+            hud.score = 0;
+            Spawn.scoreKeep = 0;
+            hud.scoreKeep = 0;
         }
     }
+
 
     private void render() {
         BufferStrategy bs = this.getBufferStrategy();
@@ -251,18 +337,25 @@ public class Game extends Canvas implements Runnable {
         }
 
         if (gameState == STATE.Game) {
+            if (KeyInput.t1On || KeyInput.t2On) {
+                teleport = new Teleport();
+                teleport.render(g);
+            }
             handler.render(g);
             hud.render(g);
             hud.show321();
         } else if (gameState == STATE.Shop) {
             shop.render(g);
-        } else if (gameState == STATE.Menu || gameState == STATE.Help || gameState == STATE.End || gameState == STATE.Select || gameState == STATE.Profile || gameState == STATE.Options || gameState == STATE.Credits || gameState == STATE.Rank || gameState == STATE.Online || gameState == STATE.Choosing) {
+        } else if (gameState == STATE.Menu || gameState == STATE.Help || gameState == STATE.End || gameState == STATE.Select || gameState == STATE.Profile || gameState == STATE.Options || gameState == STATE.Credits || gameState == STATE.Rank || gameState == STATE.Online) {
             handler.render(g);
             menu.render(g);
         } else if (gameState == STATE.Intro) {
             menu.render(g);
             if (demohud.renderThis) demohud.render(g);
             else handler.render(g);
+        } else if (gameState == STATE.Choosing) {
+            handler.render(g);
+            menu.render(g);
         }
 
         g.dispose();
@@ -295,8 +388,21 @@ public class Game extends Canvas implements Runnable {
             e.printStackTrace();
             System.exit(1);
         }
-        while (true) {
-            play("sounds/music.mp3");
-        }
+        MusicPlayer playerOfGame = new MusicPlayer("sounds/gameMusic.wav");
+        MusicPlayer playerOfMenu = new MusicPlayer("sounds/menuMusic.wav");
+
+//        while (true) {
+//            if (gameState == STATE.Game) {
+//                if (playerOfMenu.isPlaying()) {
+//                    playerOfMenu.stopMusic();
+//                    playerOfGame.playMusic();
+//                } else playerOfGame.playMusic();
+//            } else {
+//                if (playerOfGame.isPlaying()) {
+//                    playerOfGame.stopMusic();
+//                    playerOfMenu.playMusic();
+//                } else playerOfMenu.playMusic();
+//            }
+//        }
     }
 }

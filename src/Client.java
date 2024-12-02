@@ -85,11 +85,6 @@ public class Client {
                 System.exit(1);
             }
         }).start();
-        // BufferedReader userInput = new BufferedReader(new InputStreamReader(System.in));
-        // String messageFromPlayer;
-        // while ((messageFromPlayer = userInput.readLine()) != null) {
-        //     output.println(messageFromPlayer);
-        // }
     }
 
     public void sendMessage(String message, String idToGoTo) {
@@ -100,7 +95,7 @@ public class Client {
             if (clientToGoTo != null) {
                 clientToGoTo.output.println(message);
             } else {
-                System.out.println("Client with id " +idToGoTo + " not found.");
+                System.out.println("Client with id " + idToGoTo + " not found.");
             }
         }
     }

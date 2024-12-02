@@ -26,18 +26,22 @@ public class MenuParticle extends GameObject {
 
     @Override
     public void tick() {
-        x += velX;
-        y += velY;
+        if (Game.gameState != Game.STATE.Choosing) {
+            x += velX;
+            y += velY;
 
-        if (y <= 0 || y >= Game.HEIGHT - 55) velY *= -1;
-        if (x <= 0 || x >= Game.WIDTH - 30) velX *= -1;
+            if (y <= 0 || y >= Game.HEIGHT - 55) velY *= -1;
+            if (x <= 0 || x >= Game.WIDTH - 30) velX *= -1;
 
-        handler.addObject(new Trail(x, y, 16, 16, ID.Trail, col, 0.1f, handler));
+            handler.addObject(new Trail(x, y, 16, 16, ID.Trail, col, 0.1f, handler));
+        }
     }
 
     @Override
     public void render(Graphics g) {
-        g.setColor(col);
-        g.fillRect((int) x, (int) y, 16, 16);
+        if (Game.gameState != Game.STATE.Choosing) {
+            g.setColor(col);
+            g.fillRect((int) x, (int) y, 16, 16);
+        }
     }
 }

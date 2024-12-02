@@ -86,7 +86,8 @@ public class Game extends Canvas implements Runnable {
         Profile,
         Rank,
         Online,
-        Choosing
+        Choosing,
+        Map
     };
 
     public static STATE gameState = STATE.Intro;
@@ -284,7 +285,7 @@ public class Game extends Canvas implements Runnable {
                     }
                 }
             }
-        } else if (gameState == STATE.Menu || gameState == STATE.Select || gameState == STATE.Help || gameState == STATE.Profile || gameState == STATE.Options || gameState == STATE.Credits || gameState == STATE.Rank || gameState == STATE.Online) {
+        } else if (gameState == STATE.Menu || gameState == STATE.Select || gameState == STATE.Help || gameState == STATE.Profile || gameState == STATE.Options || gameState == STATE.Credits || gameState == STATE.Rank || gameState == STATE.Online || gameState == STATE.Map) {
             handler.tick();
             menu.tick();
             hud.p1points = 0;
@@ -346,7 +347,7 @@ public class Game extends Canvas implements Runnable {
             hud.show321();
         } else if (gameState == STATE.Shop) {
             shop.render(g);
-        } else if (gameState == STATE.Menu || gameState == STATE.Help || gameState == STATE.End || gameState == STATE.Select || gameState == STATE.Profile || gameState == STATE.Options || gameState == STATE.Credits || gameState == STATE.Rank || gameState == STATE.Online) {
+        } else if (gameState == STATE.Menu || gameState == STATE.Help || gameState == STATE.End || gameState == STATE.Select || gameState == STATE.Profile || gameState == STATE.Options || gameState == STATE.Credits || gameState == STATE.Rank || gameState == STATE.Online || gameState == STATE.Map) {
             handler.render(g);
             menu.render(g);
         } else if (gameState == STATE.Intro) {

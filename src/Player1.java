@@ -166,12 +166,28 @@ public class Player1 extends GameObject {
     private void collision() {
         for (int i = 0; i < handler.object.size(); i++) {
             GameObject tempObject = handler.object.get(i);
+            
+            if (tempObject != null) {
+                if (tempObject.getId() == ID.BaOsicEnemy || tempObject.getId() == ID.FastEnemy || tempObject.getId() == ID.SmartEnemy) {
+                    if (getBounds().intersects(tempObject.getBounds())) {
+                        if (damageDeal) {
+                            if (Menu.volume) Game.playerOfDamage.playMusic();
+                            HUD.HEALTH -= dajing;
+                            Timer timer = new Timer();
+                            timer.schedule(new TimerTask() {
+                                @Override
+                                public void run() {
+                                    Game.playerOfDamage.stopMusic();
+                                }
+                            }, 1000);
+                        }
+                    }
+                }
 
-            if (tempObject.getId() == ID.BasicEnemy || tempObject.getId() == ID.FastEnemy || tempObject.getId() == ID.SmartEnemy) {
-                if (getBounds().intersects(tempObject.getBounds())) {
-                    if (damageDeal) {
+                if (tempObject.getId() == ID.Enemy2BossShip || tempObject.getId() == ID.EnemyBoss || tempObject.getId() == ID.Thorn) {
+                    if (getBounds().intersects(tempObject.getBounds())) {
                         if (Menu.volume) Game.playerOfDamage.playMusic();
-                        HUD.HEALTH -= dajing;
+                        HUD.HEALTH -= 99999999;
                         Timer timer = new Timer();
                         timer.schedule(new TimerTask() {
                             @Override
@@ -180,20 +196,6 @@ public class Player1 extends GameObject {
                             }
                         }, 1000);
                     }
-                }
-            }
-
-            if (tempObject.getId() == ID.Enemy2BossShip || tempObject.getId() == ID.EnemyBoss || tempObject.getId() == ID.Thorn) {
-                if (getBounds().intersects(tempObject.getBounds())) {
-                    if (Menu.volume) Game.playerOfDamage.playMusic();
-                    HUD.HEALTH -= 99999999;
-                    Timer timer = new Timer();
-                    timer.schedule(new TimerTask() {
-                        @Override
-                        public void run() {
-                            Game.playerOfDamage.stopMusic();
-                        }
-                    }, 1000);
                 }
             }
         }

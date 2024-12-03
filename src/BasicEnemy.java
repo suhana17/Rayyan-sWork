@@ -55,7 +55,7 @@ public class BasicEnemy extends GameObject {
             if (((y >= Game.HEIGHT / 3 - 32 && y <= Game.HEIGHT / 3 + (Game.HEIGHT / 150)) || (y <= Game.HEIGHT / 3 + (Game.HEIGHT / 13) && y >= Game.HEIGHT / 3 + (Game.HEIGHT / 13) - (Game.HEIGHT / 150))) && (x >= Game.WIDTH - (Game.WIDTH / 6) && x <= Game.WIDTH)) velY *= -1;
         }
 
-        if (Game.map == 5) {
+        if (Game.map == 4) {
             // right wall
             if (((y >= Game.HEIGHT - (Game.HEIGHT / 3) && y <= Game.HEIGHT - (Game.HEIGHT / 3) + (Game.HEIGHT / 150)) || (y <= Game.HEIGHT - (Game.HEIGHT / 3) + (Game.HEIGHT / 15) && y >= Game.HEIGHT - (Game.HEIGHT / 3) + (Game.HEIGHT / 15) - (Game.HEIGHT / 150))) && (x >= 0 && x <= Game.WIDTH / 4)) velY *= -1;
 

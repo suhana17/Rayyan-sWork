@@ -4,15 +4,14 @@ import java.util.TimerTask;
 
 public class demoHUD {
 
-    private int health = 100;
+    public static int health = 100;
 
     private int bounds = 0;
 
     public static boolean renderThis = true;
 
     public void tick() {
-        health--;
-        if (health <= 0) renderThis = false;
+        handler.
     }
 
     public void render(Graphics g) {

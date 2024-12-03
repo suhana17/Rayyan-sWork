@@ -87,7 +87,8 @@ public class Game extends Canvas implements Runnable {
         Rank,
         Online,
         Choosing,
-        Map
+        Map,
+        ChooseHard
     };
 
     public static STATE gameState = STATE.Intro;
@@ -102,7 +103,7 @@ public class Game extends Canvas implements Runnable {
         this.addKeyListener(new KeyInput(handler, this));
         this.addMouseListener(menu);
         this.addMouseListener(shop);
-        new Window(WIDTH, HEIGHT, "QBism Testing 2", this);
+        new Window(WIDTH, HEIGHT, "QBism Testing 3", this);
 
         spawner = new Spawn(handler, hud, this);
 
@@ -226,7 +227,7 @@ public class Game extends Canvas implements Runnable {
                 spawner.tick();
                 if (hud.HEALTH <= 0 || hud.P2HEALTH <= 0) {
                     da = true;
-                    playerOfOver.playMusic();
+                    if (Menu.volume) playerOfOver.playMusic();
                     hud.HEALTH = 100;
                     hud.P2HEALTH = 100;
 //                    hud.revivePrompt = true;
@@ -285,7 +286,7 @@ public class Game extends Canvas implements Runnable {
                     }
                 }
             }
-        } else if (gameState == STATE.Menu || gameState == STATE.Select || gameState == STATE.Help || gameState == STATE.Profile || gameState == STATE.Options || gameState == STATE.Credits || gameState == STATE.Rank || gameState == STATE.Online || gameState == STATE.Map) {
+        } else if (gameState == STATE.Menu || gameState == STATE.Select || gameState == STATE.Help || gameState == STATE.Profile || gameState == STATE.Options || gameState == STATE.Credits || gameState == STATE.Rank || gameState == STATE.Online || gameState == STATE.Map || gameState == STATE.ChooseHard) {
             handler.tick();
             menu.tick();
             hud.p1points = 0;
@@ -347,7 +348,7 @@ public class Game extends Canvas implements Runnable {
             hud.show321();
         } else if (gameState == STATE.Shop) {
             shop.render(g);
-        } else if (gameState == STATE.Menu || gameState == STATE.Help || gameState == STATE.End || gameState == STATE.Select || gameState == STATE.Profile || gameState == STATE.Options || gameState == STATE.Credits || gameState == STATE.Rank || gameState == STATE.Online || gameState == STATE.Map) {
+        } else if (gameState == STATE.Menu || gameState == STATE.Help || gameState == STATE.End || gameState == STATE.Select || gameState == STATE.Profile || gameState == STATE.Options || gameState == STATE.Credits || gameState == STATE.Rank || gameState == STATE.Online || gameState == STATE.Map || gameState == STATE.ChooseHard) {
             handler.render(g);
             menu.render(g);
         } else if (gameState == STATE.Intro) {
@@ -392,18 +393,23 @@ public class Game extends Canvas implements Runnable {
         MusicPlayer playerOfGame = new MusicPlayer("sounds/gameMusic.wav");
         MusicPlayer playerOfMenu = new MusicPlayer("sounds/menuMusic.wav");
 
-//        while (true) {
-//            if (gameState == STATE.Game) {
-//                if (playerOfMenu.isPlaying()) {
-//                    playerOfMenu.stopMusic();
-//                    playerOfGame.playMusic();
-//                } else playerOfGame.playMusic();
-//            } else {
-//                if (playerOfGame.isPlaying()) {
-//                    playerOfGame.stopMusic();
-//                    playerOfMenu.playMusic();
-//                } else playerOfMenu.playMusic();
-//            }
-//        }
+        while (true) {
+            if (!Menu.volume) {
+                playerOfMenu.stopMusic();
+                playerOfGame.stopMusic();
+            } else {
+                if (gameState == STATE.Game) {
+                    if (playerOfMenu.isPlaying()) {
+                        playerOfMenu.stopMusic();
+                        playerOfGame.playMusic();
+                    } else playerOfGame.playMusic();
+                } else {
+                    if (playerOfGame.isPlaying()) {
+                        playerOfGame.stopMusic();
+                        playerOfMenu.playMusic();
+                    } else playerOfMenu.playMusic();
+                }
+            }
+        }
     }
 }

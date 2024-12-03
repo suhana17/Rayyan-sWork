@@ -70,7 +70,7 @@ public class HardEnemy extends GameObject {
             }
         }
 
-        if (Game.map == 5) {
+        if (Game.map == 4) {
             // right wall
             if (((y >= Game.HEIGHT - (Game.HEIGHT / 3) && y <= Game.HEIGHT - (Game.HEIGHT / 3) + (Game.HEIGHT / 150)) || (y <= Game.HEIGHT - (Game.HEIGHT / 3) + (Game.HEIGHT / 15) && y >= Game.HEIGHT - (Game.HEIGHT / 3) + (Game.HEIGHT / 15) - (Game.HEIGHT / 150))) && (x >= 0 && x <= Game.WIDTH / 4)) {
                 if (velY < 0) velY = -(r.nextInt(15) + 1) * -1;

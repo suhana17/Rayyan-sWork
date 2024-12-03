@@ -154,7 +154,7 @@ public class Player2 extends GameObject {
 
             if (tempObject.getId() == ID.BasicEnemy || tempObject.getId() == ID.FastEnemy || tempObject.getId() == ID.SmartEnemy) {
                 if (getBounds().intersects(tempObject.getBounds())) {
-                    Game.playerOfDamage.playMusic();
+                    if (Menu.volume) Game.playerOfDamage.playMusic();
                     HUD.P2HEALTH -= dajing;
                     Timer timer = new Timer();
                     timer.schedule(new TimerTask() {
@@ -168,7 +168,7 @@ public class Player2 extends GameObject {
 
             if (tempObject.getId() == ID.Enemy2BossShip || tempObject.getId() == ID.EnemyBoss) {
                 if (getBounds().intersects(tempObject.getBounds())) {
-                    Game.playerOfDamage.playMusic();
+                    if (Menu.volume) Game.playerOfDamage.playMusic();
                     HUD.P2HEALTH -= 99999999;
                     Timer timer = new Timer();
                     timer.schedule(new TimerTask() {

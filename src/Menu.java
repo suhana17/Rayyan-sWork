@@ -14,6 +14,8 @@ public class Menu extends MouseAdapter {
     Handler handler;
     HUD hud;
 
+    public static boolean showStart = true;
+
     public static boolean skins = false;
 
     public static String playerName = "QBer";
@@ -66,6 +68,8 @@ public class Menu extends MouseAdapter {
 
     public static boolean trans1Map = false;
 
+    public static boolean trans2Map = false;
+
     public static boolean volume = true;
 
     public static boolean cancelled = false;
@@ -74,6 +78,10 @@ public class Menu extends MouseAdapter {
 
     private boolean squadron = false;
 
+    private boolean normal = false;
+
+    private boolean hard = false;
+
     public static boolean trans2Difficulty = false;
 
     public static boolean trans3Difficulty = false;
@@ -81,6 +89,12 @@ public class Menu extends MouseAdapter {
     public static boolean trans1Profile = false;
 
     public static boolean trans1Rank = false;
+
+    public static boolean trans1Choose = false;
+
+    public static boolean trans2Choose = false;
+
+    public static boolean trans3Choose = false;
 
     private final Random r = new Random();
 
@@ -101,17 +115,19 @@ public class Menu extends MouseAdapter {
         }
 
         if (game.gameState == Game.STATE.Intro) {
-            if (mouseOver(mx, my, Game.WIDTH / 2 - (Game.WIDTH / 8) + (Game.WIDTH / 65), Game.HEIGHT / 2, Game.WIDTH / 5 + (Game.WIDTH / 75), Game.HEIGHT / 10)) {
-                if (volume) game.play("sounds/buttonPress.mp3");
-                trans1Intro = true;
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException ex) {
-                    throw new RuntimeException(ex);
-                }
-                trans1Intro = false;
+            if (showStart) {
+                if (mouseOver(mx, my, Game.WIDTH / 2 - (Game.WIDTH / 8) + (Game.WIDTH / 65), Game.HEIGHT / 2, Game.WIDTH / 5 + (Game.WIDTH / 75), Game.HEIGHT / 10)) {
+                    if (volume) game.play("sounds/buttonPress.mp3");
+                    trans1Intro = true;
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    trans1Intro = false;
 
-                game.gameState = Game.STATE.Menu;
+                    game.gameState = Game.STATE.Menu;
+                }
             }
         }
 
@@ -179,7 +195,7 @@ public class Menu extends MouseAdapter {
                 }
                 trans1Online = false;
 
-                handler.addObject(new Load(Game.WIDTH - (Game.WIDTH / 3) - 120, Game.HEIGHT / 2, Game.WIDTH - (Game.WIDTH / 3) - 120, Game.WIDTH - (Game.WIDTH / 3) + 120, ID.Load, handler));
+                handler.addObject(new Load(Game.WIDTH - (Game.WIDTH / 3) - 120, Game.HEIGHT / 2, Game.WIDTH - (Game.WIDTH / 3) - 120, Game.WIDTH - (Game.WIDTH / 3) + 120, false, ID.Load, handler));
                 game.gameState = Game.STATE.Choosing;
             }
 
@@ -356,7 +372,49 @@ public class Menu extends MouseAdapter {
         }
 
         if (game.gameState == Game.STATE.Map) {
-            if (mouseOver(mx, my, Game.WIDTH / 6 - (Game.WIDTH / 8), Game.HEIGHT - (Game.HEIGHT / 6) - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10
+            if (mouseOver(mx, my, Game.WIDTH / 2 - (Game.WIDTH / 7), Game.HEIGHT / 2 - (Game.HEIGHT / 50), Game.WIDTH / 25, Game.HEIGHT / 35)) {
+                if (volume) game.play("sounds/buttonPress.mp3");
+                game.map = game.map == 0 ? 4 : game.map - 1;
+            }
+
+            if (mouseOver(mx, my, Game.WIDTH / 2 + (Game.WIDTH / 9), Game.HEIGHT / 2 - (Game.HEIGHT / 50), Game.WIDTH / 25, Game.HEIGHT / 35)) {
+                if (volume) game.play("sounds/buttonPress.mp3");
+                game.map = game.map == 4 ? 0 : game.map + 1;
+            }
+
+            if (mouseOver(mx, my, Game.WIDTH / 6 - (Game.WIDTH / 8), Game.HEIGHT - (Game.HEIGHT / 6) - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10)) {
+                if (volume) game.play("sounds/buttonPress.mp3");
+                trans1Map = true;
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException ex) {
+                    throw new RuntimeException(ex);
+                }
+                trans1Map = false;
+
+                game.gameState = Game.STATE.Select;
+            }
+
+            if (mouseOver(mx, my, Game.WIDTH - (Game.WIDTH / 4) - (Game.WIDTH / 8), Game.HEIGHT - (Game.HEIGHT / 6) - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10)) {
+                if (volume) game.play("sounds/buttonPress.mp3");
+                trans2Map = true;
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException ex) {
+                    throw new RuntimeException(ex);
+                }
+                trans2Map = false;
+
+                game.gameState = Game.STATE.Game;
+                handler.addObject(new Player1(Game.WIDTH / 2 - 32, Game.HEIGHT / 2 - 32, ID.Player1, handler));
+                handler.clearEnemies();
+                if (normal) handler.addObject(new BasicEnemy(r.nextInt(Game.WIDTH + 55), r.nextInt(Game.HEIGHT + 55), ID.BasicEnemy, handler));
+                else if (hard) handler.addObject(new HardEnemy(r.nextInt(Game.WIDTH + 55), r.nextInt(Game.HEIGHT + 55), ID.BasicEnemy, handler));
+
+                game.PlayerMode2 = false;
+                game.onlineMode = false;
+                game.diff = normal ? 0 : 1;
+            }
         }
 
         if (game.gameState == Game.STATE.Rank) {
@@ -371,6 +429,51 @@ public class Menu extends MouseAdapter {
                 trans1Rank = false;
 
                 game.gameState = Game.STATE.Profile;
+            }
+        }
+
+        if (game.gameState == Game.STATE.ChooseHard) {
+            if (mouseOver(mx, my, Game.WIDTH / 4 - (Game.WIDTH / 8), Game.HEIGHT / 2 - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10)) {
+                if (volume) game.play("sounds/buttonPress.mp3");
+                trans1Choose = true;
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException ex) {
+                    throw new RuntimeException(ex);
+                }
+                trans1Choose = false;
+
+                normal = true;
+                hard = false;
+                game.gameState = Game.STATE.Map;
+            }
+
+            if (mouseOver(mx, my, Game.WIDTH - (Game.WIDTH / 4) - (Game.WIDTH / 8), Game.HEIGHT / 2 - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10)) {
+                if (volume) game.play("sounds/buttonPress.mp3");
+                trans2Choose = true;
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException ex) {
+                    throw new RuntimeException(ex);
+                }
+                trans2Choose = false;
+
+                hard = true;
+                normal = false;
+                game.gameState = Game.STATE.Map;
+            }
+
+            if (mouseOver(mx, my, Game.WIDTH / 6 - (Game.WIDTH / 8), Game.HEIGHT - (Game.HEIGHT / 8) - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10)) {
+                if (volume) game.play("sounds/buttonPress.mp3");
+                trans3Choose = true;
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException ex) {
+                    throw new RuntimeException(ex);
+                }
+                trans3Choose = false;
+
+                game.gameState = Game.STATE.Select;
             }
         }
 
@@ -429,14 +532,11 @@ public class Menu extends MouseAdapter {
                 }
                 trans1Difficulty = false;
 
-                game.gameState = Game.STATE.Game;
-                handler.addObject(new Player1(Game.WIDTH / 2 - 32, Game.HEIGHT / 2 - 32, ID.Player1, handler));
-                handler.clearEnemies();
-                handler.addObject(new BasicEnemy(r.nextInt(Game.WIDTH + 55), r.nextInt(Game.HEIGHT + 55), ID.BasicEnemy, handler));
-
+                game.gameState = Game.STATE.Map;
                 game.PlayerMode2 = false;
                 game.onlineMode = false;
-                game.diff = 0;
+                normal = true;
+                hard = false;
             }
 
             if (mouseOver(mx, my, Game.WIDTH - (Game.WIDTH / 4) - (Game.WIDTH / 8), Game.HEIGHT / 5 - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10)) {
@@ -449,14 +549,11 @@ public class Menu extends MouseAdapter {
                 }
                 trans2Difficulty = false;
 
-                game.gameState = Game.STATE.Game;
-                handler.addObject(new Player1(Game.WIDTH / 2 - 32, Game.HEIGHT / 2 - 32, ID.Player1, handler));
-                handler.clearEnemies();
-                handler.addObject(new HardEnemy(r.nextInt(Game.WIDTH + 55), r.nextInt(Game.HEIGHT + 55), ID.BasicEnemy, handler));
-
+                game.gameState = Game.STATE.Map;
                 game.PlayerMode2 = false;
                 game.onlineMode = false;
-                game.diff = 1;
+                normal = false;
+                hard = true;
             }
 
             if (mouseOver(mx, my, Game.WIDTH / 4 - (Game.WIDTH / 8), Game.HEIGHT / 2 - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10)) {
@@ -469,12 +566,7 @@ public class Menu extends MouseAdapter {
                 }
                 trans4Difficulty = false;
 
-                game.gameState = Game.STATE.Game;
-                handler.addObject(new Player1(Game.WIDTH / 2 - 32, Game.HEIGHT / 2 - 32, ID.Player1, handler));
-                handler.clearEnemies();
-                handler.addObject(new BasicEnemy(r.nextInt(Game.WIDTH + 55), r.nextInt(Game.HEIGHT + 55), ID.BasicEnemy, handler));
-
-                game.diff = 0;
+                game.gameState = Game.STATE.ChooseHard;
                 game.PlayerMode2 = true;
                 game.onlineMode = false;
             }
@@ -490,6 +582,7 @@ public class Menu extends MouseAdapter {
                 trans5Difficulty = false;
 
                 game.gameState = Game.STATE.Online;
+                // make hard/normal
             }
 
             if (mouseOver(mx, my, Game.WIDTH - (Game.WIDTH / 4) - (Game.WIDTH / 8), Game.HEIGHT - (Game.HEIGHT / 6) - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10)) {
@@ -502,6 +595,7 @@ public class Menu extends MouseAdapter {
                 }
                 trans6Difficulty = false;
 
+                // make hard/normal
                 JOptionPane.showMessageDialog(null, "Squadron level coming soon!", "Stay Tuned!", JOptionPane.INFORMATION_MESSAGE);
                 game.PlayerMode2 = false;
                 game.onlineMode = false;
@@ -604,11 +698,13 @@ public class Menu extends MouseAdapter {
             g.drawString("Stats", Game.WIDTH / 2 + (Game.WIDTH / 12), Game.HEIGHT / 2 + (Game.HEIGHT / 3));
 
             g.setFont(font2);
-            if (trans1Intro) {
-                g.fillRect(Game.WIDTH / 2 - (Game.WIDTH / 8) + (Game.WIDTH / 65), Game.HEIGHT / 2, Game.WIDTH / 5 + (Game.WIDTH / 75), Game.HEIGHT / 10);
-                g.setColor(Color.BLACK);
+            if (showStart) {
+                if (trans1Intro) {
+                    g.fillRect(Game.WIDTH / 2 - (Game.WIDTH / 8) + (Game.WIDTH / 65), Game.HEIGHT / 2, Game.WIDTH / 5 + (Game.WIDTH / 75), Game.HEIGHT / 10);
+                    g.setColor(Color.BLACK);
+                }
+                g.drawString("Start", Game.WIDTH / 2 - (Game.WIDTH / 8) + (Game.WIDTH / 65) + (Game.WIDTH / 14), Game.HEIGHT / 2 + (Game.HEIGHT / 15));
             }
-            g.drawString("Start", Game.WIDTH / 2 - (Game.WIDTH / 8) + (Game.WIDTH / 65) + (Game.WIDTH / 14), Game.HEIGHT / 2 + (Game.HEIGHT / 15));
         }
         if (game.gameState == Game.STATE.Menu) {
             Font font = new Font("arial", 1, Game.WIDTH / 25);
@@ -725,16 +821,24 @@ public class Menu extends MouseAdapter {
             g.setColor(Color.WHITE);
 
             g.setFont(font2);
-            g.drawString("Map " + Game.map + 1, Game.WIDTH / 2 - (Game.WIDTH / 12), Game.HEIGHT / 2);
+            g.drawString("Map " + (Game.map + 1), Game.WIDTH / 2 - (Game.WIDTH / 25), Game.HEIGHT / 2);
 
             g.drawString("←", Game.WIDTH / 2 - (Game.WIDTH / 8), Game.HEIGHT / 2);
-            g.drawStrign("→", Game.WIDTH / 2 + (Game.WIDTH / 8), Game.HEIGHT / 2);
+            g.drawString("→", Game.WIDTH / 2 + (Game.WIDTH / 9), Game.HEIGHT / 2);
 
             if (trans1Map) {
                 g.fillRect(Game.WIDTH / 6 - (Game.WIDTH / 8), Game.HEIGHT - (Game.HEIGHT / 6) - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10);
                 g.setColor(Color.BLACK);
             }
             g.drawString("Back", Game.WIDTH / 6 - (Game.WIDTH / 30), Game.HEIGHT - (Game.HEIGHT / 6) + (Game.HEIGHT / 60));
+
+            g.setColor(Color.WHITE);
+
+            if (trans2Map) {
+                g.fillRect(Game.WIDTH - (Game.WIDTH / 4) - (Game.WIDTH / 8), Game.HEIGHT - (Game.HEIGHT / 6) - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10);
+                g.setColor(Color.BLACK);
+            }
+            g.drawString("Go", Game.WIDTH - (Game.WIDTH / 4) - (Game.WIDTH / 50), Game.HEIGHT - (Game.HEIGHT / 6) + (Game.HEIGHT / 60));
         } else if (game.gameState == Game.STATE.Help) {
             Font font = new Font("arial", 1, Game.WIDTH / 25);
             Font font2 = new Font("arial", 1, Game.WIDTH / 35);
@@ -938,7 +1042,37 @@ public class Menu extends MouseAdapter {
                 g.setColor(Color.BLACK);
             }
             g.drawString("Back", Game.WIDTH / 6 - (Game.WIDTH / 30), Game.HEIGHT - (Game.HEIGHT / 6) + (Game.HEIGHT / 60));
-        } if (game.gameState == Game.STATE.Rank) {
+        } if (game.gameState == Game.STATE.ChooseHard) {
+            Font font = new Font("arial", 1, Game.WIDTH / 25);
+            Font font2 = new Font("arial", 1, Game.WIDTH / 35);
+            Font font3 = new Font("arial", 1, Game.WIDTH / 40);
+
+            g.setColor(new Color(r.nextInt(255), r.nextInt(255), r.nextInt(255)));
+            g.setFont(font);
+
+            g.drawString("Difficulty", Game.WIDTH / 2 - (Game.WIDTH / 1), Game.HEIGHT / 15);
+
+            g.setFont(font2);
+            g.setColor(Color.WHITE);
+
+            if (trans1Choose) {
+                g.fillRect(Game.WIDTH / 4 - (Game.WIDTH / 8), Game.HEIGHT / 2 - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10);
+                g.setColor(Color.WHITE);
+            }
+            g.drawString("Easy", Game.WIDTH / 4 - (Game.WIDTH / 30), Game.HEIGHT / 2 + (Game.HEIGHT / 60));
+
+            if (trans2Choose) {
+                g.fillRect(Game.WIDTH - (Game.WIDTH / 4) - (Game.WIDTH / 8), Game.HEIGHT / 2 - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10);
+                g.setColor(Color.WHITE);
+            }
+            g.drawString("Hard", Game.WIDTH - (Game.WIDTH / 4) - (Game.WIDTH / 30), Game.HEIGHT / 2 + (Game.HEIGHT / 60));
+
+            if (trans3Choose) {
+                g.fillRect(Game.WIDTH / 6 - (Game.WIDTH / 8), Game.HEIGHT - (Game.HEIGHT / 8) - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10);
+                g.setColor(Color.BLACK);
+            }
+            g.drawString("Back", Game.WIDTH / 6 - (Game.WIDTH / 25), Game.HEIGHT - (Game.HEIGHT / 8) + (Game.HEIGHT / 60));
+        } else if (game.gameState == Game.STATE.Rank) {
             Font font = new Font("arial", 1, Game.WIDTH / 25);
             Font font2 = new Font("arial", 1, Game.WIDTH / 35);
             Font font3 = new Font("arial", 1, Game.WIDTH / 40);
@@ -1010,7 +1144,7 @@ public class Menu extends MouseAdapter {
             g.setFont(font);
 
             g.setColor(new Color(r.nextInt(255), r.nextInt(255), r.nextInt(255)));
-            g.drawString("Difficulty", Game.WIDTH / 2 - (Game.WIDTH / 11), Game.HEIGHT / 15);
+            g.drawString("Level", Game.WIDTH / 2 - (Game.WIDTH / 15), Game.HEIGHT / 15);
             g.setColor(Color.WHITE);
 
             g.setFont(font2);

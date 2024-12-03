@@ -30,6 +30,14 @@ public class Menu extends MouseAdapter {
 
     public static boolean trans1Intro = false;
 
+    public static boolean trans2Help = false;
+
+    public static boolean trans3Help = false;
+
+    public static boolean trans4Help = false;
+
+    public static boolean trans5Help = false;
+
     public static boolean trans2Main = false;
 
     public static boolean trans3Main = false;
@@ -95,6 +103,16 @@ public class Menu extends MouseAdapter {
     public static boolean trans2Choose = false;
 
     public static boolean trans3Choose = false;
+
+    public static boolean controlsHelp = false;
+
+    public static boolean enemiesHelp = false;
+
+    public static boolean homeHelp = false;
+
+    public static boolean levelsHelp = false;
+
+    public static boolean objectivesHelp = false;
 
     private final Random r = new Random();
 
@@ -848,24 +866,40 @@ public class Menu extends MouseAdapter {
             g.setColor(Color.WHITE);
 
             g.setFont(font3);
-            g.drawString("App: ",  Game.WIDTH / 2 - (Game.WIDTH / 3), Game.HEIGHT / 4);
-            g.drawString("Laptop: ", Game.WIDTH - (Game.WIDTH / 3), Game.HEIGHT / 4);
-            g.drawString("Use joy stick to move", Game.WIDTH / 25, Game.HEIGHT / 4 + (Game.HEIGHT / 15));
-            g.drawString("Use arrow keys to move", Game.WIDTH - (Game.WIDTH / 3) - (Game.WIDTH / 8), Game.HEIGHT / 4 + (Game.HEIGHT / 15));
-            g.drawString("Press 'p' to pause", Game.WIDTH - (Game.WIDTH / 3) - (Game.WIDTH / 8), Game.HEIGHT / 4 + (Game.HEIGHT / 7));
-            g.drawString("Press buttons to enter shop and pause", Game.WIDTH / 25, Game.HEIGHT / 4 + (Game.HEIGHT / 7));
-            g.drawString("Press 'space' to enter shop", Game.WIDTH - (Game.WIDTH / 3) - (Game.WIDTH / 8), Game.HEIGHT / 4 + (Game.HEIGHT / 3));
-            g.drawString("Press 'ESC' to exit game", Game.WIDTH - (Game.WIDTH / 3) - (Game.WIDTH / 8), Game.HEIGHT / 2);
-            g.drawString("Click to use power-ups", Game.WIDTH / 25, Game.HEIGHT / 2);
-            g.drawString("Press 'SHIFT + arrow' to use bullets", Game.WIDTH - (Game.WIDTH / 3) - (Game.WIDTH / 8), Game.HEIGHT / 2 + (Game.HEIGHT / 6));
-            g.drawString("Press '1', '2', and '3' to use power-ups", Game.WIDTH - (Game.WIDTH / 3) - (Game.WIDTH / 8), Game.HEIGHT / 2 + (Game.HEIGHT / 4));
-            g.drawString("Press 'Button + joy stick' to use bullets", Game.WIDTH / 25, Game.HEIGHT / 4 + (Game.HEIGHT / 3));
+            if (controlsHelp) 
+                g.drawString("App: ",  Game.WIDTH / 2 - (Game.WIDTH / 3), Game.HEIGHT / 4);
+                g.drawString("Laptop: ", Game.WIDTH - (Game.WIDTH / 3), Game.HEIGHT / 4);
+                g.drawString("Use joy stick to move", Game.WIDTH / 25, Game.HEIGHT / 4 + (Game.HEIGHT / 15));
+                g.drawString("Use arrow keys to move", Game.WIDTH - (Game.WIDTH / 3) - (Game.WIDTH / 8), Game.HEIGHT / 4 + (Game.HEIGHT / 15));
+                g.drawString("Press 'p' to pause", Game.WIDTH - (Game.WIDTH / 3) - (Game.WIDTH / 8), Game.HEIGHT / 4 + (Game.HEIGHT / 7));
+                g.drawString("Press buttons to enter shop and pause", Game.WIDTH / 25, Game.HEIGHT / 4 + (Game.HEIGHT / 7));
+                g.drawString("Press 'space' to enter shop", Game.WIDTH - (Game.WIDTH / 3) - (Game.WIDTH / 8), Game.HEIGHT / 4 + (Game.HEIGHT / 3));
+                g.drawString("Press 'ESC' to exit game", Game.WIDTH - (Game.WIDTH / 3) - (Game.WIDTH / 8), Game.HEIGHT / 2);
+                g.drawString("Click to use power-ups", Game.WIDTH / 25, Game.HEIGHT / 2);
+                g.drawString("Press 'SHIFT + arrow' to use bullets", Game.WIDTH - (Game.WIDTH / 3) - (Game.WIDTH / 8), Game.HEIGHT / 2 + (Game.HEIGHT / 6));
+                g.drawString("Press '1', '2', and '3' to use power-ups", Game.WIDTH - (Game.WIDTH / 3) - (Game.WIDTH / 8), Game.HEIGHT / 2 + (Game.HEIGHT / 4));
+                g.drawString("Press 'Button + joy stick' to use bullets", Game.WIDTH / 25, Game.HEIGHT / 4 + (Game.HEIGHT / 3));
+            }    
 
-            g.drawString("Objective: ", Game.WIDTH / 7, Game.HEIGHT / 2 + (Game.HEIGHT / 6));
-            g.drawString("Survive as long as possible", Game.WIDTH / 25, Game.HEIGHT / 2 + (Game.HEIGHT / 5));
-            g.drawString("If there is any problem, simply restart the game.", Game.WIDTH / 25, Game.HEIGHT / 2 + (Game.HEIGHT / 4));
+            if (enemiesHelp) {
+
+            }
+
+            if (levelsHelp) {
+
+            }
+
+            if (objectiveHelp) {
+                g.drawString("Objective: ", Game.WIDTH / 7, Game.HEIGHT / 2 + (Game.HEIGHT / 6));
+                g.drawString("Survive as long as possible", Game.WIDTH / 25, Game.HEIGHT / 2 + (Game.HEIGHT / 5));
+                g.drawString("If there is any problem, simply restart the game.", Game.WIDTH / 25, Game.HEIGHT / 2 + (Game.HEIGHT / 4));
+            }
 
             g.setFont(font2);
+            if (homeHelp) {
+                
+            }
+        
             if (trans1Help) {
                 g.fillRect(Game.WIDTH / 6 - (Game.WIDTH / 8), Game.HEIGHT - (Game.HEIGHT / 6) - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10);
                 g.setColor(Color.BLACK);

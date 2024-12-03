@@ -11,7 +11,6 @@ public class demoHUD {
     public static boolean renderThis = true;
 
     public void tick() {
-        handler.
     }
 
     public void render(Graphics g) {

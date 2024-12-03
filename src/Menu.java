@@ -195,7 +195,7 @@ public class Menu extends MouseAdapter {
                 }
                 trans1Online = false;
 
-                handler.addObject(new Load(Game.WIDTH - (Game.WIDTH / 3) - 120, Game.HEIGHT / 2, Game.WIDTH - (Game.WIDTH / 3) - 120, Game.WIDTH - (Game.WIDTH / 3) + 120, false, ID.Load, handler));
+                handler.addObject(new Load(Game.WIDTH - (Game.WIDTH / 3) - 120, Game.HEIGHT / 2, Game.WIDTH - (Game.WIDTH / 3) - 120, Game.WIDTH - (Game.WIDTH / 3) + 120, ID.Load, handler));
                 game.gameState = Game.STATE.Choosing;
             }
 

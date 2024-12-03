@@ -678,7 +678,7 @@ public class Menu extends MouseAdapter {
             g.drawLine(80, 15, 125, 60);
             g.drawLine(125, 15, 80, 60);
         }
-        if (game.gameState == Game.STATE.Intro) {
+        if (game.gameState == Game.STATE.Intro && ) {
             Font font = new Font("arial", 1, Game.WIDTH / 15);
             Font font2 = new Font("arial", 1, Game.WIDTH / 35);
             g.setColor(Color.WHITE);
@@ -698,13 +698,11 @@ public class Menu extends MouseAdapter {
             g.drawString("Stats", Game.WIDTH / 2 + (Game.WIDTH / 12), Game.HEIGHT / 2 + (Game.HEIGHT / 3));
 
             g.setFont(font2);
-            if (showStart) {
-                if (trans1Intro) {
-                    g.fillRect(Game.WIDTH / 2 - (Game.WIDTH / 8) + (Game.WIDTH / 65), Game.HEIGHT / 2, Game.WIDTH / 5 + (Game.WIDTH / 75), Game.HEIGHT / 10);
-                    g.setColor(Color.BLACK);
-                }
-                g.drawString("Start", Game.WIDTH / 2 - (Game.WIDTH / 8) + (Game.WIDTH / 65) + (Game.WIDTH / 14), Game.HEIGHT / 2 + (Game.HEIGHT / 15));
+            if (trans1Intro) {
+                g.fillRect(Game.WIDTH / 2 - (Game.WIDTH / 8) + (Game.WIDTH / 65), Game.HEIGHT / 2, Game.WIDTH / 5 + (Game.WIDTH / 75), Game.HEIGHT / 10);
+                g.setColor(Color.BLACK);
             }
+            g.drawString("Start", Game.WIDTH / 2 - (Game.WIDTH / 8) + (Game.WIDTH / 65) + (Game.WIDTH / 14), Game.HEIGHT / 2 + (Game.HEIGHT / 15));
         }
         if (game.gameState == Game.STATE.Menu) {
             Font font = new Font("arial", 1, Game.WIDTH / 25);

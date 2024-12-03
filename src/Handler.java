@@ -17,14 +17,14 @@ public class Handler {
                 for (int i = 0; i < object.size(); i++) {
                     GameObject tempObject = object.get(i);
 
-                    tempObject.tick();
+                    if (tempObject != null) tempObject.tick();
                 }
             }
         } else {
             for (int i = 0; i < object.size(); i++) {
                 GameObject tempObject = object.get(i);
 
-                tempObject.tick();
+                if (tempObject != null) tempObject.tick();
             }
         }
     }
@@ -33,18 +33,19 @@ public class Handler {
         for (int i = 0; i < object.size(); i++) {
             GameObject tempObject = object.get(i);
 
-            tempObject.render(g);
+            if (tempObject != null) tempObject.render(g);
         }
     }
 
     public void clearEnemies() {
         for (int i = 0; i < object.size(); i++) {
             GameObject tempObject = object.get(i);
-
-            if (tempObject.getId() == ID.Player1) {
-                object.clear();
-                if (Game.gameState != Game.STATE.End)
-                    addObject(new Player1(Game.WIDTH / 2, Game.HEIGHT / 2, ID.Player1, this));
+            if (tempObject != null) {
+                if (tempObject.getId() == ID.Player1) {
+                    object.clear();
+                    if (Game.gameState != Game.STATE.End)
+                        addObject(new Player1(Game.WIDTH / 2, Game.HEIGHT / 2, ID.Player1, this));
+                }
             }
         }
     }

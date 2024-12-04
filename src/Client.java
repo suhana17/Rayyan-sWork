@@ -12,7 +12,7 @@ public class Client {
 
     private static final int PORT = 13795;
 
-    private Socket socket;
+    Socket socket;
 
     private PrintWriter output;
 
@@ -83,6 +83,12 @@ public class Client {
             } catch (IOException e) {
                 e.printStackTrace();
                 System.exit(1);
+            } finally {
+                try {
+                    socket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }).start();
     }

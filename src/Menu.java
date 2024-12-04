@@ -14,7 +14,7 @@ public class Menu extends MouseAdapter {
     Handler handler;
     HUD hud;
 
-    public static boolean showStart = true;
+    public static boolean showStart = false;
 
     public static boolean skins = false;
 
@@ -108,11 +108,11 @@ public class Menu extends MouseAdapter {
 
     public static boolean enemiesHelp = false;
 
-    public static boolean homeHelp = false;
+    public static boolean homeHelp = true;
 
     public static boolean levelsHelp = false;
 
-    public static boolean objectivesHelp = false;
+    public static boolean objectiveHelp = false;
 
     private final Random r = new Random();
 
@@ -634,18 +634,109 @@ public class Menu extends MouseAdapter {
         }
 
         if (game.gameState == Game.STATE.Help) {
-            if (mouseOver(mx, my, Game.WIDTH / 6 - (Game.WIDTH / 8), Game.HEIGHT - (Game.HEIGHT / 6) - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10)) {
-                if (volume) game.play("sounds/buttonPress.mp3");
-                trans1Help = true;
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException ex) {
-                    throw new RuntimeException(ex);
-                }
-                trans1Help = false;
+            if (homeHelp) {
+                if (mouseOver(mx, my, Game.WIDTH / 6 - (Game.WIDTH / 8), Game.HEIGHT - (Game.HEIGHT / 6) - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10)) {
+                    if (volume) game.play("sounds/buttonPress.mp3");
+                    trans1Help = true;
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    trans1Help = false;
 
-                game.gameState = Game.STATE.Options;
-                return;
+                    game.gameState = Game.STATE.Options;
+                    homeHelp = false;
+                    objectiveHelp = false;
+                    controlsHelp = false;
+                    enemiesHelp = false;
+                    levelsHelp = false;
+                }
+
+                if (mouseOver(mx, my, Game.WIDTH / 4 - (Game.WIDTH / 8), Game.HEIGHT / 5 - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10)) {
+                    if (volume) game.play("sounds/buttonPress.mp3");
+                    trans2Help = true;
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    trans2Help = false;
+
+                    homeHelp = false;
+                    objectiveHelp = true;
+                    controlsHelp = false;
+                    enemiesHelp = false;
+                    levelsHelp = false;
+                }
+
+                if (mouseOver(mx, my, Game.WIDTH - (Game.WIDTH / 4) - (Game.WIDTH / 8), Game.HEIGHT / 5 - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10)) {
+                    if (volume) game.play("sounds/buttonPress.mp3");
+                    trans3Help = true;
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    trans3Help = false;
+
+                    homeHelp = false;
+                    objectiveHelp = false;
+                    controlsHelp = true;
+                    enemiesHelp = false;
+                    levelsHelp = false;
+                }
+
+                if (mouseOver(mx, my, Game.WIDTH / 4 - (Game.WIDTH / 8), Game.HEIGHT / 2 - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10)) {
+                    if (volume) game.play("sounds/buttonPress.mp3");
+                    trans4Help = true;
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    trans4Help = false;
+
+                    homeHelp = false;
+                    objectiveHelp = false;
+                    controlsHelp = false;
+                    enemiesHelp = true;
+                    levelsHelp = false;
+                }
+
+                if (mouseOver(mx, my, Game.WIDTH - (Game.WIDTH / 4) - (Game.WIDTH / 8), Game.HEIGHT / 2 - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10)) {
+                    if (volume) game.play("sounds/buttonPress.mp3");
+                    trans5Help = true;
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    trans5Help = false;
+
+                    homeHelp = false;
+                    objectiveHelp = false;
+                    controlsHelp = false;
+                    enemiesHelp = false;
+                    levelsHelp = true;
+                }
+            } else {
+                if (mouseOver(mx, my, Game.WIDTH / 6 - (Game.WIDTH / 8), Game.HEIGHT - (Game.HEIGHT / 6) - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10)) {
+                    if (volume) game.play("sounds/buttonPress.mp3");
+                    trans1Help = true;
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    trans1Help = false;
+
+                    homeHelp = true;
+                    objectiveHelp = false;
+                    controlsHelp = false;
+                    enemiesHelp = false;
+                    levelsHelp = false;
+                }
             }
         }
 
@@ -696,7 +787,7 @@ public class Menu extends MouseAdapter {
             g.drawLine(80, 15, 125, 60);
             g.drawLine(125, 15, 80, 60);
         }
-        if (game.gameState == Game.STATE.Intro && ) {
+        if (game.gameState == Game.STATE.Intro && showStart) {
             Font font = new Font("arial", 1, Game.WIDTH / 15);
             Font font2 = new Font("arial", 1, Game.WIDTH / 35);
             g.setColor(Color.WHITE);
@@ -866,7 +957,8 @@ public class Menu extends MouseAdapter {
             g.setColor(Color.WHITE);
 
             g.setFont(font3);
-            if (controlsHelp) 
+            if (controlsHelp) {
+                g.setColor(Color.WHITE);
                 g.drawString("App: ",  Game.WIDTH / 2 - (Game.WIDTH / 3), Game.HEIGHT / 4);
                 g.drawString("Laptop: ", Game.WIDTH - (Game.WIDTH / 3), Game.HEIGHT / 4);
                 g.drawString("Use joy stick to move", Game.WIDTH / 25, Game.HEIGHT / 4 + (Game.HEIGHT / 15));
@@ -882,22 +974,49 @@ public class Menu extends MouseAdapter {
             }    
 
             if (enemiesHelp) {
-
+                g.setColor(Color.WHITE);
             }
 
             if (levelsHelp) {
-
+                g.setColor(Color.WHITE);
             }
 
             if (objectiveHelp) {
-                g.drawString("Objective: ", Game.WIDTH / 7, Game.HEIGHT / 2 + (Game.HEIGHT / 6));
-                g.drawString("Survive as long as possible", Game.WIDTH / 25, Game.HEIGHT / 2 + (Game.HEIGHT / 5));
-                g.drawString("If there is any problem, simply restart the game.", Game.WIDTH / 25, Game.HEIGHT / 2 + (Game.HEIGHT / 4));
+                g.setColor(Color.WHITE);
+                g.drawString("Objective: ", Game.WIDTH / 2 - (Game.WIDTH / 15), Game.HEIGHT / 2 - (Game.HEIGHT / 6) + (Game.HEIGHT / 6));
+                g.drawString("Survive as long as possible", Game.WIDTH / 2 - (Game.WIDTH / 7), Game.HEIGHT / 2 - (Game.HEIGHT / 6) + (Game.HEIGHT / 5));
+                g.drawString("If there is any problem, simply restart the game.", Game.WIDTH / 4, Game.HEIGHT / 2 - (Game.HEIGHT / 6) + (Game.HEIGHT / 4));
             }
 
             g.setFont(font2);
             if (homeHelp) {
-                
+                if (trans2Help) {
+                    g.fillRect(Game.WIDTH / 4 - (Game.WIDTH / 8), Game.HEIGHT / 5 - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10);
+                    g.setColor(Color.BLACK);
+                }
+                g.drawString("Objective", Game.WIDTH / 4 - (Game.WIDTH / 16), Game.HEIGHT / 5 + (Game.HEIGHT / 60));
+                g.setColor(Color.WHITE);
+
+                if (trans3Help) {
+                    g.fillRect(Game.WIDTH - (Game.WIDTH / 4) - (Game.WIDTH / 8), Game.HEIGHT / 5 - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10);
+                    g.setColor(Color.BLACK);
+                }
+                g.drawString("Controls", Game.WIDTH - (Game.WIDTH / 4) - (Game.WIDTH / 17), Game.HEIGHT / 5 + (Game.HEIGHT / 60));
+                g.setColor(Color.WHITE);
+
+                if (trans4Help) {
+                    g.fillRect(Game.WIDTH / 4 - (Game.WIDTH / 8), Game.HEIGHT / 2 - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10);
+                    g.setColor(Color.BLACK);
+                }
+                g.drawString("Enemies", Game.WIDTH / 4 - (Game.WIDTH / 20), Game.HEIGHT / 2 + (Game.HEIGHT / 60));
+                g.setColor(Color.WHITE);
+
+                if (trans5Help) {
+                    g.fillRect(Game.WIDTH - (Game.WIDTH / 4) - (Game.WIDTH / 8), Game.HEIGHT / 2 - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10);
+                    g.setColor(Color.BLACK);
+                }
+                g.drawString("Level", Game.WIDTH - (Game.WIDTH / 4) - (Game.WIDTH / 28), Game.HEIGHT / 2 + (Game.HEIGHT / 60));
+                g.setColor(Color.WHITE);
             }
         
             if (trans1Help) {

@@ -47,7 +47,7 @@ public class Game extends Canvas implements Runnable {
 
     private static boolean da4 = true;
 
-    public static int map = 4;
+    public static int map = 0;
 
     static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 

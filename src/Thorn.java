@@ -23,14 +23,14 @@ public class Thorn extends GameObject {
     }
 
     @Override
-    public void tick() {
-    }
+    public void tick() {}
 
     @Override
     public void render(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
 
-        g2d.drawImage(image, (int) x, (int) y, 60, 70, null);
+        if (Objects.equals(direction, "straight forward") || Objects.equals(direction, "backward")) g2d.drawImage(image, (int) x, (int) y, 60, 70, null);
+        if (Objects.equals(direction, "right") || Objects.equals(direction, "left")) g2d.drawImage(image, (int) x, (int) y, 70, 60, null);
     }
 
     @Override

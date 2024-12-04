@@ -62,7 +62,7 @@ public class BasicEnemy extends GameObject {
             if ((x <= Game.WIDTH / 4 && x >= Game.WIDTH / 4 - (Game.WIDTH / 150)) && (y >= Game.HEIGHT - (Game.HEIGHT / 3) && y <= Game.HEIGHT - (Game.HEIGHT / 3) + (Game.HEIGHT / 15))) velX *= -1;
 
             // bottom wall
-            if (((x >= Game.WIDTH / 2 + (Game.WIDTH / 25) && x <= Game.WIDTH / 2 + (Game.WIDTH / 25) + (Game.WIDTH / 150)) || (x <= Game.WIDTH / 2 + (Game.WIDTH / 25) && x >= Game.WIDTH / 2 + (Game.WIDTH / 25) - (Game.WIDTH / 150))) && (y >= Game.HEIGHT - (Game.HEIGHT / 3) && y <= Game.HEIGHT)) velX *= -1;
+            if (((x >= Game.WIDTH / 2 + (Game.WIDTH / 25) && x <= Game.WIDTH / 2 + (Game.WIDTH / 25) + (Game.WIDTH / 150)) || (x <= Game.WIDTH / 2 + (Game.WIDTH / 25) + (Game.WIDTH / 30) && x >= Game.WIDTH / 2 + (Game.WIDTH / 25) + (Game.WIDTH / 30) - (Game.WIDTH / 150))) && (y >= Game.HEIGHT - (Game.HEIGHT / 3) && y <= Game.HEIGHT)) velX *= -1;
 
             if ((y >= Game.HEIGHT - (Game.HEIGHT / 3) && y <= Game.HEIGHT - (Game.HEIGHT / 3) + (Game.HEIGHT / 150)) && (x >= Game.WIDTH / 2 + (Game.WIDTH / 25) && x <= Game.WIDTH / 2 + (Game.WIDTH / 25) + Game.WIDTH / 30)) velY *= -1;
 

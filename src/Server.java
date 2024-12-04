@@ -15,7 +15,9 @@ public class Server {
     static Map<Integer, ClientHandler> clients = new HashMap<>();
     private static int idCount = 1;
 
-    private static final int PORT = 13795;
+    private static int PORT = 13795;
+
+    static ServerSocket serverSocket;
 
     //ultimately grab from database
     public static int bestScore = 0;
@@ -55,8 +57,13 @@ public class Server {
 //        } catch (SQLException e) {
 //            System.err.println("Failed connecting to Postgres..." + e.getMessage());
 //        }
-          
-            ServerSocket serverSocket = new ServerSocket(PORT);
+
+            try {
+                serverSocket = new ServerSocket(PORT);
+            } catch (BindException e) {
+                PORT++;
+                serverSocket = new ServerSocket(PORT);
+            }
             System.out.println(PORT + " is the port which the server has started!!!");
           
             Socket clientSocket = serverSocket.accept();

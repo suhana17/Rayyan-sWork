@@ -126,11 +126,11 @@ public class Player2 extends GameObject {
 
             // right wall
 
-            if (dax >= Game.WIDTH - (Game.WIDTH / 3) - 32 && dax <= Game.WIDTH - (Game.WIDTH / 3) + (Game.WIDTH / 150) && day >= 0 && day <= Game.HEIGHT / 3) {
+            if (dax >= Game.WIDTH - (Game.WIDTH / 3) - 32 && dax <= Game.WIDTH - (Game.WIDTH / 3) + (Game.WIDTH / 150) && day >= -10 && day <= Game.HEIGHT / 3) {
                 dax = Game.WIDTH - (Game.WIDTH / 3) - 32;
             }
 
-            if (dax <= Game.WIDTH - (Game.WIDTH / 3) + (Game.WIDTH / 30) && dax >= Game.WIDTH - (Game.WIDTH / 3) + (Game.WIDTH / 30) - (Game.WIDTH / 150) && day >= 0 && day <= Game.HEIGHT / 3) {
+            if (dax <= Game.WIDTH - (Game.WIDTH / 3) + (Game.WIDTH / 30) && dax >= Game.WIDTH - (Game.WIDTH / 3) + (Game.WIDTH / 30) - (Game.WIDTH / 150) && day >= -10 && day <= Game.HEIGHT / 3) {
                 dax = Game.WIDTH - (Game.WIDTH / 3) + (Game.WIDTH / 30);
             }
 
@@ -150,7 +150,8 @@ public class Player2 extends GameObject {
 
     private void collision() {
         for (int i = 0; i < handler.object.size(); i++) {
-            GameObject tempObject = handler.object.get(i);
+            GameObject tempObject;
+            if (handler.object.get(i) != null) {} tempObject = handler.object.get(i);
             if (tempObject != null) {
                 if (tempObject.getId() == ID.BasicEnemy || tempObject.getId() == ID.FastEnemy || tempObject.getId() == ID.SmartEnemy) {
                     if (getBounds().intersects(tempObject.getBounds())) {

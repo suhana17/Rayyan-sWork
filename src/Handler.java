@@ -15,35 +15,38 @@ public class Handler {
         if (Game.gameState == Game.STATE.Game) {
             if (HUD.tickdatock) {
                 for (int i = 0; i < object.size(); i++) {
-                    GameObject tempObject = object.get(i);
+                    if (object.get(i) != null) {
+                        GameObject tempObject = object.get(i);
 
-                    if (tempObject != null) tempObject.tick();
+                        tempObject.tick();
+                    }
                 }
             }
         } else {
             for (int i = 0; i < object.size(); i++) {
-                GameObject tempObject = object.get(i);
-
-                if (tempObject != null) tempObject.tick();
+                if (object.get(i) != null) {
+                    GameObject tempObject = object.get(i);
+    
+                    if (tempObject != null) tempObject.tick();
+                }    
             }
         }
     }
 
     public void render(Graphics g) {
         for (int i = 0; i < object.size() - 1; i++) {
-            GameObject tempObject;
-            if (object.get(i) != null) {} tempObject = object.get(i);
-
-            tempObject.render(g);
+            if (object.get(i) != null) {
+                GameObject tempObject = object.get(i);
+                tempObject.render(g);
+            }
         }
     }
 
     public void clearEnemies() {
         for (int i = 0; i < object.size(); i++) {
-            GameObject tempObject;
-            if (object.get(i) != null) {} tempObject = object.get(i);
+            if (object.get(i) != null) {
+                GameObject tempObject = object.get(i);
 
-            if (tempObject != null) {
                 if (tempObject.getId() == ID.Player1) {
                     object.clear();
                     if (Game.gameState != Game.STATE.End)

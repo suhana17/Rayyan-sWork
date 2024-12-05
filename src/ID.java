@@ -20,5 +20,6 @@ public enum ID {
 
     Thorn(),
 
-    Wall();
+    Wall(),
+    MovingWall();
 }

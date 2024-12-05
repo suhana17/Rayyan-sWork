@@ -3,10 +3,16 @@ import javax.swing.*;
 
 public class MovingWall extends GameObject {
     Handler handler;
+
+    Random r = new Random();
+
+    int holeY;
   
     public MovingWall(int x, int y, ID id, Handler handler) {
         super(x, y, id);
         this.handler = handler;
+
+        holeY = r.nextInt(Game.HEIGHT - 45);
 
         // change this value
         velX = -5;
@@ -15,7 +21,7 @@ public class MovingWall extends GameObject {
     }
 
     @Override
-    public Rectangle getBounds() { return new Rectangle((int) x, (int) y, Game.WIDTH / 15, Game.HEIGHT); }
+    public Rectangle getBounds() { return new Rectangle((int) x, (int) y, Game.WIDTH / 15, holeY); }
 
     @Override
     public void tick() {
@@ -28,6 +34,6 @@ public class MovingWall extends GameObject {
     @Override
     public void render(Graphics g) {
         g.setColor(Color.RED);
-        g.fillRect((int) x, (int) y, Game.WIDTH / 15, Game.HEIGHT);
+        g.fillRect((int) x, (int) y, Game.WIDTH / 15, holeY);
     }
 }

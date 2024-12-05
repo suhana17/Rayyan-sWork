@@ -150,34 +150,32 @@ public class Player2 extends GameObject {
 
     private void collision() {
         for (int i = 0; i < handler.object.size(); i++) {
-            if (handler.object.get(i) != null) {
-                GameObject tempObject = handler.object.get(i);
-                if (tempObject.getId() == ID.BasicEnemy || tempObject.getId() == ID.FastEnemy || tempObject.getId() == ID.SmartEnemy) {
-                    if (getBounds().intersects(tempObject.getBounds())) {
-                        if (Menu.volume) Game.playerOfDamage.playMusic();
-                        HUD.P2HEALTH -= dajing;
-                        Timer timer = new Timer();
-                        timer.schedule(new TimerTask() {
-                            @Override
-                            public void run() {
-                                Game.playerOfDamage.stopMusic();
-                            }
-                        }, 1000);
-                    }
+            GameObject tempObject = handler.object.get(i);
+            if (tempObject.getId() == ID.BasicEnemy || tempObject.getId() == ID.FastEnemy || tempObject.getId() == ID.SmartEnemy) {
+                if (getBounds().intersects(tempObject.getBounds())) {
+                    if (Menu.volume) Game.playerOfDamage.playMusic();
+                    HUD.P2HEALTH -= dajing;
+                    Timer timer = new Timer();
+                    timer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            Game.playerOfDamage.stopMusic();
+                        }
+                    }, 1000);
                 }
-    
-                if (tempObject.getId() == ID.Enemy2BossShip || tempObject.getId() == ID.EnemyBoss) {
-                    if (getBounds().intersects(tempObject.getBounds())) {
-                        if (Menu.volume) Game.playerOfDamage.playMusic();
-                        HUD.P2HEALTH -= 99999999;
-                        Timer timer = new Timer();
-                        timer.schedule(new TimerTask() {
-                            @Override
-                            public void run() {
-                                Game.playerOfDamage.stopMusic();
-                            }
-                        }, 1000);
-                    }
+            }
+
+            if (tempObject.getId() == ID.Enemy2BossShip || tempObject.getId() == ID.EnemyBoss) {
+                if (getBounds().intersects(tempObject.getBounds())) {
+                    if (Menu.volume) Game.playerOfDamage.playMusic();
+                    HUD.P2HEALTH -= 99999999;
+                    Timer timer = new Timer();
+                    timer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            Game.playerOfDamage.stopMusic();
+                        }
+                    }, 1000);
                 }
             }
         }

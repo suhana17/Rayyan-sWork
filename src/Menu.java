@@ -956,9 +956,10 @@ public class Menu extends MouseAdapter {
             g.drawString("Help", Game.WIDTH / 2 - (Game.WIDTH / 17), Game.HEIGHT / 15);
             g.setColor(Color.WHITE);
 
-            g.setFont(font3);
             if (controlsHelp) {
                 g.setColor(Color.WHITE);
+                g.setFont(font3);
+
                 g.drawString("App: ",  Game.WIDTH / 2 - (Game.WIDTH / 3), Game.HEIGHT / 4);
                 g.drawString("Laptop: ", Game.WIDTH - (Game.WIDTH / 3), Game.HEIGHT / 4);
                 g.drawString("Use joy stick to move", Game.WIDTH / 25, Game.HEIGHT / 4 + (Game.HEIGHT / 15));
@@ -975,14 +976,61 @@ public class Menu extends MouseAdapter {
 
             if (enemiesHelp) {
                 g.setColor(Color.WHITE);
+                g.setFont(font2);
+
+                g.drawString("BasicEnemy: ", Game.WIDTH / 4, Game.HEIGHT / 3);
+                g.setFont(font3);
+                g.drawString("The BasicEnemy bounces off walls.", Game.WIDTH / 6, Game.HEIGHT / 3 + (Game.HEIGHT / 25));
+
+                g.setFont(font2);
+                g.drawString("FastEnemy: ", Game.WIDTH - (Game.WIDTH / 4), Game.HEIGHT / 3);
+                g.setFont(font3);
+                g.drawString("The FastEnemy bounces off", Game.WIDTH - (Game.WIDTH / 3), Game.HEIGHT / 3 + (Game.HEIGHT / 25));
+                g.drawString("walls  faster than BasicEnemy.", Game.WIDTH - (Game.WIDTH / 3), Game.HEIGHT / 3 + (Game.HEIGHT / 25) + (Game.HEIGHT / 25));
+
+                g.setFont(font2);
+                g.drawString("HardEnemy: ", Game.WIDTH / 4, Game.HEIGHT - (Game.HEIGHT / 3));
+                g.setFont(font3);
+                g.drawString("The HardEnemy changes speed every", Game.WIDTH / 6, Game.HEIGHT - (Game.HEIGHT / 3) + (Game.HEIGHT / 25));
+                g.drawString("time it bounces.", Game.WIDTH / 6, Game.HEIGHT - (Game.HEIGHT / 3) + (Game.HEIGHT / 25) + (Game.HEIGHT / 25));
+
+                g.setFont(font2);
+                g.drawString("SmartEnemy: ", Game.WIDTH - (Game.WIDTH / 4), Game.HEIGHT - (Game.HEIGHT / 3));
+                g.setFont(font3);
+                g.drawString("The SmartEnemy follows you.", Game.WIDTH - (Game.WIDTH / 3), Game.HEIGHT - (Game.HEIGHT / 3) + (Game.HEIGHT / 25));
             }
 
             if (levelsHelp) {
                 g.setColor(Color.WHITE);
+                g.setFont(font2);
+
+                g.drawString("Normal/Hard: ", Game.WIDTH / 4, Game.HEIGHT / 3);
+                g.setFont(font3);
+                g.drawString("Normal and hard are difficulties.", Game.WIDTH / 6, Game.HEIGHT / 3 + (Game.HEIGHT / 25));
+                g.drawString("Hard is simply harder than normal.", Game.WIDTH / 6, Game.HEIGHT / 3 + (Game.HEIGHT / 25) + (Game.HEIGHT / 25));
+
+                g.setFont(font2);
+                g.drawString("2-player", Game.WIDTH - (Game.WIDTH / 4), Game.HEIGHT / 3);
+                g.setFont(font3);
+                g.drawString("2-player mode is simply 2", Game.WIDTH - (Game.WIDTH / 3), Game.HEIGHT / 3 + (Game.HEIGHT / 25));
+                g.drawString("players on the same PC.", Game.WIDTH - (Game.WIDTH / 3), Game.HEIGHT / 3 + (Game.HEIGHT / 25) + (Game.HEIGHT / 25));
+
+                g.setFont(font2);
+                g.drawString("Squadron", Game.WIDTH / 4, Game.HEIGHT - (Game.HEIGHT / 3));
+                g.setFont(font3);
+                g.drawString("Squadron mode lets you", Game.WIDTH / 6, Game.HEIGHT - (Game.HEIGHT / 3) + (Game.HEIGHT / 25));
+                g.drawString("compete with your squadron.", Game.WIDTH / 6, Game.HEIGHT - (Game.HEIGHT / 3) + (Game.HEIGHT / 25) + (Game.HEIGHT / 25));
+
+                g.setFont(font2);
+                g.drawString("Online", Game.WIDTH - (Game.WIDTH / 4), Game.HEIGHT - (Game.HEIGHT / 3));
+                g.setFont(font3);
+                g.drawString("Online mode randomly pairs", Game.WIDTH - (Game.WIDTH / 3), Game.HEIGHT - (Game.HEIGHT / 3) + (Game.HEIGHT / 25));
+                g.drawString("you with other people.", Game.WIDTH - (Game.WIDTH / 3), Game.HEIGHT - (Game.HEIGHT / 3) + (Game.HEIGHT / 25) + (Game.HEIGHT / 25));
             }
 
             if (objectiveHelp) {
                 g.setColor(Color.WHITE);
+                g.setFont(font3);
                 g.drawString("Objective: ", Game.WIDTH / 2 - (Game.WIDTH / 15), Game.HEIGHT / 2 - (Game.HEIGHT / 6) + (Game.HEIGHT / 6));
                 g.drawString("Survive as long as possible", Game.WIDTH / 2 - (Game.WIDTH / 7), Game.HEIGHT / 2 - (Game.HEIGHT / 6) + (Game.HEIGHT / 5));
                 g.drawString("If there is any problem, simply restart the game.", Game.WIDTH / 4, Game.HEIGHT / 2 - (Game.HEIGHT / 6) + (Game.HEIGHT / 4));

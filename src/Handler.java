@@ -15,43 +15,35 @@ public class Handler {
         if (Game.gameState == Game.STATE.Game) {
             if (HUD.tickdatock) {
                 for (int i = 0; i < object.size(); i++) {
-                    if (object.get(i) != null) {
-                        GameObject tempObject = object.get(i);
+                    GameObject tempObject = object.get(i);
 
-                        tempObject.tick();
-                    }
+                    tempObject.tick();
                 }
             }
         } else {
             for (int i = 0; i < object.size(); i++) {
-                if (object.get(i) != null) {
-                    GameObject tempObject = object.get(i);
-    
-                    if (tempObject != null) tempObject.tick();
-                }    
+                GameObject tempObject = object.get(i);
+
+                if (tempObject != null) tempObject.tick();
             }
         }
     }
 
     public void render(Graphics g) {
         for (int i = 0; i < object.size() - 1; i++) {
-            if (object.get(i) != null) {
-                GameObject tempObject = object.get(i);
-                tempObject.render(g);
-            }
+            GameObject tempObject = object.get(i);
+            tempObject.render(g);
         }
     }
 
     public void clearEnemies() {
         for (int i = 0; i < object.size(); i++) {
-            if (object.get(i) != null) {
-                GameObject tempObject = object.get(i);
+            GameObject tempObject = object.get(i);
 
-                if (tempObject.getId() == ID.Player1) {
-                    object.clear();
-                    if (Game.gameState != Game.STATE.End)
-                        addObject(new Player1(Game.WIDTH / 2, Game.HEIGHT / 2, ID.Player1, this));
-                }
+            if (tempObject.getId() == ID.Player1) {
+                object.clear();
+                if (Game.gameState != Game.STATE.End)
+                    addObject(new Player1(Game.WIDTH / 2, Game.HEIGHT / 2, ID.Player1, this));
             }
         }
     }

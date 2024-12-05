@@ -20,6 +20,7 @@ public class Wall extends GameObject {
 
     @Override
     public void render(Graphics g) {
+        System.out.println("bello");
         g.setColor(Color.GRAY);
         g.fillRect((int) x, (int) y, width, height);
     }

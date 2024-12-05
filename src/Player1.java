@@ -166,7 +166,7 @@ public class Player1 extends GameObject {
     private void collision() {
         for (int i = 0; i < handler.object.size(); i++) {
             GameObject tempObject = handler.object.get(i);
-            if (tempObject.getId() == ID.BasicEnemy || tempObject.getId() == ID.FastEnemy || tempObject.getId() == ID.SmartEnemy) {
+            if (tempObject.getId() == ID.BasicEnemy || tempObject.getId() == ID.FastEnemy || tempObject.getId() == ID.SmartEnemy | tempObject.getId() == ID.MovingWall) {
                 if (getBounds().intersects(tempObject.getBounds())) {
                     if (damageDeal) {
                         if (Menu.volume) Game.playerOfDamage.playMusic();

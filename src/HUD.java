@@ -54,6 +54,8 @@ public class HUD {
 
     public static boolean waitBar2 = false;
 
+    public static boolean dading = 2000;
+
     public static int bounds2 = 0;
 
     private static int timeWidth = 0;
@@ -84,11 +86,11 @@ public class HUD {
             p2score += dabing2;
             scoreKeep += dabing;
             p2scoreKeep += dabing2;
-            if (scoreKeep >= 2000) {
+            if (scoreKeep >= dading) {
                 scoreKeep = 0;
                 p1points++;
             }
-            if (p2scoreKeep >= 2000) {
+            if (p2scoreKeep >= dading) {
                 p2scoreKeep = 0;
                 p2points++;
             }

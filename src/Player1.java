@@ -8,8 +8,15 @@ public class Player1 extends GameObject {
 
     Handler handler;
 
+    public static boolean da5 = true;
+
     public static int dax;
     public static int day;
+
+    int x1;
+    int y1;
+    int x2;
+    int y2;
 
     public static boolean isTouchingHUD1 = false;
 
@@ -53,6 +60,19 @@ public class Player1 extends GameObject {
     public void tick() {
         dax += velX;
         day += velY;
+        if (da5) {
+            da5 = false;
+            x1 = x;
+            y1 = y;
+        }
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                x2 = x;
+                y2 = y;
+                distanceX = distance
+            }
+        }, 1000);
 
         x = dax;
         y = day;

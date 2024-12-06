@@ -20,6 +20,10 @@ public class Menu extends MouseAdapter {
 
     public static String playerName = "QBer";
 
+    public static int XP = 0;
+
+    public static float distance = 0;
+
     public static boolean trans1Main = false;
 
     private static boolean trans5Difficulty = false;

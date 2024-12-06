@@ -599,7 +599,7 @@ public class Menu extends MouseAdapter {
                 }
                 trans5Difficulty = false;
 
-                game.gameState = Game.STATE.Online;
+                //game.gameState = Game.STATE.ChooseHard;
                 // make hard/normal
             }
 
@@ -614,6 +614,7 @@ public class Menu extends MouseAdapter {
                 trans6Difficulty = false;
 
                 // make hard/normal
+                //game.gameState = Game.STATE.ChooseHard;
                 JOptionPane.showMessageDialog(null, "Squadron level coming soon!", "Stay Tuned!", JOptionPane.INFORMATION_MESSAGE);
                 game.PlayerMode2 = false;
                 game.onlineMode = false;
@@ -1313,6 +1314,29 @@ public class Menu extends MouseAdapter {
                 g.setColor(Color.BLACK);
             }
             g.drawString("Back", Game.WIDTH / 6 - (Game.WIDTH / 25), Game.HEIGHT - (Game.HEIGHT / 8) + (Game.HEIGHT / 60));
+        } else if (game.gameState == Game.STATE.Finished) {
+            Font font = new Font("arial", 1, Game.WIDTH / 25);
+            Font font2 = new Font("arial", 1, Game.WIDTH / 35);
+            Font font3 = new Font("arial", 1, Game.WIDTH / 40);
+            g.setFont(font);
+
+            g.setColor(new Color(r.nextInt(255), r.nextInt(255), r.nextInt(255)));
+            g.drawString("Game Won!",  Game.WIDTH / 2 - (Game.WIDTH / 11), Game.HEIGHT / 15);
+            g.setColor(Color.WHITE);
+
+            g.setFont(font3);
+            g.drawString("You finished with to cube : " + hud.getLevel(), Game.WIDTH / 2 - (Game.WIDTH / 6), Game.HEIGHT / 3);
+            g.drawString("Your final score was : " + hud.score, Game.WIDTH / 2 - (Game.WIDTH / 6), Game.HEIGHT / 3 + (Game.HEIGHT / 15));
+            g.drawString("Your final points were : " + hud.getPoints1(), Game.WIDTH / 2 - (Game.WIDTH / 6), Game.HEIGHT / 3 + (Game.HEIGHT / 7));
+            if (Game.PlayerMode2) g.drawString("Player won: " + HUD.playerWon, Game.WIDTH / 2 - (Game.WIDTH / 6), Game.HEIGHT / 4);
+//            if (Game.onlineMode) g.drawString("Player won: " + HUD.playerWonOnline, Game.WIDTH / 2 - (Game.WIDTH / 6), Game.HEIGHT / 4);
+
+            g.setFont(font2);
+            if (trans1End) {
+                g.fillRect(Game.WIDTH / 6 - (Game.WIDTH / 8), Game.HEIGHT - (Game.HEIGHT / 6) - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10);
+                g.setColor(Color.BLACK);
+            }
+            g.drawString("Home", Game.WIDTH / 6 - (Game.WIDTH / 25), Game.HEIGHT - (Game.HEIGHT / 6) + (Game.HEIGHT / 60));
         } else if (game.gameState == Game.STATE.End) {
             Font font = new Font("arial", 1, Game.WIDTH / 25);
             Font font2 = new Font("arial", 1, Game.WIDTH / 35);
@@ -1347,6 +1371,10 @@ public class Menu extends MouseAdapter {
             g.setColor(Color.WHITE);
 
             g.setFont(font2);
+            if (game.normalWon) {
+                g.setColor(Color.GREEN);
+                g.drawString("Won!", Game.WIDTH / 4 - Game.WIDTH / 50, Game.HEIGHT / 5 - (Game.HEIGHT / 50));
+            }
             if (trans1Difficulty) {
                 g.fillRect(Game.WIDTH / 4 - (Game.WIDTH / 8), Game.HEIGHT / 5 - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10);
                 g.setColor(Color.BLACK);
@@ -1354,6 +1382,10 @@ public class Menu extends MouseAdapter {
             g.drawString("Easy", Game.WIDTH / 4 - (Game.WIDTH / 30), Game.HEIGHT / 5 + (Game.HEIGHT / 60));
             g.setColor(Color.WHITE);
 
+            if (game.hardWon) {
+                g.setColor(Color.GREEN);
+                g.drawString("Won!", Game.WIDTH / 4 - Game.WIDTH / 50, Game.HEIGHT / 5 - (Game.HEIGHT / 50));
+            }
             if (trans2Difficulty) {
                 g.fillRect(Game.WIDTH - (Game.WIDTH / 4) - (Game.WIDTH / 8), Game.HEIGHT / 5 - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10);
                 g.setColor(Color.BLACK);
@@ -1361,6 +1393,10 @@ public class Menu extends MouseAdapter {
             g.drawString("Hard", Game.WIDTH - (Game.WIDTH / 4) - (Game.WIDTH / 30), Game.HEIGHT / 5 + (Game.HEIGHT / 60));
             g.setColor(Color.WHITE);
 
+            if (game.p2normalWon || game.p2hardWon) {
+                g.setColor(Color.GREEN);
+                g.drawString("Won!", Game.WIDTH / 4 - Game.WIDTH / 50, Game.HEIGHT / 5 - (Game.HEIGHT / 50));
+            }
             if (trans4Difficulty) {
                 g.fillRect(Game.WIDTH / 4 - (Game.WIDTH / 8), Game.HEIGHT / 2 - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10);
                 g.setColor(Color.BLACK);
@@ -1368,6 +1404,7 @@ public class Menu extends MouseAdapter {
             g.drawString("2-Player", Game.WIDTH / 4 - (Game.WIDTH / 18), Game.HEIGHT / 2 + (Game.HEIGHT / 60));
             g.setColor(Color.WHITE);
 
+            // do for these 2
             if (trans5Difficulty) {
                 g.fillRect(Game.WIDTH - (Game.WIDTH / 4) - (Game.WIDTH / 8), Game.HEIGHT / 2 - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10);
                 g.setColor(Color.BLACK);

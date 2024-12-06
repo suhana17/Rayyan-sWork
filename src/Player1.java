@@ -182,7 +182,7 @@ public class Player1 extends GameObject {
                 }
             }
 
-            if (tempObject.getId() == ID.Enemy2BossShip || tempObject.getId() == ID.EnemyBoss || tempObject.getId() == ID.Thorn) {
+            if (tempObject.getId() == ID.Enemy2BossShip || tempObject.getId() == ID.EnemyBoss || tempObject.getId() == ID.Thorn || tempObject.getId() == ID.Enemy3Boss || tempObject.getId() == ID.DamageOrb) {
                 if (getBounds().intersects(tempObject.getBounds())) {
                     if (Menu.volume) Game.playerOfDamage.playMusic();
                     HUD.HEALTH -= 99999999;

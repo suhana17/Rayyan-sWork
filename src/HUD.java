@@ -54,7 +54,7 @@ public class HUD {
 
     public static boolean waitBar2 = false;
 
-    public static boolean dading = 2000;
+    public static int dading = 2000;
 
     public static int bounds2 = 0;
 
@@ -243,7 +243,7 @@ public class HUD {
 
             if (levelUp) {
                 g.setFont(new Font("arial", 1, Game.WIDTH / 25));
-                g.drawString("Level " + getLevel(), Game.WIDTH / 2 - (Game.WIDTH / 16), Game.HEIGHT / 2 - (Game.HEIGHT / 30));
+                g.drawString("Cube " + getLevel(), Game.WIDTH / 2 - (Game.WIDTH / 14), Game.HEIGHT / 2 - (Game.HEIGHT / 30));
             }
 
 //        if (revivePrompt) {

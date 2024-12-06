@@ -56,6 +56,13 @@ public class Bullet extends GameObject {
                     handler.removeObject(this);
                 }
             }
+
+            if (tempObject.getId() == ID.Enemy3Boss) {
+                if (getBounds().intersects(tempObject.getBounds())) {
+                    Enemy3Boss.HP -= 2;
+                    handler.removeObject(this);
+                }
+            }
         }
     }
 

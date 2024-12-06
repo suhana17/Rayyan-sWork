@@ -47,7 +47,17 @@ public class Game extends Canvas implements Runnable {
 
     private static boolean da4 = true;
 
+    public static boolean squadronMode = false;
+
     public static int map = 0;
+
+    public static boolean normalWon = false;
+
+    public static boolean hardWon = false;
+
+    public static boolean p2normalWon = false;
+
+    public static boolean p2hardWon = false;
 
     static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
@@ -62,7 +72,7 @@ public class Game extends Canvas implements Runnable {
     static Client client;
 
     private Random r;
-    private HUD hud;
+    public static HUD hud;
     private Spawn spawner;
 
     private demoHUD demohud;
@@ -71,7 +81,7 @@ public class Game extends Canvas implements Runnable {
     private boolean running = false;
     public static boolean paused = false;
 
-    public int diff = 0;
+    public static int diff = 0;
 
     public enum STATE {
         Menu,
@@ -88,7 +98,8 @@ public class Game extends Canvas implements Runnable {
         Online,
         Choosing,
         Map,
-        ChooseHard
+        ChooseHard,
+        Finished;
     };
 
     public static STATE gameState = STATE.Intro;

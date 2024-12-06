@@ -6,12 +6,11 @@ import java.util.Objects;
 public class Client {
     private static String address;
 
+    private static final int PORT = 13579;
+
     private static final ArrayList<String> servers = new ArrayList<>();
 
     private static final ArrayList<Double> serverPings = new ArrayList<>();
-
-    private static final int PORT = 13795;
-
     Socket socket;
 
     private PrintWriter output;

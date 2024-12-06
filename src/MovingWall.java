@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.util.Random;
 import javax.swing.*;
 
 public class MovingWall extends GameObject {
@@ -6,7 +7,7 @@ public class MovingWall extends GameObject {
 
     Random r = new Random();
 
-    int holeY;
+    static int holeY;
   
     public MovingWall(int x, int y, ID id, Handler handler) {
         super(x, y, id);
@@ -21,7 +22,7 @@ public class MovingWall extends GameObject {
     }
 
     @Override
-    public Rectangle getBounds() { return new Rectangle((int) x, (int) y, Game.WIDTH / 15, holeY); }
+    public Rectangle getBounds() { return new Rectangle((int) x, (int) y, Game.WIDTH / 22, holeY); }
 
     @Override
     public void tick() {
@@ -33,7 +34,17 @@ public class MovingWall extends GameObject {
 
     @Override
     public void render(Graphics g) {
-        g.setColor(Color.RED);
-        g.fillRect((int) x, (int) y, Game.WIDTH / 15, holeY);
+        if (Player1.forceField) {
+            g.setColor(Color.RED);
+            g.fillRect((int) x, (int) y, Game.WIDTH / 22, holeY);
+        } else {
+            if (!Player1.damageDeal) {
+                g.setColor(new Color(179, 52, 52));
+                g.fillRect((int) x, (int) y, Game.WIDTH / 22, holeY);
+            } else {
+                g.setColor(Color.RED);
+                g.fillRect((int) x, (int) y, Game.WIDTH / 22, holeY);
+            }
+        }
     }
 }

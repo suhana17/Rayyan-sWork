@@ -21,5 +21,7 @@ public enum ID {
     Thorn(),
 
     Wall(),
-    MovingWall();
+    MovingWall(),
+    Enemy3Boss(),
+    DamageOrb();
 }

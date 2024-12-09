@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.sql.SQLException;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -22,7 +23,11 @@ public class Coin extends GameObject {
 
     @Override
     public void tick() {
-        collision();
+        try {
+            collision();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void startDespawnTimer() {
@@ -39,19 +44,21 @@ public class Coin extends GameObject {
         timer.cancel();
     }
 
-    public void collision() {
+    public void collision() throws SQLException {
         for (int i = 0; i < handler.object.size(); i++) {
             GameObject tempObject = handler.object.get(i);
 
             if (tempObject.getId() == ID.Player1) {
                 if (getBounds().intersects(tempObject.getBounds())) {
                     HUD.p1points += 2;
+                    Game.dbSet(Game.conn, "UPDATE stats SET points = " + (Menu.points + 2) + " WHERE userName = " + Menu.playerName);
                     handler.object.remove(this);
                 }
             }
             if (tempObject.getId() == ID.Player2) {
                 if (getBounds().intersects(tempObject.getBounds())) {
                     HUD.p2points += 2;
+                    Game.dbSet(Game.conn, "UPDATE stats SET points = " + (Menu.points + 2) + " WHERE userName = " + Menu.playerName);
                     handler.object.remove(this);
                 }
             }

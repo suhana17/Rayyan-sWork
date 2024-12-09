@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.sql.SQLException;
 import java.sql.Time;
 import java.util.Objects;
 import java.util.Timer;
@@ -78,7 +79,11 @@ public class HUD {
 
     int p2scoreKeep = 0;
 
-    public void tick() {
+    public void tick() throws SQLException {
+        if (level > Menu.maxCube) {
+            Menu.maxCube = level;
+            Game.dbSet(Game.conn, "UPDATE stats SET maxCube = " + (level) + " WHERE userName = " + Menu.playerName);
+        }
         if (tickdatock) {
             if (HEALTH == 0 && P2HEALTH != 0) playerWon = "2";
             else if (P2HEALTH == 0 && HEALTH != 0) playerWon = "1";

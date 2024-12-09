@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.sql.SQLException;
 import java.util.Objects;
 import java.util.Random;
 import java.util.Timer;
@@ -17,6 +18,10 @@ public class Player1 extends GameObject {
     int y1;
     int x2;
     int y2;
+
+    public static int distanceX;
+
+    public static int distanceY;
 
     public static boolean isTouchingHUD1 = false;
 
@@ -40,7 +45,11 @@ public class Player1 extends GameObject {
 
     public static float dajing = 2;
 
-    public Player1(int x, int y, ID id, Handler handler) {
+    Timer timer = new Timer();
+
+    int distance = Integer.parseInt(Game.dbGet(Game.conn, "SELECT distance FROM stats WHERE userName = " + Menu.playerName, "distance"));
+
+    public Player1(int x, int y, ID id, Handler handler) throws SQLException {
         super(x, y, id);
         this.x = dax;
         this.y = day;
@@ -62,17 +71,27 @@ public class Player1 extends GameObject {
         day += velY;
         if (da5) {
             da5 = false;
-            x1 = x;
-            y1 = y;
+            x1 = (int) x;
+            y1 = (int) y;
         }
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                x2 = x;
-                y2 = y;
-                distanceX = distance
+                x2 = (int) x;
+                y2 = (int) y;
+                if (x2 > x1) distanceX += x2 - x1;
+                if (x1 > x2) distanceX += x1 - x2;
+                if (y2 > y1) distanceY += y2 - y1;
+                if (y1 > y2) distanceY += y1 - y2;
+                da5 = true;
             }
         }, 1000);
+
+        try {
+            Game.dbSet(Game.conn, "UPDATE stats SET distance = " + (distance + (distanceX + distanceY)) + " WHERE userName = " + Menu.playerName);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
         x = dax;
         y = day;

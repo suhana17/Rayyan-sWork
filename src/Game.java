@@ -1,28 +1,19 @@
 import java.awt.*;
 import java.awt.image.BufferStrategy;
-import java.io.FileNotFoundException;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.Properties;
+import java.sql.*;
 import java.util.Random;
 
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.Player;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
+import javax.sql.DataSource;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-
-import java.io.*;
-import java.net.*;
 import java.util.*;
+import javax.sql.DataSource;
+import org.postgresql.ds.PGSimpleDataSource;
+import org.postgresql.util.PSQLException;
 
 
 public class Game extends Canvas implements Runnable {
@@ -67,9 +58,26 @@ public class Game extends Canvas implements Runnable {
 
     public static boolean PlayerMode2 = false;
 
-    public static boolean onlineMode = false;
+    public static boolean Mode1v1 = false;
+
+    public static boolean Mode2v2 = false;
+
+    public static boolean Mode3v3 = false;
+
 
     static Client client;
+
+
+    static DataSource dataSource = createDataSource();
+    static Connection conn;
+
+    static {
+        try {
+            conn = dataSource.getConnection();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     private Random r;
     public static HUD hud;
@@ -104,7 +112,7 @@ public class Game extends Canvas implements Runnable {
 
     public static STATE gameState = STATE.Intro;
 
-    public Game() {
+    public Game() throws SQLException {
         handler = new Handler();
         hud = new HUD();
         da = true;
@@ -160,11 +168,19 @@ public class Game extends Canvas implements Runnable {
             delta += (now - lastTime) / ns;
             lastTime = now;
             while(delta >= 1) {
-                tick();
+                try {
+                    tick();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
                 delta--;
             }
             if (running) {
-                render();
+                try {
+                    render();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
             }
             frames++;
 
@@ -176,7 +192,8 @@ public class Game extends Canvas implements Runnable {
         stop();
     }
 
-    private void tick() {
+    private void tick() throws SQLException {
+        if (Menu.XP == 10) dbSet(conn, "UPDATE stats SET level = " + Menu.playerLevel + 1 + " WHERE userName = " + Menu.playerName);
         if (gameState == STATE.Game) {
             if (map == 1) {
                 if (da2) {
@@ -238,6 +255,8 @@ public class Game extends Canvas implements Runnable {
                 spawner.tick();
                 if (hud.HEALTH <= 0 || hud.P2HEALTH <= 0) {
                     da = true;
+                    if (PlayerMode2) dbSet(conn, "UPDATE stats SET games = " + (Menu.games + 2) + " WHERE userName = " + Menu.playerName);
+                    else dbSet(conn, "UPDATE stats SET games = " + (Menu.games + 1) + " WHERE userName = " + Menu.playerName);
                     if (Menu.volume) playerOfOver.playMusic();
                     hud.HEALTH = 100;
                     hud.P2HEALTH = 100;
@@ -331,7 +350,7 @@ public class Game extends Canvas implements Runnable {
     }
 
 
-    private void render() {
+    private void render() throws SQLException {
         BufferStrategy bs = this.getBufferStrategy();
         if (bs == null) {
             this.createBufferStrategy(3);
@@ -391,7 +410,37 @@ public class Game extends Canvas implements Runnable {
         }
     }
 
-    public static void main(String[] args) {
+    public static boolean isItThere(String name) throws SQLException {
+        String message = dbGet(conn, "SELECT userName FROM stats WHERE userName = " + name, "userName");
+        return !Objects.equals(message, "not found");
+    }
+
+    public static DataSource createDataSource() {
+        final PGSimpleDataSource dataSource = new PGSimpleDataSource();
+        dataSource.setUrl(Private.db_url);
+        return dataSource;
+    }
+
+    public static void dbSet(Connection conn, String databaseStatement) throws SQLException {
+        PreparedStatement statement = conn.prepareStatement(databaseStatement);
+        statement.execute();
+    }
+
+    public static String dbGet(Connection conn, String databaseStatement, String columnToGet) throws SQLException {
+        PreparedStatement statement = conn.prepareStatement(databaseStatement);
+        ResultSet rs =  statement.executeQuery();
+        if (rs.next()) return rs.getString(columnToGet);
+        else return "not found";
+    }
+
+    public static Array dbGetArray(Connection conn, String databaseStatement, String columnToGet) throws SQLException {
+        PreparedStatement statement = conn.prepareStatement(databaseStatement);
+        ResultSet rs =  statement.executeQuery();
+        if (rs.next()) return rs.getArray(columnToGet);
+        else return null;
+    }
+
+    public static void main(String[] args) throws SQLException {
         new Game();
         try {
             client = new Client();

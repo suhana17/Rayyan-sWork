@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch4jConfig>
+  <dontWrapJar>false</dontWrapJar>
+  <headerType>gui</headerType>
+  <jar>C:\Users\fizza\IdeaProjects\QBismLaptop1\out\artifacts\QBismTesting3\QBismLaptop1.jar</jar>
+  <outfile>C:\Users\fizza\IdeaProjects\QBismLaptop1\out\artifacts\QBismTesting3\QBismTest3.exe</outfile>
+  <errTitle></errTitle>
+  <cmdLine></cmdLine>
+  <chdir>.</chdir>
+  <priority>normal</priority>
+  <downloadUrl></downloadUrl>
+  <supportUrl></supportUrl>
+  <stayAlive>false</stayAlive>
+  <restartOnCrash>false</restartOnCrash>
+  <manifest></manifest>
+  <icon>C:\Users\fizza\IdeaProjects\QBismLaptop1\out\artifacts\QBismTesting3\QBismIcon.ico</icon>
+  <singleInstance>
+    <mutexName>QBismTest3.exe</mutexName>
+    <windowTitle>QBism Test 3</windowTitle>
+  </singleInstance>
+  <jre>
+    <path>JRE</path>
+    <requiresJdk>false</requiresJdk>
+    <requires64Bit>false</requires64Bit>
+    <minVersion>1.6.0</minVersion>
+    <maxVersion></maxVersion>
+  </jre>
+</launch4jConfig>

@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.Objects;
 
 public class NameEnter extends JFrame implements ActionListener {
@@ -30,9 +31,17 @@ public class NameEnter extends JFrame implements ActionListener {
     }
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == button && !Objects.equals(textField.getText(), "")) {
-            Menu.playerName = textField.getText();
-            this.setVisible(false);
+        try {
+            if (e.getSource() == button && !Objects.equals(textField.getText(), "") && !Game.isItThere(textField.getText())) {
+                Menu.playerName = textField.getText();
+                Game.dbSet(Game.conn, "UPDATE stats SET userName = " + textField.getText() + " WHERE userName = " + Menu.playerName);
+                this.setVisible(false);
+            } else if (Game.isItThere(textField.getText())) {
+                this.setVisible(false);
+                Menu.chooseNewName = true;
+            }
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
         }
     }
 }

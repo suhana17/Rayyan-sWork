@@ -9,6 +9,13 @@ public class Player2 extends GameObject {
 
     public static int dajing = 2;
 
+    public static boolean da5 = true;
+
+    public static int x1;
+    public static int y1;
+    public static int x2;
+    public static int y2;
+
     private static String otherSkin;
 
     private static String otherName;
@@ -20,6 +27,8 @@ public class Player2 extends GameObject {
     public static int dax;
 
     public static int day;
+
+    Timer timer = new Timer();
 
     public static boolean isTouchingInfo = false;
 
@@ -40,6 +49,24 @@ public class Player2 extends GameObject {
     public void tick() {
         x = dax;
         y = day;
+
+        if (da5) {
+            da5 = false;
+            x1 = (int) x;
+            y1 = (int) y;
+        }
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                x2 = (int) x;
+                y2 = (int) y;
+                if (x2 > x1) Player1.distanceX += x2 - x1;
+                if (x1 > x2) Player1.distanceX += x1 - x2;
+                if (y2 > y1) Player1.distanceY += y2 - y1;
+                if (y1 > y2) Player1.distanceY += y1 - y2;
+                da5 = true;
+            }
+        }, 1000);
 
         dax += velX;
         day += velY;

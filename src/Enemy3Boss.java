@@ -46,7 +46,7 @@ public class Enemy3Boss extends GameObject {
                 if (Game.diff == 1) Game.p2hardWon = true;
             } else if (Game.squadronMode) {
                 // do stuff
-            } else if (Game.onlineMode && Objects.equals(HUD.onlinePlayerWon, Menu.playerName)) {
+            } else if (Game.Mode1v1 || Game.Mode2v2 || Game.Mode3v3 && Objects.equals(HUD.onlinePlayerWon, Menu.playerName)) {
                 // do stuff
             }
             Game.gameState = Game.STATE.Finished;
@@ -130,7 +130,7 @@ public class Enemy3Boss extends GameObject {
             int spawn = r.nextInt(10);
             if (spawn == 0) handler.addObject(new DamageOrb((int) x + 96, (int) y + 96, ID.DamageOrb, handler));
         }
-        if (x <= 0 || x >= Game.WIDTH - 140) velX *= -1;
+        if (x <= 128 || x >= Game.WIDTH - 268) velX *= -1;
     }
 
     @Override
@@ -139,6 +139,8 @@ public class Enemy3Boss extends GameObject {
         g.fillRect((int) x, (int) y, 128, 128);
         g.fillRect((int) x - 128, (int) y + 64, 128, 48);
         g.fillRect((int) x + 128, (int) y + 64, 128, 48);
+        g.fillRect((int) x - 128, (int) y + 112, 16, 48);
+        g.fillRect((int) x + 128, (int) y + 112, 16, 48);
         g.setColor(Color.RED);
         g.fillRect((int) x - 32, (int) y + 96, 16, 48);
         g.fillRect((int) x - 64, (int) y + 96, 16, 48);
@@ -157,7 +159,7 @@ public class Enemy3Boss extends GameObject {
             g.setFont(new Font("Monospaced", Font.PLAIN, 15));
             g.drawString("Ah, I see you don't have bullets!", (int) x + 128 + (Game.WIDTH / 15), (int) y + 32);
             g.drawString("Tough luck! I see... ", (int) x + 128 + (Game.WIDTH / 15), (int) y + 64);
-            g.drawString("It's gonna be tough to beat me!", (int) x + 128 + (Game.WIDTH / 15), (int) y + 96);
+            g.drawString("It's won't be easy to beat me!", (int) x + 128 + (Game.WIDTH / 15), (int) y + 96);
         }
 
         // health

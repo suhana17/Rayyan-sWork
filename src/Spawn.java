@@ -1,3 +1,4 @@
+import java.sql.SQLException;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -21,7 +22,7 @@ public class Spawn {
         this.game = game;
     }
 
-    public void tick() {
+    public void tick() throws SQLException {
         if (doit) scoreKeep++;
         if (scoreKeep >= 2000) {
             scoreKeep = 0;
@@ -34,6 +35,10 @@ public class Spawn {
                 }
             }, 3000);
             hud.setLevel(hud.getLevel() + 1);
+            if (game.PlayerMode2) game.dbSet(game.conn, "UPDATE stats SET totalCubes = " + (Menu.totalCubes + 2) + " WHERE userName = " + Menu.playerName);
+            else game.dbSet(game.conn, "UPDATE stats SET totalCubes = " + (Menu.totalCubes + 1) + " WHERE userName = " + Menu.playerName);
+            if (game.PlayerMode2) game.dbSet(game.conn, "UPDATE stats SET points = " + (Menu.points + 2) + " WHERE userName = " + Menu.playerName);
+            else game.dbSet(game.conn, "UPDATE stats SET points = " + (Menu.points + 1) + " WHERE userName = " + Menu.playerName);
 
             if (game.diff == 0) {
                 if (hud.getLevel() == 2) {
@@ -47,6 +52,10 @@ public class Spawn {
                     handler.addObject(new Coin(r.nextInt(Game.WIDTH / 2) + 50, r.nextInt(Game.HEIGHT / 2) + 50, ID.Coin, handler));
                     handler.addObject(new BasicEnemy(r.nextInt(Game.WIDTH / 2) + 50, r.nextInt(Game.HEIGHT / 2) + 50, ID.BasicEnemy, handler));
                 } else if (hud.getLevel() == 5) {
+                    if (!game.PlayerMode2 && !game.Mode1v1 && !game.Mode2v2 && !game.Mode3v3 && !game.squadronMode) game.dbSet(game.conn, "UPDATE stats SET XP = " + (Menu.XP + 1) + " WHERE userName = " + Menu.playerName);
+                    if (game.PlayerMode2 || game.Mode1v1) game.dbSet(game.conn, "UPDATE stats SET XP = " + (Menu.XP + 3) + " WHERE userName = " + Menu.playerName);
+                    if (game.Mode2v2) game.dbSet(game.conn, "UPDATE stats SET XP = " + (Menu.XP + 5) + " WHERE userName = " + Menu.playerName);
+                    if (game.Mode3v3 || game.squadronMode) game.dbSet(game.conn, "UPDATE stats SET XP = " + (Menu.XP + 7) + " WHERE userName = " + Menu.playerName);
                     handler.addObject(new Coin(r.nextInt(Game.WIDTH / 2) + 50, r.nextInt(Game.HEIGHT / 2) + 50, ID.Coin, handler));
                     handler.addObject(new BasicEnemy(r.nextInt(Game.WIDTH / 2) + 50, r.nextInt(Game.HEIGHT / 2) + 50, ID.BasicEnemy, handler));
                 } else if (hud.getLevel() == 6) {
@@ -86,6 +95,11 @@ public class Spawn {
                     handler.addObject(new Coin(r.nextInt(Game.WIDTH / 2) + 50, r.nextInt(Game.HEIGHT / 2) + 50, ID.Coin, handler));
                     handler.addObject(new BasicEnemy(r.nextInt(Game.WIDTH / 2) + 50, r.nextInt(Game.HEIGHT / 2) + 50, ID.BasicEnemy, handler));
                 } else if (hud.getLevel() == 20) {
+                    if (!game.PlayerMode2 && !game.Mode1v1 && !game.Mode2v2 && !game.Mode3v3 && !game.squadronMode) game.dbSet(game.conn, "UPDATE stats SET XP = " + (Menu.XP + 6) + " WHERE userName = " + Menu.playerName);
+                    if (game.PlayerMode2 || game.Mode1v1) game.dbSet(game.conn, "UPDATE stats SET XP = " + (Menu.XP + 10) + " WHERE userName = " + Menu.playerName);
+                    if (game.Mode2v2) game.dbSet(game.conn, "UPDATE stats SET XP = " + (Menu.XP + 13) + " WHERE userName = " + Menu.playerName);
+                    if (game.Mode3v3 || game.squadronMode) game.dbSet(game.conn, "UPDATE stats SET XP = " + (Menu.XP + 16) + " WHERE userName = " + Menu.playerName);
+
                     handler.addObject(new BasicEnemy(r.nextInt(Game.WIDTH / 2) + 50, r.nextInt(Game.HEIGHT / 2) + 50, ID.BasicEnemy, handler));
                 } else if (hud.getLevel() == 21) {
                     handler.addObject(new BasicEnemy(r.nextInt(Game.WIDTH / 2) + 50, r.nextInt(Game.HEIGHT / 2) + 50, ID.BasicEnemy, handler));
@@ -118,6 +132,10 @@ public class Spawn {
                     handler.addObject(new MovingWall2(Game.WIDTH, 0, ID.MovingWall, handler));
                 } else if (hud.getLevel() == 30) {
                     handler.clearEnemies();
+                    if (!game.PlayerMode2 && !game.Mode1v1 && !game.Mode2v2 && !game.Mode3v3 && !game.squadronMode) game.dbSet(game.conn, "UPDATE stats SET XP = " + (Menu.XP + 10) + " WHERE userName = " + Menu.playerName);
+                    if (game.PlayerMode2 || game.Mode1v1) game.dbSet(game.conn, "UPDATE stats SET XP = " + (Menu.XP + 15) + " WHERE userName = " + Menu.playerName);
+                    if (game.Mode2v2) game.dbSet(game.conn, "UPDATE stats SET XP = " + (Menu.XP + 19) + " WHERE userName = " + Menu.playerName);
+                    if (game.Mode3v3 || game.squadronMode) game.dbSet(game.conn, "UPDATE stats SET XP = " + (Menu.XP + 21) + " WHERE userName = " + Menu.playerName);
                     handler.addObject(new Enemy3Boss(Game.WIDTH / 2, -240, ID.Enemy3Boss, handler));
                 }
             } else if (game.diff == 1) {
@@ -133,6 +151,10 @@ public class Spawn {
                     handler.addObject(new Coin(r.nextInt(Game.WIDTH / 2) + 50, r.nextInt(Game.HEIGHT / 2) + 50, ID.Coin, handler));
                     handler.addObject(new HardEnemy(r.nextInt(Game.WIDTH / 2) + 50, r.nextInt(Game.HEIGHT / 2) + 50, ID.BasicEnemy, handler));
                 } else if (hud.getLevel() == 5) {
+                    if (!game.PlayerMode2 && !game.Mode1v1 && !game.Mode2v2 && !game.Mode3v3 && !game.squadronMode) game.dbSet(game.conn, "UPDATE stats SET XP = " + (Menu.XP + 3) + " WHERE userName = " + Menu.playerName);
+                    if (game.PlayerMode2 || game.Mode1v1) game.dbSet(game.conn, "UPDATE stats SET XP = " + (Menu.XP + 4) + " WHERE userName = " + Menu.playerName);
+                    if (game.Mode2v2) game.dbSet(game.conn, "UPDATE stats SET XP = " + (Menu.XP + 5) + " WHERE userName = " + Menu.playerName);
+                    if (game.Mode3v3 || game.squadronMode) game.dbSet(game.conn, "UPDATE stats SET XP = " + (Menu.XP + 8) + " WHERE userName = " + Menu.playerName);
                     handler.addObject(new BasicEnemy(r.nextInt(Game.WIDTH / 2) + 50, r.nextInt(Game.HEIGHT / 2) + 50, ID.BasicEnemy, handler));
                     handler.addObject(new FastEnemy(r.nextInt(Game.WIDTH / 2) + 50, r.nextInt(Game.HEIGHT / 2) + 50, ID.FastEnemy, handler));
                 } else if (hud.getLevel() == 6) {
@@ -173,6 +195,10 @@ public class Spawn {
                 } else if (hud.getLevel() == 19) {
                     handler.addObject(new BasicEnemy(r.nextInt(Game.WIDTH / 2) + 50, r.nextInt(Game.HEIGHT / 2) + 50, ID.BasicEnemy, handler));
                 } else if (hud.getLevel() == 20) {
+                    if (!game.PlayerMode2 && !game.Mode1v1 && !game.Mode2v2 && !game.Mode3v3 && !game.squadronMode) game.dbSet(game.conn, "UPDATE stats SET XP = " + (Menu.XP + 10) + " WHERE userName = " + Menu.playerName);
+                    if (game.PlayerMode2 || game.Mode1v1) game.dbSet(game.conn, "UPDATE stats SET XP = " + (Menu.XP + 12) + " WHERE userName = " + Menu.playerName);
+                    if (game.Mode2v2) game.dbSet(game.conn, "UPDATE stats SET XP = " + (Menu.XP + 14) + " WHERE userName = " + Menu.playerName);
+                    if (game.Mode3v3 || game.squadronMode) game.dbSet(game.conn, "UPDATE stats SET XP = " + (Menu.XP + 17) + " WHERE userName = " + Menu.playerName);
                     handler.addObject(new BasicEnemy(r.nextInt(Game.WIDTH / 2) + 50, r.nextInt(Game.HEIGHT / 2) + 50, ID.BasicEnemy, handler));
                     hud.dading = 750;
                 } else if (hud.getLevel() == 21) {
@@ -199,6 +225,10 @@ public class Spawn {
                     handler.addObject(new MovingWall2(Game.WIDTH, 0, ID.MovingWall, handler));
                 } else if (hud.getLevel() == 27) {
                     handler.clearEnemies();
+                    if (!game.PlayerMode2 && !game.Mode1v1 && !game.Mode2v2 && !game.Mode3v3 && !game.squadronMode) game.dbSet(game.conn, "UPDATE stats SET XP = " + (Menu.XP + 13) + " WHERE userName = " + Menu.playerName);
+                    if (game.PlayerMode2 || game.Mode1v1) game.dbSet(game.conn, "UPDATE stats SET XP = " + (Menu.XP + 18) + " WHERE userName = " + Menu.playerName);
+                    if (game.Mode2v2) game.dbSet(game.conn, "UPDATE stats SET XP = " + (Menu.XP + 20) + " WHERE userName = " + Menu.playerName);
+                    if (game.Mode3v3 || game.squadronMode) game.dbSet(game.conn, "UPDATE stats SET XP = " + (Menu.XP + 23) + " WHERE userName = " + Menu.playerName);
                     handler.addObject(new Enemy3Boss(Game.WIDTH / 2, -240, ID.Enemy3Boss, handler));
                 }
             }

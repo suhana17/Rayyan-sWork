@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.SQLException;
 import java.util.Objects;
 import java.util.Random;
 import java.util.TimerTask;
@@ -22,7 +23,21 @@ public class Menu extends MouseAdapter {
 
     public static int XP = 0;
 
-    public static float distance = 0;
+    public static int games = 0;
+
+    public static int points = 0;
+
+    public static int[] achievements = {};
+
+    private boolean da6 = false;
+
+    public static int totalCubes = 0;
+
+    public static int maxCube = 0;
+
+    public static int playerLevel = 1;
+
+    public static float distance = Player1.distanceY + Player1.distanceX;
 
     public static boolean trans1Main = false;
 
@@ -86,7 +101,11 @@ public class Menu extends MouseAdapter {
 
     public static boolean cancelled = false;
 
+    public static boolean locked = false;
+
     public static String skin = "plain";
+
+    public static boolean chooseNewName = false;
 
     private boolean squadron = false;
 
@@ -196,6 +215,7 @@ public class Menu extends MouseAdapter {
                 }
                 trans3Main = false;
 
+                da6 = true;
                 game.gameState = Game.STATE.Profile;
                 return;
             }
@@ -331,9 +351,11 @@ public class Menu extends MouseAdapter {
                 }
                 trans4Profile = false;
 
-                JOptionPane.showMessageDialog(null, "Squadron coming soon!", "Stay Tuned!", JOptionPane.INFORMATION_MESSAGE);
-                skins = false;
-                squadron = true;
+                if (!Objects.equals(playerName, "QBer")) {
+                    JOptionPane.showMessageDialog(null, "Squadron coming soon!", "Stay Tuned!", JOptionPane.INFORMATION_MESSAGE);
+                    skins = false;
+                    squadron = true;
+                } else new NameEnter();
             }
 
             if (mouseOver(mx, my, Game.WIDTH / 3, Game.HEIGHT - (Game.HEIGHT / 3) - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10)) {
@@ -364,32 +386,37 @@ public class Menu extends MouseAdapter {
 
             if (mouseOver(mx, my, Game.WIDTH - (Game.WIDTH / 4), Game.HEIGHT / 3, 64, 64)) {
                 if (volume) game.play("sounds/buttonPress.mp3");
-                skin = "plain";
+                if (!Objects.equals(playerName, "QBer")) skin = "plain";
             }
 
             if (mouseOver(mx, my, Game.WIDTH - (Game.WIDTH / 5), Game.HEIGHT / 3, 64, 64)) {
                 if (volume) game.play("sounds/buttonPress.mp3");
-                skin = "creeper";
+                if (!Objects.equals(playerName, "Qber")) skin = "creeper";
+                else new NameEnter();
             }
 
             if (mouseOver(mx, my, Game.WIDTH - (Game.WIDTH / 7), Game.HEIGHT / 3, 64, 64)) {
                 if (volume) game.play("sounds/buttonPress.mp3");
-                skin = "zombie";
+                if (!Objects.equals(playerName, "QBer")) skin = "zombie";
+                else new NameEnter();
             }
 
             if (mouseOver(mx, my, Game.WIDTH - (Game.WIDTH / 4), Game.HEIGHT / 3 + (Game.HEIGHT / 13), 64, 64)) {
                 if (volume) game.play("sounds/buttonPress.mp3");
-                skin = "skeleton";
+                if (!Objects.equals(playerName, "QBer")) skin = "skeleton";
+                else new NameEnter();
             }
 
             if (mouseOver(mx, my, Game.WIDTH - (Game.WIDTH / 5), Game.HEIGHT / 3 + (Game.HEIGHT / 13), 64, 64)) {
                 if (volume) game.play("sounds/buttonPress.mp3");
-                skin = "enderman";
+                if (!Objects.equals(playerName, "QBer")) skin = "enderman";
+                else new NameEnter();
             }
 
             if (mouseOver(mx, my, Game.WIDTH - (Game.WIDTH / 7), Game.HEIGHT / 3 + (Game.HEIGHT / 13), 64, 64)) {
                 if (volume) game.play("sounds/buttonPress.mp3");
-                skin = "gift package";
+                if (!Objects.equals(playerName, "QBer")) skin = "gift package";
+                else new NameEnter();
             }
         }
 
@@ -426,16 +453,46 @@ public class Menu extends MouseAdapter {
                     throw new RuntimeException(ex);
                 }
                 trans2Map = false;
+                if (game.PlayerMode2) {
+                    game.gameState = Game.STATE.Game;
+                    handler.addObject(new Player2(Game.WIDTH / 2 - 32, Game.HEIGHT / 2 - 32, ID.Player2, null, null, handler));
+                    try {
+                        handler.addObject(new Player1(Game.WIDTH / 2 - 32, Game.HEIGHT / 2 - 32, ID.Player1, handler));
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    handler.clearEnemies();
+                    if (normal)
+                        handler.addObject(new BasicEnemy(r.nextInt(Game.WIDTH + 55), r.nextInt(Game.HEIGHT + 55), ID.BasicEnemy, handler));
+                    else if (hard)
+                        handler.addObject(new HardEnemy(r.nextInt(Game.WIDTH + 55), r.nextInt(Game.HEIGHT + 55), ID.BasicEnemy, handler));
 
-                game.gameState = Game.STATE.Game;
-                handler.addObject(new Player1(Game.WIDTH / 2 - 32, Game.HEIGHT / 2 - 32, ID.Player1, handler));
-                handler.clearEnemies();
-                if (normal) handler.addObject(new BasicEnemy(r.nextInt(Game.WIDTH + 55), r.nextInt(Game.HEIGHT + 55), ID.BasicEnemy, handler));
-                else if (hard) handler.addObject(new HardEnemy(r.nextInt(Game.WIDTH + 55), r.nextInt(Game.HEIGHT + 55), ID.BasicEnemy, handler));
+                    game.PlayerMode2 = true;
+                    game.Mode1v1 = false;
+                    game.Mode2v2 = false;
+                    game.Mode3v3 = false;
 
-                game.PlayerMode2 = false;
-                game.onlineMode = false;
-                game.diff = normal ? 0 : 1;
+                    game.diff = normal ? 0 : 1;
+                } else {
+                    game.gameState = Game.STATE.Game;
+                    try {
+                        handler.addObject(new Player1(Game.WIDTH / 2 - 32, Game.HEIGHT / 2 - 32, ID.Player1, handler));
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    handler.clearEnemies();
+                    if (normal)
+                        handler.addObject(new BasicEnemy(r.nextInt(Game.WIDTH + 55), r.nextInt(Game.HEIGHT + 55), ID.BasicEnemy, handler));
+                    else if (hard)
+                        handler.addObject(new HardEnemy(r.nextInt(Game.WIDTH + 55), r.nextInt(Game.HEIGHT + 55), ID.BasicEnemy, handler));
+
+                    game.PlayerMode2 = false;
+                    game.Mode1v1 = false;
+                    game.Mode2v2 = false;
+                    game.Mode3v3 = false;
+
+                    game.diff = normal ? 0 : 1;
+                }
             }
         }
 
@@ -553,12 +610,15 @@ public class Menu extends MouseAdapter {
                     throw new RuntimeException(ex);
                 }
                 trans1Difficulty = false;
-
-                game.gameState = Game.STATE.Map;
-                game.PlayerMode2 = false;
-                game.onlineMode = false;
-                normal = true;
-                hard = false;
+                if (!Objects.equals(playerName, "QBer")) {
+                    game.gameState = Game.STATE.Map;
+                    game.PlayerMode2 = false;
+                    game.Mode1v1 = false;
+                    game.Mode2v2= false;
+                    game.Mode3v3 = false;
+                    normal = true;
+                    hard = false;
+                } else new NameEnter();
             }
 
             if (mouseOver(mx, my, Game.WIDTH - (Game.WIDTH / 4) - (Game.WIDTH / 8), Game.HEIGHT / 5 - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10)) {
@@ -571,11 +631,17 @@ public class Menu extends MouseAdapter {
                 }
                 trans2Difficulty = false;
 
-                game.gameState = Game.STATE.Map;
-                game.PlayerMode2 = false;
-                game.onlineMode = false;
-                normal = false;
-                hard = true;
+                if (!Objects.equals(playerName, "QBer")) {
+                    game.gameState = Game.STATE.Map;
+                    game.PlayerMode2 = false;
+                    game.Mode1v1 = false;
+                    game.Mode2v2 = false;
+
+                    game.Mode3v3 = false;
+
+                    normal = false;
+                    hard = true;
+                } else new NameEnter();
             }
 
             if (mouseOver(mx, my, Game.WIDTH / 4 - (Game.WIDTH / 8), Game.HEIGHT / 2 - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10)) {
@@ -588,9 +654,16 @@ public class Menu extends MouseAdapter {
                 }
                 trans4Difficulty = false;
 
-                game.gameState = Game.STATE.ChooseHard;
-                game.PlayerMode2 = true;
-                game.onlineMode = false;
+                if (!Objects.equals(playerName, "QBer")) {
+                    game.gameState = Game.STATE.ChooseHard;
+                    game.PlayerMode2 = true;
+                    game.Mode1v1 = false;
+                    game.Mode2v2 = false;
+
+                    game.Mode3v3 = false;
+
+
+                } else new NameEnter();
             }
 
             if (mouseOver(mx, my, Game.WIDTH - (Game.WIDTH / 4) - (Game.WIDTH / 8), Game.HEIGHT / 2 - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10)) {
@@ -602,9 +675,10 @@ public class Menu extends MouseAdapter {
                     throw new RuntimeException(ex);
                 }
                 trans5Difficulty = false;
-
-                //game.gameState = Game.STATE.ChooseHard;
-                // make hard/normal
+                if (!Objects.equals(playerName, "QBer")) {
+                    //game.gameState = Game.STATE.ChooseHard;
+                    // make hard/normal
+                } else new NameEnter();
             }
 
             if (mouseOver(mx, my, Game.WIDTH - (Game.WIDTH / 4) - (Game.WIDTH / 8), Game.HEIGHT - (Game.HEIGHT / 6) - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10)) {
@@ -619,9 +693,15 @@ public class Menu extends MouseAdapter {
 
                 // make hard/normal
                 //game.gameState = Game.STATE.ChooseHard;
-                JOptionPane.showMessageDialog(null, "Squadron level coming soon!", "Stay Tuned!", JOptionPane.INFORMATION_MESSAGE);
-                game.PlayerMode2 = false;
-                game.onlineMode = false;
+                if (!Objects.equals(playerName, "QBer")) {
+                    JOptionPane.showMessageDialog(null, "Squadron level coming soon!", "Stay Tuned!", JOptionPane.INFORMATION_MESSAGE);
+                    game.PlayerMode2 = false;
+                    game.Mode1v1 = false;
+                    game.Mode2v2 = false;
+
+                    game.Mode3v3 = false;
+
+                } else new NameEnter();
             }
 
             if (mouseOver(mx, my, Game.WIDTH / 4 - (Game.WIDTH / 8), Game.HEIGHT - (Game.HEIGHT / 6) - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10)) {
@@ -773,9 +853,42 @@ public class Menu extends MouseAdapter {
         } else return false;
     }
 
-    public void tick() {}
+    public void tick() throws SQLException {
+        if (da6) {
+            da6 = false;
+            XP = Integer.parseInt(game.dbGet(game.conn, "SELECT XP FROM stats WHERE userName = " + playerName, "XP"));
+            skin = game.dbGet(game.conn, "SELECT skin FROM stats WHERE userName = " + playerName, "skin");
+            achievements = (int[]) game.dbGetArray(game.conn, "SELECT achievements FROM stats WHERE userName = " + playerName, "achievements").getArray();
+            games = Integer.parseInt(game.dbGet(game.conn, "SELECT games FROM stats WHERE userName = " + playerName, "games"));
+            totalCubes = Integer.parseInt(game.dbGet(game.conn, "SELECT totalCubes FROM stats WHERE userName = " + playerName, "totalCubes"));
+            maxCube = Integer.parseInt(game.dbGet(game.conn, "SELECT maxCube FROM stats WHERE userName = " + playerName, "maxCube"));
+            distance = Integer.parseInt(game.dbGet(game.conn, "SELECT distance FROM stats WHERE userName = " + playerName, "distance"));
+            skin = game.dbGet(game.conn, "SELECT skin FROM stats WHERE userName = " + playerName, "skin");
+            playerLevel = Integer.parseInt(game.dbGet(game.conn, "SELECT level FROM stats WHERE userName = " + playerName, "level"));
+        }
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                da6 = true;
+            }
+        }, 5000);
+    }
 
-    public void render(Graphics g) {
+    public void render(Graphics g) throws SQLException {
+        Timer timer = new Timer();
+        if (chooseNewName) {
+            g.setColor(Color.RED);
+            g.setFont(new Font("arial", Font.BOLD, Game.WIDTH / 20));
+            g.drawString("Choose Another Name", Game.WIDTH / 2 - (Game.WIDTH / 8), Game.HEIGHT / 2);
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    chooseNewName = false;
+                }
+            }, 2000);
+        }
+
         g.setColor(Color.WHITE);
         g.drawLine(30, 30, 30, 45);
         g.drawLine(30, 30, 45, 30);
@@ -805,11 +918,9 @@ public class Menu extends MouseAdapter {
 
             g.setFont(new Font("arial", 1, Game.WIDTH / 45));
             g.drawString("Coming Soon: ", Game.WIDTH / 2 - (Game.WIDTH / 6), Game.HEIGHT / 2 + (Game.HEIGHT / 6));
-            g.drawString("Maps/chat", Game.WIDTH / 2 - (Game.WIDTH / 6), Game.HEIGHT / 2 + (Game.HEIGHT / 4));
+            g.drawString("Chat", Game.WIDTH / 2 - (Game.WIDTH / 6), Game.HEIGHT / 2 + (Game.HEIGHT / 4));
             g.drawString("Squadron", Game.WIDTH / 2 - (Game.WIDTH / 6), Game.HEIGHT / 2 + (Game.HEIGHT / 3));
-            g.drawString("More power-ups", Game.WIDTH / 2 - (Game.WIDTH / 6), Game.HEIGHT / 2 + (Game.HEIGHT / 3) + (Game.HEIGHT / 12));
             g.drawString("Online level", Game.WIDTH / 2 + (Game.WIDTH / 12), Game.HEIGHT / 2 + (Game.HEIGHT / 4));
-            g.drawString("Stats", Game.WIDTH / 2 + (Game.WIDTH / 12), Game.HEIGHT / 2 + (Game.HEIGHT / 3));
 
             g.setFont(font2);
             if (trans1Intro) {
@@ -905,8 +1016,8 @@ public class Menu extends MouseAdapter {
 
             if (cancelled) {
                 g.drawString( "Cancelled.", Game.WIDTH - (Game.WIDTH / 3), Game.HEIGHT / 2);
-                Timer timer = new Timer();
-                timer.schedule(new TimerTask() {
+                Timer timer1 = new Timer();
+                timer1.schedule(new TimerTask() {
                     @Override
                     public void run() {
                         cancelled = false;
@@ -1079,9 +1190,10 @@ public class Menu extends MouseAdapter {
             g.drawString("Back", Game.WIDTH / 6 - (Game.WIDTH / 30), Game.HEIGHT - (Game.HEIGHT / 6) + (Game.HEIGHT / 60));
         } else if (game.gameState == Game.STATE.Profile) {
             skins = true;
+
             Font font = new Font("arial", 1, Game.WIDTH / 25);
             Font font2 = new Font("arial", 1, Game.WIDTH / 35);
-            Font font3 = new Font("arial", 1, Game.WIDTH / 40);
+            Font font3 = new Font("arial", 1, Game.WIDTH / 45);
             g.setFont(font);
 
             g.setColor(new Color(r.nextInt(255), r.nextInt(255), r.nextInt(255)));
@@ -1230,7 +1342,14 @@ public class Menu extends MouseAdapter {
 
             g.setColor(Color.WHITE);
 
-            g.drawString("Stats coming soon!", Game.WIDTH / 3, Game.HEIGHT / 3);
+            g.setFont(font3);
+            g.drawString("XP: " + XP, Game.WIDTH / 3, Game.HEIGHT / 3);
+            g.drawString("Total games: " + games, Game.WIDTH / 3 + (Game.WIDTH / 10), Game.HEIGHT / 3);
+            g.drawString("Points made: " + points, Game.WIDTH / 3, Game.HEIGHT / 3 + (Game.HEIGHT / 25));
+            g.drawString("Total Cubes: " + totalCubes, Game.WIDTH / 3 + (Game.WIDTH / 5), Game.HEIGHT / 3 + (Game.HEIGHT / 25));
+            g.drawString("Max Cube: " + maxCube, Game.WIDTH / 3, Game.HEIGHT / 3 + (Game.HEIGHT / 25) + (Game.HEIGHT / 25));
+            g.drawString("Distance: " + distance, Game.WIDTH / 3 + (Game.WIDTH / 6), Game.HEIGHT / 3 + (Game.HEIGHT / 25) + (Game.HEIGHT / 25));
+
 
             if (trans5Profile) {
                 g.fillRect(Game.WIDTH / 3, Game.HEIGHT - (Game.HEIGHT / 3) - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10);
@@ -1378,6 +1497,16 @@ public class Menu extends MouseAdapter {
             if (game.normalWon) {
                 g.setColor(Color.GREEN);
                 g.drawString("Won!", Game.WIDTH / 4 - Game.WIDTH / 50, Game.HEIGHT / 5 - (Game.HEIGHT / 50));
+            }
+            if (locked) {
+                g.setColor(Color.RED);
+                g.drawString("Locked!", Game.WIDTH / 2 - (Game.WIDTH / 30), Game.HEIGHT / 7);
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        locked = false;
+                    }
+                }, 2000);
             }
             if (trans1Difficulty) {
                 g.fillRect(Game.WIDTH / 4 - (Game.WIDTH / 8), Game.HEIGHT / 5 - (Game.HEIGHT / 20), Game.WIDTH / 4, Game.HEIGHT / 10);

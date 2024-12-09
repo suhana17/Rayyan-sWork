@@ -18,6 +18,23 @@ import org.postgresql.util.PSQLException;
 
 public class Game extends Canvas implements Runnable {
 
+    private static int redValue = 120;
+
+    private static int greenValue = 0;
+
+    private static int blueValue = 0;
+
+    int daTimer = 0;
+
+    // private static Color[] backgrounds = {
+    //     new Color(117, 0, 0),
+    //     new Color(0, 117, 0),
+    //     new Color(0, 0, 117),
+    //     new Color(117, 0, 117);
+    // };
+
+    Color daColor;
+
     private static final long serialVersionUID = -240840600533728354L;
 
     private static Player player;
@@ -193,6 +210,36 @@ public class Game extends Canvas implements Runnable {
     }
 
     private void tick() throws SQLException {
+        // six seconds
+        if (redValue > 0 && !(blueValue > 0)) {
+            timer++;
+            if ((timer / 100) == Math.floor(timer / 100)) {
+                if (redValue != 0) redValue -= 20;
+                else timer -= timer;
+            }
+        }
+        if (greenValue > 0) {
+            timer++;
+            if ((timer / 100) == Math.floor(timer/100)) {
+                if (greenValue != 0) greenValue -= 20;
+                else timer -= timer;
+            }
+        }
+        if (blueValue > 0 && !(redValue > 0)) {
+            timer++;
+            if ((timer / 100) == Math.floor(timer/100)) {
+                if (blueValue != 0) blueValue -= 20;
+                else timer -= timer;
+            }
+        }
+        if (blueValue > 0 && redValue > 0)) {
+            timer++;
+            if ((timer / 100) == Math.floor(timer/100)) {
+                if (redValue != 0) redValue -= 20;
+                if (blueValue != 0) blueValue -= 20;
+                else timer -= timer;
+            }
+        }
         if (Menu.XP == 10) dbSet(conn, "UPDATE stats SET level = " + Menu.playerLevel + 1 + " WHERE userName = " + Menu.playerName);
         if (gameState == STATE.Game) {
             if (map == 1) {
@@ -359,7 +406,7 @@ public class Game extends Canvas implements Runnable {
 
         Graphics g = bs.getDrawGraphics();
 
-        g.setColor(Color.BLACK);
+        g.setColor(daColor);
         g.fillRect(0, 0, WIDTH, HEIGHT);
 
         if (paused) {
